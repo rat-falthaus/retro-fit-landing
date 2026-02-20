@@ -1,0 +1,254 @@
+# SmartHarvest Retro-fit Landing Page - AI Development Guidelines
+
+## Project Context
+High-converting landing page for agricultural equipment retro-fitting services.
+**Tagline:** "Upgrade the Iron. Keep the Legacy."
+**Goal:** Convert farmers to request free €2,000 equipment compatibility checks.
+
+## Technology Stack & Requirements
+
+### Core Stack
+- **Runtime:** Node.js 24.x (required, use `nvm use 24`)
+- **Framework:** Vue 3.5+ with Composition API (`<script setup>`)
+- **Language:** TypeScript 5.9+ (strict mode enabled)
+- **Build Tool:** Vite 7.x
+- **Styling:** Tailwind CSS v4 (new @import syntax)
+- **UI Components:** PrimeVue 4.5+ with Tailwind theme
+- **Icons:** Lucide Vue Next
+- **Animations:** AOS (Animate On Scroll)
+
+### Critical Version Requirements
+- Node.js >=24.0.0 (enforced, do NOT suggest downgrading)
+- Vue 3.5.28+
+- Vite 7.3.1+
+- Tailwind CSS 4.2.0+ (v4 with new import system)
+- PrimeVue 4.5.4+ (with @primeuix/themes)
+
+## Development Standards
+
+### TypeScript
+- **Strict Mode:** Always enabled, no exceptions
+- **Type Safety:** All props, emits, functions must be explicitly typed
+- **No `any`:** Use proper types or `unknown` with type guards
+- **Interfaces:** Define in `src/types/index.ts` for shared types
+- **Component Props:** Use `defineProps<{ ... }>()` with interface/type
+
+Example:
+```typescript
+interface Props {
+  title: string
+  count?: number
+}
+const props = defineProps<Props>()
+```
+
+### Vue 3 Best Practices
+- **Composition API:** Use `<script setup>` exclusively
+- **Reactivity:** Prefer `ref()` for primitive values, `reactive()` for objects
+- **Event Emits:** Always type with `defineEmits<{ ... }>()`
+- **Computed:** Use `computed()` for derived state
+- **Props Validation:** TypeScript interfaces, not runtime validators
+
+### Styling Rules
+- **Tailwind v4:** Use `@import "tailwindcss"` syntax (NOT @tailwind directives)
+- **Brand Colors:** Use custom colors defined in tailwind.config.js
+  - `forest-green` (#2D5A27) - Primary/Agriculture
+  - `industrial-amber` (#F59E0B) - Accent/CTA
+  - `tech-slate` (#1E293B) - Text/Modern
+- **Utility-First:** Prefer Tailwind utilities over custom CSS
+- **Custom Components:** Define in `@layer components` when needed
+- **Responsive:** Mobile-first approach (sm:, md:, lg:, xl:)
+
+### Component Architecture
+- **Single Responsibility:** Each component does one thing well
+- **Prop Types:** All props must have TypeScript interfaces
+- **Emits:** Type all custom events
+- **Composables:** Extract reusable logic to `src/composables/`
+- **File Naming:** PascalCase for components (e.g., `HeroSection.vue`)
+
+### Code Quality
+- **No `console.log`:** Remove before committing (use proper debugging)
+- **Error Handling:** Always handle async errors and edge cases
+- **Accessibility:** Use semantic HTML, ARIA labels where needed
+- **Performance:** Lazy load images, use `v-show` vs `v-if` appropriately
+- **Comments:** Document complex logic, remove obvious comments
+
+## Brand & Design System
+
+### Color Palette
+```javascript
+colors: {
+  'forest-green': '#2D5A27',    // Primary - Trust & Agriculture
+  'industrial-amber': '#F59E0B', // Accent - Action & Machinery  
+  'tech-slate': '#1E293B',       // Secondary - Modern Tech
+}
+```
+
+### Typography
+- **Body:** Inter (font-sans)
+- **Headers:** Roboto Condensed (font-display)
+- **Sizes:** Use Tailwind's type scale (text-xl, text-2xl, etc.)
+
+### Spacing & Layout
+- **Container:** Use `.section-container` utility class
+- **Padding:** Consistent py-16 or py-20 for sections
+- **Gaps:** grid-gap-6 or gap-8 for consistency
+- **Rounded:** Use rounded-xl (1rem) or rounded-2xl (1.5rem)
+
+### Buttons
+- **Primary:** `.btn-primary` (industrial-amber background)
+- **Secondary:** `.btn-secondary` (forest-green background)
+- **States:** Include hover, focus, disabled, loading
+
+## Project Structure
+
+```
+src/
+├── components/           # All Vue components
+│   ├── NavigationHeader.vue
+│   ├── HeroSection.vue
+│   ├── PostcardBridge.vue
+│   ├── ComparisonSection.vue
+│   ├── BentoGrid.vue
+│   ├── ProcessSection.vue
+│   ├── ValueProposition.vue
+│   ├── ClaimCheckModal.vue
+│   └── FooterSection.vue
+├── types/               # TypeScript type definitions
+│   └── index.ts
+├── composables/         # Reusable composition functions
+├── App.vue             # Root component
+├── main.ts             # App entry point
+├── style.css           # Global styles + Tailwind
+└── vite-env.d.ts       # Type declarations
+```
+
+## Component Guidelines
+
+### Props Pattern
+```typescript
+interface Props {
+  title: string
+  optional?: number
+}
+const props = defineProps<Props>()
+```
+
+### Emits Pattern
+```typescript
+const emit = defineEmits<{
+  (e: 'update', value: string): void
+  (e: 'submit', data: FormData): void
+}>()
+```
+
+### Reactive State
+```typescript
+import { ref, computed } from 'vue'
+
+const count = ref(0)
+const doubled = computed(() => count.value * 2)
+```
+
+## Animation Standards
+- **AOS Attributes:** `data-aos="fade-up"`, `data-aos-delay="100"`
+- **Timing:** 800ms duration, ease-in-out easing
+- **Triggers:** Once on scroll (once: true)
+- **Delays:** Stagger by 100-150ms for sequential items
+
+## Form Handling
+- **Validation:** Client-side with TypeScript types
+- **Loading States:** Show loading indicator on submit
+- **Success/Error:** Display appropriate feedback
+- **Accessibility:** Proper labels, error messages, focus management
+
+## Performance Requirements
+- **Bundle Size:** Keep under 500KB (gzipped)
+- **Images:** Use WebP format, lazy loading
+- **Code Splitting:** Lazy load routes if adding more pages
+- **Tree Shaking:** Import only what you use from libraries
+
+## Testing Checklist
+- [ ] TypeScript compiles without errors (`npm run build`)
+- [ ] All interactive elements work on mobile
+- [ ] Forms validate correctly
+- [ ] Animations perform smoothly
+- [ ] Responsive at all breakpoints (375px - 1920px)
+- [ ] Accessibility: keyboard navigation, screen readers
+- [ ] Browser testing: Chrome, Safari, Firefox, Edge
+
+## Build & Deployment
+- **Dev:** `npm run dev` (port 5173)
+- **Build:** `npm run build` (outputs to `dist/`)
+- **Preview:** `npm run preview` (test production build)
+- **Node Version:** Always use Node 24 (`nvm use 24`)
+
+## Common Issues & Solutions
+
+### Issue: Tailwind classes not working
+- **Solution:** Ensure Tailwind v4 import syntax in style.css
+- Check: `@import "tailwindcss"` (NOT `@tailwind base`)
+
+### Issue: PrimeVue components not styled
+- **Solution:** Import `@primeuix/themes` and configure in main.ts
+
+### Issue: TypeScript errors on build
+- **Solution:** Check `tsconfig.json` baseUrl deprecation warnings
+- Ensure all imports use `@/` alias or relative paths correctly
+
+### Issue: AOS animations not triggering
+- **Solution:** Verify AOS.init() called in main.ts after mount
+- Check: `data-aos` attributes on elements
+
+## Content Strategy
+- **Hero Hook:** "Upgrade the Iron. Keep the Legacy."
+- **Value Prop:** €2,000 free check, no obligation
+- **Benefits:** Save €150k+, 15-20% fuel savings, 10+ year extension
+- **CTA:** "Claim Your €2,000 Check" (multiple placements)
+- **Tone:** Professional yet approachable, farmer-focused
+
+## Marketing Continuity
+- References postcard mailer campaign
+- Humorous hooks ("Is your tractor smarter than a fifth grader?")
+- Bridge between physical mail and digital experience
+- Trust signals: ISO Stage V, TÜV, CE Compliance
+
+## DO NOT
+- ❌ Suggest downgrading Node.js or package versions
+- ❌ Use Options API (only Composition API with `<script setup>`)
+- ❌ Use `any` type in TypeScript
+- ❌ Add custom CSS without Tailwind utility consideration
+- ❌ Create components without proper TypeScript typing
+- ❌ Skip responsive design testing
+- ❌ Ignore accessibility requirements
+- ❌ Use deprecated Tailwind v3 syntax with v4 installed
+
+## ALWAYS DO
+- ✅ Use Node.js 24 (`nvm use 24` if needed)
+- ✅ Type all props, emits, and function parameters
+- ✅ Test on mobile devices/viewports
+- ✅ Use semantic HTML elements
+- ✅ Follow the brand color palette
+- ✅ Include loading and error states
+- ✅ Validate TypeScript before committing
+- ✅ Keep components focused and reusable
+- ✅ Document complex logic with comments
+- ✅ Optimize for performance and bundle size
+
+## IDE Setup
+- **VS Code Extensions:**
+  - Vue Language Features (Volar)
+  - TypeScript Vue Plugin (Volar)
+  - Tailwind CSS IntelliSense
+  - ESLint
+  - Prettier
+
+## Git Workflow
+- **Branch:** Feature branches from `main`
+- **Commits:** Conventional commits (feat:, fix:, docs:, etc.)
+- **PR:** Include description, screenshots for UI changes
+- **Review:** Ensure build passes, no TypeScript errors
+
+---
+
+**Remember:** This is a high-converting landing page. Every component, every interaction, every piece of copy is designed to drive conversions. Keep the user journey smooth and the CTAs prominent.

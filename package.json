@@ -1,0 +1,39 @@
+{
+  "name": "retro-fit-landing",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:client && npm run build:server && npm run generate",
+    "build:client": "vite build --outDir dist --ssrManifest",
+    "build:server": "vite build --ssr src/entry-server.ts --outDir dist/server",
+    "generate": "node scripts/prerender.js",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@primeuix/themes": "^2.0.3",
+    "aos": "^2.3.4",
+    "lucide-vue-next": "^0.575.0",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.5.4",
+    "vue": "^3.5.28",
+    "vue-router": "^5.0.3"
+  },
+  "devDependencies": {
+    "@primevue/themes": "^4.5.4",
+    "@tailwindcss/postcss": "^4.2.0",
+    "@types/aos": "^3.0.7",
+    "@types/node": "^25.3.0",
+    "@unhead/ssr": "^2.1.4",
+    "@vitejs/plugin-vue": "^6.0.4",
+    "@vueuse/head": "^2.0.0",
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.2.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-ssg": "^28.3.0",
+    "vue-tsc": "^3.2.4"
+  }
+}

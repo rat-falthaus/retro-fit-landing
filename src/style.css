@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Colors */
+  --color-forest-green: #2D5A27;
+  --color-industrial-amber: #F59E0B;
+  --color-tech-slate: #1E293B;
+  --color-deep-green: #2D5A27;
+  --color-industrial-orange: #F59E0B;
+  
+  /* Fonts */
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-display: 'Roboto Condensed', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-tech-slate antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-industrial-amber hover:bg-amber-600 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+  }
+  
+  .btn-secondary {
+    @apply bg-forest-green hover:bg-green-800 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+  }
+  
+  .section-container {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
