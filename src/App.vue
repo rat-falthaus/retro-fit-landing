@@ -77,7 +77,7 @@ onMounted(() => {
 <template>
   <div class="app">
     <!-- Navigation -->
-    <NavigationHeader />
+    <!-- <NavigationHeader /> -->
 
     <!-- Main Content -->
     <main>
@@ -88,16 +88,16 @@ onMounted(() => {
       <PostcardBridge />
 
       <!-- Comparison Section -->
-      <ComparisonSection />
+      <!-- <ComparisonSection /> -->
 
       <!-- Bento Grid - What Can We Retrofit -->
-      <BentoGrid />
+      <!-- <BentoGrid /> -->
 
       <!-- Process Section - How It Works -->
-      <ProcessSection />
+      <!-- <ProcessSection /> -->
 
       <!-- Value Proposition - Free Check -->
-      <ValueProposition @claim-check="openClaimModal" />
+      <!-- <ValueProposition @claim-check="openClaimModal" /> -->
 
       <!-- Footer -->
       <FooterSection />
