@@ -1,37 +1,67 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand Colors */
-  --color-forest-green: #2D5A27;
-  --color-industrial-amber: #F59E0B;
-  --color-tech-slate: #1E293B;
-  --color-deep-green: #2D5A27;
-  --color-industrial-orange: #F59E0B;
-  
+  /* ── Rex AutomatierungsTechnik GmbH brand palette ─────────────────────
+     Extracted from https://www.rex-at.de (files/theme_R/css/default.css)
+     ──────────────────────────────────────────────────────────────────── */
+
+  /* Primary: industrial orange – CTAs, accents, highlights */
+  --color-rex-orange:      #EB6734;
+  --color-rex-orange-dark: #C64A32;
+  --color-rex-orange-deep: #A84721;
+
+  /* Dark: near-black charcoal – header, footer, dark sections, text */
+  --color-rex-dark:        #313131;
+  --color-rex-dark-soft:   #3c3c3c;
+
+  /* Warm neutral – light section backgrounds */
+  --color-rex-warm:        #f0ece8;
+  --color-rex-warm-mid:    #c8baad;
+
+  /* Muted slate – secondary text */
+  --color-rex-slate:       #586569;
+
+  /* Legacy aliases – kept so existing utility classes keep compiling */
+  --color-forest-green:      #313131;   /* was #2D5A27, now Rex dark charcoal */
+  --color-industrial-amber:  #EB6734;   /* was #F59E0B, now Rex orange       */
+  --color-tech-slate:        #313131;   /* was #1E293B, now Rex dark charcoal */
+
   /* Fonts */
-  --font-sans: Inter, system-ui, sans-serif;
+  --font-sans:    Inter, system-ui, sans-serif;
   --font-display: 'Roboto Condensed', sans-serif;
 }
 
 @layer base {
   body {
-    @apply font-sans text-tech-slate antialiased;
+    @apply font-sans antialiased;
+    color: #313131;
+    background-color: #f0ece8;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
 }
 
 @layer components {
+  /* Primary CTA – Rex orange */
   .btn-primary {
-    @apply bg-industrial-amber hover:bg-amber-600 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+    @apply font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 inline-block text-white;
+    background-color: #EB6734;
   }
-  
+  .btn-primary:hover {
+    background-color: #C64A32;
+  }
+
+  /* Secondary – Rex dark charcoal */
   .btn-secondary {
-    @apply bg-forest-green hover:bg-green-800 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+    @apply font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 inline-block text-white;
+    background-color: #313131;
   }
-  
+  .btn-secondary:hover {
+    background-color: #3c3c3c;
+  }
+
   .section-container {
     @apply container mx-auto px-4 sm:px-6 lg:px-8;
   }

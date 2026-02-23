@@ -7,19 +7,26 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Brand colors from Implementation Blueprint
-        'forest-green': '#2D5A27',
-        'industrial-amber': '#F59E0B',
-        'tech-slate': '#1E293B',
-        'deep-green': '#2D5A27', // Alias for primary
-        'industrial-orange': '#F59E0B', // Alias for accent
+        // Rex AutomatierungsTechnik brand palette
+        'rex-orange':      '#EB6734',
+        'rex-orange-dark': '#C64A32',
+        'rex-orange-deep': '#A84721',
+        'rex-dark':        '#313131',
+        'rex-dark-soft':   '#3c3c3c',
+        'rex-warm':        '#f0ece8',
+        'rex-warm-mid':    '#c8baad',
+        'rex-slate':       '#586569',
+        // Legacy aliases kept for backward-compat with existing class usage
+        'forest-green':      '#313131',
+        'industrial-amber':  '#EB6734',
+        'tech-slate':        '#313131',
       },
       fontFamily: {
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'sans':    ['Inter', 'system-ui', 'sans-serif'],
         'display': ['Roboto Condensed', 'sans-serif'],
       },
       borderRadius: {
-        'xl': '1rem',
+        'xl':  '1rem',
         '2xl': '1.5rem',
       }
     },

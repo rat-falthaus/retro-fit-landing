@@ -1,110 +1,64 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useHead } from '@vueuse/head'
-import NavigationHeader from './components/NavigationHeader.vue'
-import HeroSection from './components/HeroSection.vue'
-import PostcardBridge from './components/PostcardBridge.vue'
-import ComparisonSection from './components/ComparisonSection.vue'
-import BentoGrid from './components/BentoGrid.vue'
-import ProcessSection from './components/ProcessSection.vue'
-import ValueProposition from './components/ValueProposition.vue'
-import ClaimCheckModal from './components/ClaimCheckModal.vue'
-import FooterSection from './components/FooterSection.vue'
+import { ref, onMounted } from 'vue';
+import { useHead } from '@vueuse/head';
+import { t } from '@/i18n/de';
+import HeroSection from './components/HeroSection.vue';
+import PostcardBridge from './components/PostcardBridge.vue';
+import ClaimCheckModal from './components/ClaimCheckModal.vue';
+import FooterSection from './components/FooterSection.vue';
+import { Navigation } from 'lucide-vue-next';
+import NavigationHeader from './components/NavigationHeader.vue';
 
-// SEO Meta Tags for Static Site Generation
+// SEO Meta Tags – all strings from src/i18n/de.ts
 useHead({
-  title: 'SmartHarvest - Upgrade the Iron. Keep the Legacy.',
+  title: t.seo.title,
   meta: [
-    {
-      name: 'description',
-      content: "Don't spend €250k on a new machine when yours just needs a brain transplant. Retro-fit your fleet to modern precision standards. Get a FREE €2,000 compatibility check."
-    },
-    {
-      name: 'keywords',
-      content: 'agricultural equipment, retro-fit, precision farming, GPS farming, farm equipment upgrade, sustainable agriculture, ISO Stage V'
-    },
-    {
-      property: 'og:title',
-      content: 'SmartHarvest - Upgrade the Iron. Keep the Legacy.'
-    },
-    {
-      property: 'og:description',
-      content: "Transform your legacy agricultural equipment with modern precision technology. Save €150k+ vs buying new."
-    },
-    {
-      property: 'og:type',
-      content: 'website'
-    },
-    {
-      name: 'twitter:card',
-      content: 'summary_large_image'
-    },
-    {
-      name: 'twitter:title',
-      content: 'SmartHarvest - Retro-fit Your Farm Equipment'
-    },
-    {
-      name: 'twitter:description',
-      content: 'FREE €2,000 equipment compatibility check. Transform legacy machines with modern precision farming technology.'
-    }
+    { name: 'description', content: t.seo.description },
+    { name: 'keywords', content: t.seo.keywords },
+    { property: 'og:title', content: t.seo.ogTitle },
+    { property: 'og:description', content: t.seo.ogDescription },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: t.seo.twitterTitle },
+    { name: 'twitter:description', content: t.seo.twitterDescription },
   ],
-  link: [
-    {
-      rel: 'canonical',
-      href: 'https://smartharvest.example.com'
-    }
-  ]
-})
+  link: [{ rel: 'canonical', href: t.seo.canonical }],
+});
 
-const isModalVisible = ref(false)
+const isModalVisible = ref(false);
 
 const openClaimModal = () => {
-  isModalVisible.value = true
-}
+  isModalVisible.value = true;
+};
 
-const handleFormSubmit = (formData: any) => {
-  console.log('Form submitted:', formData)
-  // Here you would typically send the data to your backend
-  // For now, we'll just log it
-}
+const handleFormSubmit = (formData: unknown) => {
+  // TODO: send formData to backend / email service
+  console.info('Form submitted:', formData);
+};
 
 onMounted(() => {
   // Smooth scroll behavior
-  document.documentElement.style.scrollBehavior = 'smooth'
-})
+  document.documentElement.style.scrollBehavior = 'smooth';
+});
 </script>
 
 <template>
   <div class="app">
-    <!-- Navigation -->
-    <!-- <NavigationHeader /> -->
-
+    <NavigationHeader />
     <!-- Main Content -->
     <main>
-      <!-- Hero Section -->
-      <HeroSection @claim-check="openClaimModal" />
+      <!-- Hero Section (300vh sticky scroll reveal) -->
+      <HeroSection />
 
-      <!-- Postcard Bridge -->
+      <!-- Postcard / Bridge section -->
       <PostcardBridge />
-
-      <!-- Comparison Section -->
-      <!-- <ComparisonSection /> -->
-
-      <!-- Bento Grid - What Can We Retrofit -->
-      <!-- <BentoGrid /> -->
-
-      <!-- Process Section - How It Works -->
-      <!-- <ProcessSection /> -->
-
-      <!-- Value Proposition - Free Check -->
-      <!-- <ValueProposition @claim-check="openClaimModal" /> -->
 
       <!-- Footer -->
       <FooterSection />
     </main>
 
     <!-- Claim Check Modal -->
-    <ClaimCheckModal 
+    <ClaimCheckModal
       v-model:visible="isModalVisible"
       @submit="handleFormSubmit"
     />

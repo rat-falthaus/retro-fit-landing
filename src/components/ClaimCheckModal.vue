@@ -4,6 +4,7 @@ import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
+import { t } from '@/i18n/de'
 
 const props = defineProps<{
   visible: boolean
@@ -93,8 +94,8 @@ const isFormValid = () => {
           </svg>
         </div>
         <div>
-          <h2 class="text-2xl font-display font-bold">Claim Your Free Check</h2>
-          <p class="text-white/90 text-sm">Worth €2,000 — No Obligation</p>
+          <h2 class="text-2xl font-display font-bold">{{ t.modal.title }}</h2>
+          <p class="text-white/90 text-sm">{{ t.modal.subtitle }}</p>
         </div>
       </div>
     </template>
@@ -106,13 +107,9 @@ const isFormValid = () => {
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
         </svg>
       </div>
-      <h3 class="text-2xl font-display font-bold text-forest-green mb-2">Request Submitted!</h3>
-      <p class="text-tech-slate mb-4">
-        Our team will contact you within 24 hours to schedule your free assessment.
-      </p>
-      <p class="text-sm text-tech-slate/70">
-        Check your email for confirmation details.
-      </p>
+      <h3 class="text-2xl font-display font-bold text-forest-green mb-2">{{ t.modal.successTitle }}</h3>
+      <p class="text-tech-slate mb-4">{{ t.modal.successText }}</p>
+      <p class="text-sm text-tech-slate/70">{{ t.modal.successNote }}</p>
     </div>
 
     <!-- Form State -->
@@ -120,13 +117,13 @@ const isFormValid = () => {
       <!-- Name -->
       <div>
         <label for="name" class="block text-sm font-semibold text-tech-slate mb-2">
-          Full Name <span class="text-red-500">*</span>
+          {{ t.modal.name }} <span class="text-red-500">*</span>
         </label>
-        <InputText 
+        <InputText
           id="name"
           v-model="formData.name"
           class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-forest-green focus:outline-none"
-          placeholder="John Farmer"
+          :placeholder="t.modal.namePlaceholder"
           required
           :disabled="isSubmitting"
         />
@@ -135,14 +132,14 @@ const isFormValid = () => {
       <!-- Email -->
       <div>
         <label for="email" class="block text-sm font-semibold text-tech-slate mb-2">
-          Email Address <span class="text-red-500">*</span>
+          {{ t.modal.email }} <span class="text-red-500">*</span>
         </label>
-        <InputText 
+        <InputText
           id="email"
           v-model="formData.email"
           type="email"
           class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-forest-green focus:outline-none"
-          placeholder="john@farmexample.com"
+          :placeholder="t.modal.emailPlaceholder"
           required
           :disabled="isSubmitting"
         />
@@ -151,14 +148,14 @@ const isFormValid = () => {
       <!-- Phone -->
       <div>
         <label for="phone" class="block text-sm font-semibold text-tech-slate mb-2">
-          Phone Number <span class="text-red-500">*</span>
+          {{ t.modal.phone }} <span class="text-red-500">*</span>
         </label>
-        <InputText 
+        <InputText
           id="phone"
           v-model="formData.phone"
           type="tel"
           class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-forest-green focus:outline-none"
-          placeholder="+49 123 456 7890"
+          :placeholder="t.modal.phonePlaceholder"
           required
           :disabled="isSubmitting"
         />
@@ -167,13 +164,13 @@ const isFormValid = () => {
       <!-- Farm Size -->
       <div>
         <label for="farmSize" class="block text-sm font-semibold text-tech-slate mb-2">
-          Farm Size (hectares)
+          {{ t.modal.farmSize }}
         </label>
-        <InputText 
+        <InputText
           id="farmSize"
           v-model="formData.farmSize"
           class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-forest-green focus:outline-none"
-          placeholder="e.g., 250"
+          :placeholder="t.modal.farmSizePlaceholder"
           :disabled="isSubmitting"
         />
       </div>
@@ -181,13 +178,13 @@ const isFormValid = () => {
       <!-- Equipment -->
       <div>
         <label for="equipment" class="block text-sm font-semibold text-tech-slate mb-2">
-          Equipment Types
+          {{ t.modal.equipment }}
         </label>
-        <InputText 
+        <InputText
           id="equipment"
           v-model="formData.equipment"
           class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-forest-green focus:outline-none"
-          placeholder="e.g., 2 Harvesters, 1 Hay Baler"
+          :placeholder="t.modal.equipmentPlaceholder"
           :disabled="isSubmitting"
         />
       </div>
@@ -195,14 +192,14 @@ const isFormValid = () => {
       <!-- Message -->
       <div>
         <label for="message" class="block text-sm font-semibold text-tech-slate mb-2">
-          Additional Information
+          {{ t.modal.message }}
         </label>
-        <Textarea 
+        <Textarea
           id="message"
           v-model="formData.message"
           rows="3"
           class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-forest-green focus:outline-none resize-none"
-          placeholder="Tell us about your equipment or specific needs..."
+          :placeholder="t.modal.messagePlaceholder"
           :disabled="isSubmitting"
         />
       </div>
@@ -214,10 +211,10 @@ const isFormValid = () => {
           :disabled="!isFormValid() || isSubmitting"
           :loading="isSubmitting"
           class="w-full bg-industrial-amber hover:bg-amber-600 text-white font-bold py-4 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          label="Submit Request"
+          :label="t.modal.submit"
         />
         <p class="text-xs text-tech-slate/70 text-center mt-3">
-          By submitting, you agree to be contacted by our team. We respect your privacy.
+          {{ t.modal.privacyNote }}
         </p>
       </div>
     </form>
