@@ -2,6 +2,10 @@
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { t } from '@/i18n/de'
 
+// Base URL for public/ assets — Vite replaces this at build time with the configured base
+// (e.g. '/retro-fit-landing/' on GitHub Pages, '/' in dev)
+const baseUrl: string = import.meta.env.BASE_URL
+
 // ── Scroll-driven reveal ───────────────────────────────────────────────────
 const sectionRef     = ref<HTMLElement | null>(null)
 const scrollProgress = ref(0) // 0 → 1
@@ -81,11 +85,11 @@ const scrollToContent = () => {
       <div
         class="absolute inset-0 transition-opacity duration-700"
         :class="videosReady ? 'opacity-0' : 'opacity-100'"
-        style="
-          background-image: url('/images/machine-before.jpg');
-          background-size: cover;
-          background-position: center center;
-        "
+        :style="{
+          backgroundImage: `url('${baseUrl}images/machine-before.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+        }"
         role="img"
         :aria-label="t.hero.imageAltBefore"
       />
@@ -93,7 +97,7 @@ const scrollToContent = () => {
         class="absolute inset-0 transition-opacity duration-700"
         :class="videosReady ? 'opacity-0' : 'opacity-100'"
         :style="{
-          backgroundImage: `url('/images/machine-after.jpg')`,
+          backgroundImage: `url('${baseUrl}images/machine-after.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
@@ -108,7 +112,7 @@ const scrollToContent = () => {
         ref="beforeVideoRef"
         class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
         :class="videosReady ? 'opacity-100' : 'opacity-0'"
-        src="/images/Video_Generation_With_Natural_Animations.mp4"
+        :src="`${baseUrl}images/Video_Generation_With_Natural_Animations.mp4`"
         autoplay
         loop
         muted
@@ -123,7 +127,7 @@ const scrollToContent = () => {
         ref="afterVideoRef"
         class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
         :class="videosReady ? 'opacity-100' : 'opacity-0'"
-        src="/images/Video_Edit_Remove_Animals_Update_Machine.mp4"
+        :src="`${baseUrl}images/Video_Edit_Remove_Animals_Update_Machine.mp4`"
         autoplay
         loop
         muted
