@@ -1,7 +1,6 @@
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { createHead } from '@vueuse/head'
-import { renderSSRHead } from '@unhead/ssr'
+import { createHead, renderHeadToString } from '@vueuse/head'
 import PrimeVue from 'primevue/config'
 import Aura from '@primeuix/themes/aura'
 import App from './App.vue'
@@ -29,8 +28,8 @@ export async function render() {
   // Render app to HTML string
   const appHtml = await renderToString(app)
   
-  // Render head tags
-  const headResult = await renderSSRHead(head)
+  // Render head tags (uses @vueuse/head's internal renderHeadToString for v1 compatibility)
+  const headResult = await renderHeadToString(head)
   
   return {
     appHtml,

@@ -1,16 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-interface NavigationItem {
-  label: string;
-  href: string;
-}
-
-const navigationItems: NavigationItem[] = [
-  { label: 'How it Works', href: '#how-it-works' },
-  { label: 'Success Stories', href: '#success-stories' },
-  { label: 'Claim Check', href: '#claim-check' },
-];
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const isScrolled = ref(false);
 
@@ -18,16 +7,8 @@ const handleScroll = () => {
   isScrolled.value = window.scrollY > 50;
 };
 
-const scrollToSection = (href: string) => {
-  const element = document.querySelector(href);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-};
-
-if (typeof window !== 'undefined') {
-  window.addEventListener('scroll', handleScroll);
-}
+onMounted(() => window.addEventListener('scroll', handleScroll, { passive: true }));
+onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 </script>
 
 <template>

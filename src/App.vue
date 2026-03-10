@@ -6,7 +6,6 @@ import HeroSection from './components/HeroSection.vue';
 import PostcardBridge from './components/PostcardBridge.vue';
 import ClaimCheckModal from './components/ClaimCheckModal.vue';
 import FooterSection from './components/FooterSection.vue';
-import { Navigation } from 'lucide-vue-next';
 import NavigationHeader from './components/NavigationHeader.vue';
 
 // SEO Meta Tags – all strings from src/i18n/de.ts
@@ -48,7 +47,7 @@ onMounted(() => {
     <!-- Main Content -->
     <main>
       <!-- Hero Section (300vh sticky scroll reveal) -->
-      <HeroSection />
+      <HeroSection @open-claim-modal="openClaimModal" />
 
       <!-- Postcard / Bridge section -->
       <PostcardBridge />

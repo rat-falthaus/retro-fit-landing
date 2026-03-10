@@ -2,6 +2,8 @@
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { t } from '@/i18n/de'
 
+const emit = defineEmits<{ (e: 'openClaimModal'): void }>()
+
 // Base URL for public/ assets — Vite replaces this at build time with the configured base
 // (e.g. '/retro-fit-landing/' on GitHub Pages, '/' in dev)
 const baseUrl: string = import.meta.env.BASE_URL
@@ -212,14 +214,12 @@ const scrollToContent = () => {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <a
-                :href="t.footer.surveyUrl"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                @click="emit('openClaimModal')"
                 class="btn-primary text-base text-center"
               >
                 {{ t.hero.ctaPrimary }}
-              </a>
+              </button>
               <button
                 @click="scrollToContent"
                 class="btn-secondary text-base"
