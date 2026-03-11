@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+import { t } from '@/i18n/de'
 
 const isScrolled = ref(false);
 
@@ -20,36 +21,22 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
         : 'bg-white/10 backdrop-blur-sm py-4',
     ]"
   >
-    <nav class="h-10 w-lg" style="
+    <nav class="h-10 w-lg">
+        <!-- Logo -->
+        <a
+          :href="t.nav.homeUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block h-full w-full"
+          :aria-label="t.footer.contact.company"
+          style="
             background-image: url(https://rex-at.de/files/theme_R/img/logo/Logo-breit.svg);
             background-repeat: no-repeat;
             background-position: center;
             background-size: contain;
-          ">
-    
-        <!-- Logo -->
+          "
+        />
       
-        <!-- Navigation Links -->
-        <!-- <ul class="hidden md:flex items-center space-x-8">
-          <li v-for="item in navigationItems" :key="item.label">
-            <a 
-              :href="item.href"
-              @click.prevent="scrollToSection(item.href)"
-              class="text-tech-slate hover:text-forest-green font-medium transition-colors duration-200"
-            >
-              {{ item.label }}
-            </a>
-          </li>
-        </ul> -->
-
-        <!-- CTA Button -->
-        <!-- <button 
-          @click="scrollToSection('#claim-check')"
-          class="btn-primary text-sm md:text-base px-4 md:px-8 py-2 md:py-3"
-        >
-          Claim Your €2,000 Check
-        </button> -->
-
     </nav>
   </header>
 </template>

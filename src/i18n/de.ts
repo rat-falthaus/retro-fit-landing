@@ -5,46 +5,49 @@
  */
 export const t = {
   seo: {
-    title: 'Reto-Fit Thüringen – Upgrade die Maschine. Bewahr das Erbe.',
+    title: 'Retrofit Thüringen – Maschine modernisieren. Bewährte Technik erhalten.',
     description:
-      'Häufige Maschinenausfälle? Ständige Reparaturen? Mit einem Reto-Fit von Rex-AT bringen wir Ihre Produktionsmaschinen wieder auf Vordermann – nachhaltig, ohne Neukauf. Jetzt 2.000 € Gutschein sichern.',
+      'Häufige Maschinenausfälle? Ständige Reparaturen? Mit einem Retrofit von Rex-AT modernisieren wir Ihre Produktionsmaschinen – nachhaltig, ohne Neukauf. Jetzt 2.000 € Retrofit-Gutschein sichern.',
     keywords:
-      'Reto-Fit, Retro-Fit, Maschinenmodernisierung, Thüringen, Rex-AT, Produktionsmaschinen, Nachhaltigkeit, Maschinenreparatur',
-    ogTitle: 'Reto-Fit Thüringen – Rex AutomatierungsTechnik GmbH',
+      'Retrofit, Retro-Fit, Maschinenmodernisierung, Thüringen, Rex-AT, Produktionsmaschinen, Nachhaltigkeit, Maschinenreparatur, Automatisierung, Elektrotechnik',
+    ogTitle: 'Retrofit Thüringen – Rex AutomatierungsTechnik GmbH',
     ogDescription:
-      'Upgrade die Maschine, bewahr das Erbe. Jetzt kostenlosen 2.000 € Reto-Fit-Check sichern.',
-    twitterTitle: 'Reto-Fit Thüringen – Jetzt 2.000 € Gutschein sichern',
+      'Maschine modernisieren, bewährte Technik erhalten. Jetzt kostenlosen 2.000 € Retrofit-Check sichern.',
+    twitterTitle: 'Retrofit Thüringen – Jetzt 2.000 € Gutschein sichern',
     twitterDescription:
-      'Rex-AT bringt Ihre Produktionsmaschinen wieder auf Vordermann – nachhaltig & ohne Neukauf.',
+      'Rex-AT modernisiert Ihre Produktionsmaschinen – nachhaltig & ohne Neukauf.',
     canonical: 'https://rex-at.de/landingpage-retrofit.html',
   },
 
   hero: {
-    headline: 'Upgrade die Maschine.',
-    headlineAccent: 'Bewahr das Erbe.',
+    headline: 'Maschine modernisieren.',
+    headlineAccent: 'Bewährte Technik erhalten.',
     subheadline:
-      'Häufige Ausfälle, ständige Reparaturen, unzuverlässige Laufzeiten? Ihre Maschinen brauchen keinen Austausch – sie brauchen ein Reto-Fit.',
+      'Häufige Ausfälle, ständige Reparaturen oder unzuverlässige Laufzeiten? Ihre Maschinen brauchen keinen Austausch – sie brauchen ein Retrofit.',
     ctaPrimary: 'Jetzt 2.000 € Gutschein sichern',
-    ctaSecondary: 'Maschine entdecken ↓',
+    ctaSecondary: 'Referenz',
+    referenceUrl: 'https://rex-at.de/files/medien/loesungen/AGG%20Kerspleben/RexAT%20L%C3%B6sung%20AGG%20Kerspleben.pdf',
     sliderLabel: 'Vorher / Nachher',
     sliderBefore: 'Vorher',
     sliderAfter: 'Nachher',
-    stampLabel: 'Reto Fitted',
+    stampLabel: 'RETROFITTED',
     sliderHint: 'Schieben zum Vergleichen',
     trustItems: [
-      'Nachhaltig & Ressourcenschonend',
-      'Bewährte Maschinen, moderne Technik',
-      'Langjährige Erfahrung in Thüringen',
+      'Nachhaltig und ressourcenschonend',
+      'Bewährte Maschinen – moderne Technik',
+      'Über 35 Jahre Erfahrung in Thüringen',
+      'Experten für Automatisierung und Elektrotechnik',
+      'Analyse, Planung und Umsetzung aus einer Hand',
     ] as const,
-    imageAltBefore: 'Produktionsmaschine vor dem Reto-Fit',
-    imageAltAfter: 'Produktionsmaschine nach dem Reto-Fit',
+    imageAltBefore: 'Produktionsmaschine vor dem Retrofit',
+    imageAltAfter: 'Produktionsmaschine nach dem Retrofit',
   },
 
   postcard: {
     received: 'Sie haben unsere Postkarte erhalten!',
-    hook: 'Ihre Maschine rief an – sie fühlt sich ein bisschen nach 1995 an.',
+    hook: 'Ihre Maschine hat angerufen – sie wäre bereit für ein Retrofit.',
     bridgeText:
-      'Kein Scherz. Ihre Maschinen sind erprobt und zuverlässig – sie brauchen nur ein <strong class="text-forest-green">modernes Innenleben</strong>, um wieder auf <strong class="text-industrial-amber">Volldampf</strong> zu laufen und dabei Betriebskosten zu senken.',
+      'Machen Sie jetzt den <strong class="text-forest-green">Retrofit-Check</strong> und sprechen Sie mit unseren Experten. Sichern Sie sich dabei Ihren <strong class="text-industrial-amber">2.000 € Retrofit-Gutschein</strong>.',
   },
 
   modal: {
@@ -74,10 +77,10 @@ export const t = {
   },
 
   footer: {
-    brandName: 'Reto-Fit Thüringen',
+    brandName: 'Retrofit Thüringen',
     description:
       'Rex AutomatierungsTechnik GmbH – Wir bringen Ihre Produktionsmaschinen wieder auf Vordermann. Nachhaltig, ohne Neukauf.',
-    tagline: 'Upgrade die Maschine. Bewahr das Erbe.',
+    tagline: 'Maschine modernisieren. Bewährte Technik erhalten.',
     sections: {
       company: 'Unternehmen',
       support: 'Support',
@@ -96,9 +99,9 @@ export const t = {
         { label: 'Technischer Support', href: 'https://www.rex-at.de' },
       ],
       legal: [
-        { label: 'Datenschutz', href: 'https://www.rex-at.de' },
-        { label: 'Impressum', href: 'https://www.rex-at.de' },
-        { label: 'AGB', href: 'https://www.rex-at.de' },
+        { label: 'Datenschutz', href: 'https://rex-at.de/datenschutz.html' },
+        { label: 'Impressum', href: 'https://rex-at.de/impressum.html' },
+        { label: 'AGB', href: 'https://rex-at.de/allgemeine-geschaeftsbedingungen.html' },
       ],
     },
     contact: {
@@ -117,11 +120,14 @@ export const t = {
     copyright: (year: number) => `© ${year} Rex AutomatierungsTechnik GmbH. Alle Rechte vorbehalten.`,
     madeWith: 'Mit ❤️ für Betriebe, die auf Nachhaltigkeit setzen',
     disclaimer:
-      'Der Gutschein ist nicht übertragbar, nicht in bar auszahlbar und nur gültig für Reto-Fit-Dienstleistungen von Rex-AT. Nicht kombinierbar mit anderen Angeboten. Einlösbar bis 31.04.2026. Weitere Bedingungen auf Anfrage.',
+      'Der Gutschein ist nicht übertragbar, nicht in bar auszahlbar und nur gültig für Retrofit-Dienstleistungen von Rex-AT. Nicht kombinierbar mit anderen Angeboten. Einlösbar bis zum 30.04.2026. Weitere Bedingungen auf Anfrage.',
     surveyUrl: 'https://rex-at.de/landingpage-retrofit.html',
-    voucherCta: 'Jetzt Gutschein sichern',
+    voucherCta: 'Retrofit-Check',
     voucherAmount: '2.000 €',
-    voucherExpiry: 'Einlösbar bis 31.04.2026',
+    voucherExpiry: 'Einlösbar bis zum 30.04.2026',
+  },
+  nav: {
+    homeUrl: 'https://rex-at.de/willkommen.html',
   },
 } as const
 

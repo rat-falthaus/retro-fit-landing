@@ -220,12 +220,14 @@ const scrollToContent = () => {
               >
                 {{ t.hero.ctaPrimary }}
               </button>
-              <button
-                @click="scrollToContent"
-                class="btn-secondary text-base"
+              <a
+                :href="t.hero.referenceUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-secondary text-base text-center"
               >
                 {{ t.hero.ctaSecondary }}
-              </button>
+              </a>
             </div>
 
             <!-- Trust badges -->
