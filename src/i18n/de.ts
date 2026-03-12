@@ -51,29 +51,64 @@ export const t = {
   },
 
   modal: {
-    title: 'Gutschein jetzt sichern',
-    subtitle: '2.000 € – Ohne Verpflichtung',
-    successTitle: 'Anfrage eingegangen!',
-    successText:
-      'Unser Team meldet sich innerhalb von 24 Stunden, um Ihren kostenlosen Reto-Fit-Check zu terminieren.',
-    successNote: 'Prüfen Sie Ihr Postfach für eine Bestätigung.',
-    name: 'Name',
+    title: 'Jetzt Retrofit-Check starten',
+    subtitle: '2.000 € Gutschein – Ohne Verpflichtung',
+
+    // Section 1 — Contact
+    sectionContact: 'Ihre Kontaktdaten',
+    name: 'Name Ansprechpartner',
     namePlaceholder: 'Max Mustermann',
     email: 'E-Mail-Adresse',
     emailPlaceholder: 'max@beispiel.de',
     phone: 'Telefonnummer',
-    phonePlaceholder: '+49 123 456 7890',
-    farmSize: 'Betriebsgröße (Hektar)',
-    farmSizePlaceholder: 'z.B. 250',
-    equipment: 'Maschinentypen',
-    equipmentPlaceholder: 'z.B. 2 Mähdrescher, 1 Ballenpresse',
-    message: 'Weitere Informationen',
-    messagePlaceholder:
-      'Erzählen Sie uns von Ihrer Maschine oder Ihren spezifischen Anforderungen …',
-    submit: 'Anfrage absenden',
+    phonePlaceholder: '+49 36203 9591-0',
+
+    // Section 2 — Machine
+    sectionMachine: 'Angaben zur Anlage',
+    machineType: 'Anlagenname / Anlagentyp',
+    machineTypePlaceholder: 'z.B. Abfüllanlage XY-200',
+    machineAge: 'Alter der Anlage',
+    machineAgeOptions: [
+      { label: 'jünger als 10 Jahre', value: 'juenger als 10' },
+      { label: '10 – 20 Jahre', value: '10-20' },
+      { label: 'älter als 20 Jahre', value: 'aelter als 20' },
+    ] as const,
+    servicePartner: 'Gibt es Service- oder Supportpartner?',
+    servicePartnerOptions: [
+      { label: 'Ja', value: 'ja' },
+      { label: 'Nein', value: 'nein' },
+    ] as const,
+    spareParts: 'Gibt es Ersatzteile?',
+    sparePartsOptions: [
+      { label: 'Ja', value: 'ja' },
+      { label: 'Nein', value: 'nein' },
+      { label: 'Unbekannt', value: 'unbekannt' },
+    ] as const,
+    recentIssues: 'Gab es Störungen in den letzten 2 Jahren?',
+    recentIssuesOptions: [
+      { label: 'Ja', value: 'ja' },
+      { label: 'Nein', value: 'nein' },
+    ] as const,
+
+    // Section 3 — Optional
+    sectionOptional: 'Weitere Angaben (optional)',
+    companyName: 'Name der Firma',
+    companyNamePlaceholder: 'Musterfirma GmbH',
+    notes: 'Weitere Angaben / Kommentare',
+    notesPlaceholder: 'Erzählen Sie uns mehr zu Ihrer Anlage oder Ihren spezifischen Anforderungen …',
+
+    submit: 'Retrofit-Check absenden →',
     privacyNote:
-      'Mit dem Absenden stimmen Sie zu, von unserem Team kontaktiert zu werden. Wir behandeln Ihre Daten vertraulich.',
+      'Ihre Daten werden direkt an Rex-AT übermittelt. Keine Weitergabe an Dritte.',
     required: 'Pflichtfeld',
+
+    // Step 2 — Redirected state
+    openedTitle: 'Formular wird übermittelt!',
+    openedText:
+      'Das vollständige Retrofit-Formular wurde in einem neuen Tab geöffnet und Ihre Angaben automatisch übertragen. Falls das Formular nicht automatisch abgesendet wurde, klicken Sie dort bitte auf „Absenden".',
+    openedFallback: 'Falls kein Tab geöffnet wurde:',
+    openedFallbackLink: 'Retrofit-Check direkt öffnen →',
+    openedClose: 'Schließen',
   },
 
   footer: {

@@ -72,11 +72,6 @@ const openClaimModal = () => {
   isModalVisible.value = true;
 };
 
-const handleFormSubmit = (formData: unknown) => {
-  // TODO: send formData to backend / email service
-  console.info('Form submitted:', formData);
-};
-
 onMounted(() => {
   // Smooth scroll behavior
   document.documentElement.style.scrollBehavior = 'smooth';
@@ -101,7 +96,6 @@ onMounted(() => {
     <!-- Claim Check Modal -->
     <ClaimCheckModal
       v-model:visible="isModalVisible"
-      @submit="handleFormSubmit"
     />
   </div>
 </template>
