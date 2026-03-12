@@ -1,18 +1,42 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { t } from '@/i18n/de'
 import ClaimCheckForm from './ClaimCheckForm.vue'
 
-/**
- * Mobile-only inline form section (hidden on md+ where the Dialog is used).
- * Renders as a normal page-flow section — no overlay, no keyboard issues.
- */
 type InlineStep = 'input' | 'opened'
 
 const step = ref<InlineStep>('input')
 const formRef = ref<InstanceType<typeof ClaimCheckForm> | null>(null)
+const activeFieldset = ref(0)
 
 const externalFormUrl = 'https://rex-at.de/landingpage-retrofit.html'
+
+let observer: IntersectionObserver | null = null
+
+onMounted(() => {
+  const ids = ['contact-fields-inline', 'machine-fields-inline', 'details-fields-inline']
+  const entries = new Map<string, boolean>()
+
+  observer = new IntersectionObserver(
+    (observed) => {
+      for (const entry of observed) {
+        entries.set(entry.target.id, entry.isIntersecting)
+      }
+      const idx = ids.findIndex((id) => entries.get(id))
+      if (idx !== -1) activeFieldset.value = idx
+    },
+    { threshold: 0.3 }
+  )
+
+  for (const id of ids) {
+    const el = document.getElementById(id)
+    if (el) observer.observe(el)
+  }
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+})
 </script>
 
 <template>
@@ -25,13 +49,7 @@ const externalFormUrl = 'https://rex-at.de/landingpage-retrofit.html'
       <div class="max-w-xl mx-auto">
 
         <!-- Section header -->
-        <div class="text-center mb-8" data-aos="fade-up">
-          <div class="inline-flex items-center gap-2 bg-rex-orange/10 text-rex-orange text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-            </svg>
-            2.000 € Gutschein
-          </div>
+        <div class="text-center mb-6" data-aos="fade-up">
           <h2 class="text-2xl font-display font-bold" style="color: #313131">
             {{ t.inlineForm.title }}
           </h2>
@@ -40,63 +58,66 @@ const externalFormUrl = 'https://rex-at.de/landingpage-retrofit.html'
           </p>
         </div>
 
-        <!-- Form card -->
-        <div
-          class="bg-white rounded-2xl shadow-xl overflow-hidden"
-          style="border: 2px solid #EB6734"
-          data-aos="fade-up"
-          data-aos-delay="100"
-        >
-
-          <!-- Success state -->
-          <div v-if="step === 'opened'" class="text-center py-10 px-6 space-y-4">
-            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-              <svg class="w-12 h-12 text-green-600" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-display font-bold" style="color: #313131">
-              {{ t.inlineForm.successTitle }}
-            </h3>
-            <p class="text-gray-600 text-sm leading-relaxed max-w-xs mx-auto">
-              {{ t.inlineForm.successText }}
-            </p>
-            <p class="text-xs text-gray-500">
-              {{ t.modal.openedFallback }}
-              <a
-                :href="externalFormUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-rex-orange font-semibold underline ml-1"
-              >{{ t.modal.openedFallbackLink }}</a>
-            </p>
-          </div>
-
-          <!-- Input form -->
-          <template v-else>
-            <!-- Scrollable form fields -->
-            <div class="p-5 overflow-y-auto" style="max-height: 60vh">
-              <ClaimCheckForm
-                ref="formRef"
-                form-id="inline"
-                @success="step = 'opened'"
+        <!-- Progress dots -->
+        <div v-if="step === 'input'" class="flex items-center gap-1 max-w-xs mx-auto mb-8" data-aos="fade-up" data-aos-delay="50">
+          <template v-for="(label, i) in t.inlineForm.stepLabels" :key="i">
+            <div class="flex flex-col items-center gap-1">
+              <div
+                class="w-3 h-3 rounded-full transition-colors duration-300"
+                :class="i <= activeFieldset ? 'bg-rex-orange' : 'bg-gray-300'"
               />
+              <span
+                class="text-[10px] font-medium transition-colors duration-300"
+                :class="i <= activeFieldset ? 'text-rex-orange' : 'text-gray-400'"
+              >{{ label }}</span>
             </div>
-
-            <!-- Sticky submit footer -->
-            <div class="px-5 py-4 border-t border-gray-200 bg-white safe-area-bottom">
-              <button
-                type="button"
-                class="w-full btn-primary py-4 text-base font-bold text-center"
-                @click="formRef?.submitForm()"
-              >
-                {{ t.modal.submit }}
-              </button>
-              <p class="text-xs text-gray-500 text-center mt-3">{{ t.modal.privacyNote }}</p>
-            </div>
+            <div v-if="i < t.inlineForm.stepLabels.length - 1" class="h-px flex-1 mt-[-12px] transition-colors duration-300" :class="i < activeFieldset ? 'bg-rex-orange' : 'bg-gray-300'" />
           </template>
-
         </div>
+
+        <!-- Success state -->
+        <div v-if="step === 'opened'" class="text-center py-10 px-6 space-y-4" data-aos="fade-up">
+          <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+            <svg class="w-12 h-12 text-green-600" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-display font-bold" style="color: #313131">
+            {{ t.inlineForm.successTitle }}
+          </h3>
+          <p class="text-gray-600 text-sm leading-relaxed max-w-xs mx-auto">
+            {{ t.inlineForm.successText }}
+          </p>
+          <p class="text-xs text-gray-500">
+            {{ t.modal.openedFallback }}
+            <a
+              :href="externalFormUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-rex-orange font-semibold underline ml-1"
+            >{{ t.modal.openedFallbackLink }}</a>
+          </p>
+        </div>
+
+        <!-- Input form — no card wrapper, fields flow in page -->
+        <template v-else>
+          <div data-aos="fade-up" data-aos-delay="100">
+            <ClaimCheckForm
+              ref="formRef"
+              form-id="inline"
+              @success="step = 'opened'"
+            />
+            <button
+              type="button"
+              class="w-full btn-primary py-4 text-base font-bold text-center mt-8"
+              @click="formRef?.submitForm()"
+            >
+              {{ t.modal.submit }}
+            </button>
+            <p class="text-xs text-gray-500 text-center mt-3">{{ t.modal.privacyNote }}</p>
+          </div>
+        </template>
+
       </div>
     </div>
   </section>

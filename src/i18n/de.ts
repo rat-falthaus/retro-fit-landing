@@ -41,6 +41,21 @@ export const t = {
     ] as const,
     imageAltBefore: 'Produktionsmaschine vor dem Retrofit',
     imageAltAfter: 'Produktionsmaschine nach dem Retrofit',
+    mobileHeadline: 'Ihre Maschine.',
+    mobileHeadlineAccent: 'Neu gedacht.',
+    mobileSubline: 'Scrollen & den Unterschied erleben',
+    scrollHint: 'Weiter scrollen',
+  },
+
+  stats: {
+    yearsValue: '35+',
+    yearsLabel: 'Jahre Erfahrung',
+    projectsValue: '500+',
+    projectsLabel: 'Projekte',
+    savingsValue: '40%',
+    savingsLabel: 'Einsparung',
+    uptimeValue: '99,2%',
+    uptimeLabel: 'Verfügbarkeit',
   },
 
   postcard: {
@@ -48,6 +63,7 @@ export const t = {
     hook: 'Ihre Maschine hat angerufen – sie wäre bereit für ein Retrofit.',
     bridgeText:
       'Machen Sie jetzt den <strong class="text-forest-green">Retrofit-Check</strong> und sprechen Sie mit unseren Experten. Sichern Sie sich dabei Ihren <strong class="text-industrial-amber">2.000 € Retrofit-Gutschein</strong>.',
+    mobileHighlight: 'Modernisieren statt ersetzen — günstiger, schneller, nachhaltiger.',
   },
 
   modal: {
@@ -119,6 +135,7 @@ export const t = {
     subtitle: 'Füllen Sie das Formular aus – unsere Experten melden sich bei Ihnen.',
     successTitle: 'Formular wird übermittelt!',
     successText: 'Ihre Daten werden direkt an Rex-AT übertragen. Wir melden uns schnellstmöglich. Vielen Dank!',
+    stepLabels: ['Kontakt', 'Maschine', 'Details'] as const,
   },
 
   footer: {
@@ -166,6 +183,7 @@ export const t = {
     madeWith: 'Mit ❤️ für Betriebe, die auf Nachhaltigkeit setzen',
     disclaimer:
       'Der Gutschein ist nicht übertragbar, nicht in bar auszahlbar und nur gültig für Retrofit-Dienstleistungen von Rex-AT. Nicht kombinierbar mit anderen Angeboten. Einlösbar bis zum 30.04.2026. Weitere Bedingungen auf Anfrage.',
+    disclaimerToggle: 'Rechtliche Hinweise ▸',
     surveyUrl: 'https://rex-at.de/landingpage-retrofit.html',
     voucherCta: 'Retrofit-Check',
     voucherAmount: '2.000 €',

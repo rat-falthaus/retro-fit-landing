@@ -37,9 +37,21 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 // 0 % at top → 100 % at bottom of the tall section
 const sliderPosition = computed(() => scrollProgress.value * 100)
 
-// Text overlay: fully visible at top, fades out over first 20 % of scroll
-const textOpacity = computed(() =>
-  Math.max(0, 1 - scrollProgress.value / 0.2)
+// SSR-safe mobile detection
+const isMobileHero = ref(false)
+onMounted(() => {
+  isMobileHero.value = window.innerWidth < 640
+})
+
+// Text: fades faster on mobile (10%) vs desktop (20%)
+const textOpacity = computed(() => {
+  const rate = isMobileHero.value ? 0.10 : 0.20
+  return Math.max(0, 1 - scrollProgress.value / rate)
+})
+
+// Mobile radial clip reveal (circle expanding from center)
+const mobileRevealRadius = computed(() =>
+  Math.min(150, scrollProgress.value * 150)
 )
 
 // ── "RETO FITTED" stamp ───────────────────────────────────────────────────
@@ -47,6 +59,15 @@ const textOpacity = computed(() =>
 const stampProgress = computed(() =>
   Math.max(0, Math.min(1, (scrollProgress.value - 0.80) / 0.15))
 )
+// Stamp blur (sharp at full progress)
+const stampBlur = computed(() =>
+  Math.max(0, (1 - stampProgress.value) * 6)
+)
+// One-shot stamp pulse
+const stampPulsed = ref(false)
+watch(stampProgress, (v) => {
+  if (v >= 1 && !stampPulsed.value) stampPulsed.value = true
+})
 
 // ── Intro video crossfade: brokenPopcornMachine fades into static JPG ──
 const introVideoRef = ref<HTMLVideoElement | null>(null)
@@ -150,16 +171,19 @@ const handleCtaClick = () => {
 
       <!-- ── STATIC BEFORE / AFTER IMAGES (always visible, slider-driven) ── -->
       <div
-        class="absolute inset-0 z-0 bg-cover bg-center sm:bg-right"
-        :style="{ backgroundImage: `url('${baseUrl}images/machine-before.jpg')` }"
+        class="absolute inset-0 z-0 bg-cover sm:bg-right"
+        :style="{ backgroundImage: `url('${baseUrl}images/machine-before.jpg')`, backgroundPosition: isMobileHero ? '80% center' : undefined }"
         role="img"
         :aria-label="t.hero.imageAltBefore"
       />
       <div
-        class="absolute inset-0 z-20 bg-cover bg-center sm:bg-right"
+        class="absolute inset-0 z-20 bg-cover sm:bg-right will-change-[clip-path]"
         :style="{
           backgroundImage: `url('${baseUrl}images/machine-after.jpg')`,
-          clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
+          backgroundPosition: isMobileHero ? '80% center' : undefined,
+          clipPath: isMobileHero
+            ? `circle(${mobileRevealRadius}% at 50% 50%)`
+            : `inset(0 ${100 - sliderPosition}% 0 0)`,
         }"
         role="img"
         :aria-label="t.hero.imageAltAfter"
@@ -168,11 +192,12 @@ const handleCtaClick = () => {
       <!-- ── INTRO VIDEO: plays on load, crossfades to static JPG on scroll ── -->
       <video
         ref="introVideoRef"
-        class="absolute inset-0 z-10 w-full h-full object-cover object-center sm:object-right will-change-[opacity,filter]"
+        class="absolute inset-0 z-10 w-full h-full object-cover sm:object-right will-change-[opacity,filter]"
         :style="{
           opacity: videoIntroOpacity,
           filter: `blur(${videoIntroBlur}px)`,
           transition: 'opacity 0.8s ease, filter 0.8s ease',
+          objectPosition: isMobileHero ? '80% center' : undefined,
         }"
         :src="`${baseUrl}images/popcorn-machine.mp4`"
         autoplay
@@ -220,7 +245,7 @@ const handleCtaClick = () => {
         :style="{ opacity: scrollProgress > 0.02 ? 1 : 0 }"
       >
         {{ t.hero.sliderAfter }}
-      </span>
+      </span><
 
       <!-- Gradient overlay – Rex-AT dark charcoal from left, transparent right -->
       <div
@@ -229,14 +254,31 @@ const handleCtaClick = () => {
 
       <!-- Text content — fades out as user scrolls into the reveal zone -->
       <div
-        class="absolute inset-0 z-20 flex items-center pointer-events-none transition-opacity duration-200"
+        class="absolute inset-0 z-20 flex items-end sm:items-center pointer-events-none transition-opacity duration-200"
         :style="{ opacity: textOpacity }"
       >
-        <div class="section-container w-full">
+        <div class="section-container w-full pb-24 sm:pb-0">
           <div class="max-w-2xl">
 
+            <!-- Mobile headline — short, bottom-anchored -->
             <h1
-              class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-white mb-4 sm:mb-6 leading-tight"
+              class="sm:hidden text-4xl font-display font-bold text-white mb-3 leading-tight"
+              data-aos="fade-up"
+            >
+              {{ t.hero.mobileHeadline }}<br />
+              <span class="text-industrial-amber">{{ t.hero.mobileHeadlineAccent }}</span>
+            </h1>
+            <p
+              class="sm:hidden text-sm text-white/70 mb-5"
+              data-aos="fade-up"
+              data-aos-delay="50"
+            >
+              {{ t.hero.mobileSubline }}
+            </p>
+
+            <!-- Desktop headline — full -->
+            <h1
+              class="hidden sm:block mt-8 text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-white mb-6 leading-tight"
               data-aos="fade-up"
             >
               {{ t.hero.headline }}<br />
@@ -244,7 +286,7 @@ const handleCtaClick = () => {
             </h1>
 
             <p
-              class="text-lg md:text-xl text-white/90 mb-8 max-w-xl leading-relaxed"
+              class="hidden sm:block text-lg md:text-xl text-white/90 mb-8 max-w-xl leading-relaxed"
               data-aos="fade-up"
               data-aos-delay="100"
             >
@@ -253,13 +295,13 @@ const handleCtaClick = () => {
 
             <!-- CTAs -->
             <div
-              class="flex flex-col sm:flex-row gap-4 pointer-events-auto"
+              class="flex flex-col sm:flex-row gap-3 sm:gap-4 pointer-events-auto"
               data-aos="fade-up"
               data-aos-delay="200"
             >
               <button
                 @click="handleCtaClick"
-                class="btn-primary text-base text-center"
+                class="btn-primary text-sm sm:text-base py-3 sm:py-4 text-center"
               >
                 {{ t.hero.ctaPrimary }}
               </button>
@@ -267,15 +309,15 @@ const handleCtaClick = () => {
                 :href="t.hero.referenceUrl"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn-primary text-base text-center"
+                class="btn-primary text-sm sm:text-base py-3 sm:py-4 text-center"
               >
                 {{ t.hero.ctaSecondary }}
               </a>
             </div>
 
-            <!-- Trust badges -->
+            <!-- Trust badges — desktop only -->
             <ul
-              class="mt-6 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 text-white/85"
+              class="hidden sm:flex mt-10 flex-row flex-wrap gap-4 text-white/85"
               data-aos="fade-up"
               data-aos-delay="300"
             >
@@ -298,9 +340,11 @@ const handleCtaClick = () => {
       <!-- ── "RETO FITTED" stamp (fades in near end of scroll) ─────────── -->
       <div
         class="absolute inset-0 z-30 flex items-center justify-center pointer-events-none"
+        :class="{ 'stamp-pulse': stampPulsed }"
         :style="{
           opacity: stampProgress,
           transform: `scale(${0.65 + 0.35 * stampProgress}) rotate(-5deg)`,
+          filter: `blur(${stampBlur}px)`,
         }"
       >
         <div
@@ -328,13 +372,14 @@ const handleCtaClick = () => {
         </div>
       </div>
 
-      <!-- Scroll cue arrow (top screen, fades once scroll starts) -->
+      <!-- Scroll cue — desktop: arrow only, mobile: arrow + text label -->
       <div
-        class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 pointer-events-none transition-opacity duration-500"
-        :style="{ opacity: scrollProgress < 0.03 ? 0.6 : 0 }"
+        class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 pointer-events-none transition-opacity duration-500 flex flex-col items-center gap-1"
+        :style="{ opacity: scrollProgress < 0.03 ? 0.7 : 0 }"
       >
+        <span class="sm:hidden text-[11px] text-white/60 font-medium tracking-wide uppercase">{{ t.hero.scrollHint }}</span>
         <div class="animate-bounce">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </div>
@@ -357,15 +402,25 @@ const handleCtaClick = () => {
   );
 }
 
-/* Mobile: top-to-bottom gradient, lighter overall so center-cropped machine is still visible */
+/* Mobile: bottom-to-top gradient — headline lives at bottom, machine fills top */
 @media (max-width: 639px) {
   .hero-gradient-overlay {
     background: linear-gradient(
-      to bottom,
-      rgba(49,49,49,0.82) 0%,
-      rgba(49,49,49,0.55) 55%,
-      rgba(49,49,49,0.20) 100%
+      to top,
+      rgba(49,49,49,0.92) 0%,
+      rgba(49,49,49,0.55) 35%,
+      rgba(49,49,49,0.0) 60%
     );
   }
+}
+
+/* Stamp pulse: one-shot scale bump when fully revealed */
+.stamp-pulse {
+  animation: stamp-hit 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes stamp-hit {
+  0%   { transform: scale(1) rotate(-5deg); }
+  50%  { transform: scale(1.06) rotate(-5deg); }
+  100% { transform: scale(1) rotate(-5deg); }
 }
 </style>

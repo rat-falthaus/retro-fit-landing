@@ -38,6 +38,6 @@ export async function render() {
     headTags: headResult.headTags,
     htmlAttrs: headResult.htmlAttrs || '',
     bodyAttrs: headResult.bodyAttrs || '',
-    bodyTags: headResult.bodyTagsOpen || ''
+    bodyTags: headResult.bodyTags || ''
   }
 }

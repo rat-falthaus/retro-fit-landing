@@ -9,6 +9,7 @@ import ClaimCheckModal from './components/ClaimCheckModal.vue';
 import InlineClaimSection from './components/InlineClaimSection.vue';
 import FooterSection from './components/FooterSection.vue';
 import NavigationHeader from './components/NavigationHeader.vue';
+import SocialProofStrip from './components/SocialProofStrip.vue';
 
 // SEO Meta Tags – all strings from src/i18n/de.ts
 useHead({
@@ -105,6 +106,9 @@ onUnmounted(() => {
 
       <!-- Postcard / Bridge section -->
       <PostcardBridge />
+
+      <!-- Mobile social proof stats strip -->
+      <SocialProofStrip />
 
       <!-- Mobile inline form (md:hidden — desktop uses ClaimCheckModal Dialog) -->
       <InlineClaimSection />

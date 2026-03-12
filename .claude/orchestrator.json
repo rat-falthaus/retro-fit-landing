@@ -1,9 +1,9 @@
 {
   "version": "2",
-  "updatedAt": "2026-03-12T10:30:00.000Z",
+  "updatedAt": "2026-03-12T18:30:00.000Z",
   "counters": {
-    "nextTaskId": 17,
-    "nextPlanId": 4
+    "nextTaskId": 25,
+    "nextPlanId": 5
   },
   "activePlanId": null,
   "notes": "retro-fit-landing — Vue 3.5 / TypeScript / Vite 7 / Tailwind v4 / PrimeVue 4.5 SSG landing page. Goal: convert farmers to claim a free €2,000 compatibility check. Build: npm run build (client → server → prerender). Type-check: vue-tsc --noEmit. All strings in src/i18n/de.ts. Brand tokens: forest-green, industrial-amber, tech-slate.",
@@ -23,6 +23,14 @@
       "createdAt": "2026-03-12T10:00:00.000Z",
       "completedAt": "2026-03-12T10:30:00.000Z",
       "taskIds": ["TASK-4", "TASK-5", "TASK-6"]
+    },
+    "PLAN-004": {
+      "id": "PLAN-004",
+      "goal": "2026-grade mobile experience: cinematic hero with bottom-anchored headline, scroll-driven retrofit reveal, immersive visual sections replacing text-heavy blocks, flat inline form",
+      "status": "completed",
+      "createdAt": "2026-03-12T18:30:00.000Z",
+      "completedAt": "2026-03-12T20:15:00.000Z",
+      "taskIds": ["TASK-17", "TASK-18", "TASK-19", "TASK-20", "TASK-21", "TASK-22", "TASK-23", "TASK-24"]
     }
   },
   "tasks": {
@@ -82,6 +90,86 @@
       "dependencies": [],
       "createdAt": "2026-03-12T10:00:00.000Z",
       "completedAt": "2026-03-12T10:15:00.000Z"
+    },
+    "TASK-17": {
+      "id": "TASK-17",
+      "title": "i18n: add mobile hero, reveal & visual section strings",
+      "role": "i18n",
+      "planId": "PLAN-004",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-12T18:30:00.000Z",
+      "completedAt": "2026-03-12T19:00:00.000Z"
+    },
+    "TASK-18": {
+      "id": "TASK-18",
+      "title": "HeroSection mobile: bottom-anchored headline + image right-center",
+      "role": "frontend",
+      "planId": "PLAN-004",
+      "status": "done",
+      "dependencies": ["TASK-17"],
+      "createdAt": "2026-03-12T18:30:00.000Z",
+      "completedAt": "2026-03-12T19:15:00.000Z"
+    },
+    "TASK-19": {
+      "id": "TASK-19",
+      "title": "Mobile scroll reveal: cinematic retrofit transition",
+      "role": "frontend",
+      "planId": "PLAN-004",
+      "status": "done",
+      "dependencies": ["TASK-18"],
+      "createdAt": "2026-03-12T18:30:00.000Z",
+      "completedAt": "2026-03-12T19:30:00.000Z"
+    },
+    "TASK-20": {
+      "id": "TASK-20",
+      "title": "PostcardBridge mobile: visual card redesign with icon accents",
+      "role": "frontend",
+      "planId": "PLAN-004",
+      "status": "done",
+      "dependencies": ["TASK-17"],
+      "createdAt": "2026-03-12T18:30:00.000Z",
+      "completedAt": "2026-03-12T19:45:00.000Z"
+    },
+    "TASK-21": {
+      "id": "TASK-21",
+      "title": "Mobile social-proof strip: animated stats counters",
+      "role": "frontend",
+      "planId": "PLAN-004",
+      "status": "done",
+      "dependencies": ["TASK-17"],
+      "createdAt": "2026-03-12T18:30:00.000Z",
+      "completedAt": "2026-03-12T19:45:00.000Z"
+    },
+    "TASK-22": {
+      "id": "TASK-22",
+      "title": "InlineClaimSection mobile: flat borderless form + progress dots",
+      "role": "frontend",
+      "planId": "PLAN-004",
+      "status": "done",
+      "dependencies": ["TASK-17"],
+      "createdAt": "2026-03-12T18:30:00.000Z",
+      "completedAt": "2026-03-12T20:00:00.000Z"
+    },
+    "TASK-23": {
+      "id": "TASK-23",
+      "title": "Footer mobile: compact visual redesign",
+      "role": "frontend",
+      "planId": "PLAN-004",
+      "status": "done",
+      "dependencies": ["TASK-17"],
+      "createdAt": "2026-03-12T18:30:00.000Z",
+      "completedAt": "2026-03-12T20:00:00.000Z"
+    },
+    "TASK-24": {
+      "id": "TASK-24",
+      "title": "QA: full mobile build + visual audit + scroll performance",
+      "role": "qa",
+      "planId": "PLAN-004",
+      "status": "done",
+      "dependencies": ["TASK-18", "TASK-19", "TASK-20", "TASK-21", "TASK-22", "TASK-23"],
+      "createdAt": "2026-03-12T18:30:00.000Z",
+      "completedAt": "2026-03-12T20:15:00.000Z"
     }
   }
 }

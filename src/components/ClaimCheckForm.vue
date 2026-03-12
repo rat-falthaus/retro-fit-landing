@@ -134,7 +134,7 @@ defineExpose({ submitForm, reset })
   <form @submit.prevent="submitForm" class="space-y-5" novalidate>
 
     <!-- Section: Contact -->
-    <fieldset>
+    <fieldset :id="`contact-fields-${formId}`">
       <legend class="text-base font-display font-bold text-rex-orange mb-3 border-b border-gray-200 pb-1 pt-2">
         {{ t.modal.sectionContact }}
       </legend>
@@ -193,7 +193,7 @@ defineExpose({ submitForm, reset })
     </fieldset>
 
     <!-- Section: Machine -->
-    <fieldset>
+    <fieldset :id="`machine-fields-${formId}`">
       <legend class="text-base font-display font-bold text-rex-orange mb-3 border-b border-gray-200 pb-1">
         {{ t.modal.sectionMachine }}
       </legend>
@@ -303,7 +303,7 @@ defineExpose({ submitForm, reset })
     </fieldset>
 
     <!-- Section: Optional -->
-    <fieldset>
+    <fieldset :id="`details-fields-${formId}`">
       <legend class="text-base font-display font-bold text-gray-500 mb-3 border-b border-gray-200 pb-1">
         {{ t.modal.sectionOptional }}
       </legend>
