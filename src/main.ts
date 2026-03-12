@@ -2,6 +2,7 @@ import { ViteSSG } from 'vite-ssg'
 import type { ViteSSGContext } from 'vite-ssg'
 import { createHead } from '@vueuse/head'
 import PrimeVue from 'primevue/config'
+import ToastService from 'primevue/toastservice'
 import Aura from '@primeuix/themes/aura'
 import 'aos/dist/aos.css'
 import 'primeicons/primeicons.css'
@@ -33,6 +34,7 @@ export const createApp = ViteSSG(
       },
       ripple: true
     })
+    app.use(ToastService)
 
     // Initialize AOS only on client side
     if (!import.meta.env.SSR) {

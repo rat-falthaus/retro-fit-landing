@@ -2,6 +2,7 @@ import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import { createHead, renderHeadToString } from '@vueuse/head'
 import PrimeVue from 'primevue/config'
+import ToastService from 'primevue/toastservice'
 import Aura from '@primeuix/themes/aura'
 import App from './App.vue'
 
@@ -24,6 +25,7 @@ export async function render() {
     },
     ripple: true
   })
+  app.use(ToastService)
 
   // Render app to HTML string
   const appHtml = await renderToString(app)

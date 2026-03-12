@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useHead } from '@vueuse/head';
 import { t } from '@/i18n/de';
+import Toast from 'primevue/toast';
 import HeroSection from './components/HeroSection.vue';
 import PostcardBridge from './components/PostcardBridge.vue';
 import ClaimCheckModal from './components/ClaimCheckModal.vue';
@@ -97,6 +98,9 @@ onMounted(() => {
     <ClaimCheckModal
       v-model:visible="isModalVisible"
     />
+
+    <!-- Global Toast -->
+    <Toast position="top-center" />
   </div>
 </template>
 

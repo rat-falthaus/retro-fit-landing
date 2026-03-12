@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Select from 'primevue/select'
 import Button from 'primevue/button'
+import { useToast } from 'primevue/usetoast'
 import { t } from '@/i18n/de'
 
 const props = defineProps<{
@@ -51,18 +52,6 @@ const formData = ref<GatewayFormData>({
 })
 
 const externalFormUrl = 'https://rex-at.de/landingpage-retrofit.html'
-
-const isFormValid = computed(
-  () =>
-    formData.value.name.trim() !== '' &&
-    EMAIL_REGEX.test(formData.value.email.trim()) &&
-    PHONE_REGEX.test(formData.value.phone.trim()) &&
-    formData.value.machineType.trim() !== '' &&
-    formData.value.machineAge !== '' &&
-    formData.value.servicePartner !== '' &&
-    formData.value.spareParts !== '' &&
-    formData.value.recentIssues !== ''
-)
 
 const buildPrefillUrl = (): string => {
   const entries: Record<string, string> = {
@@ -112,8 +101,21 @@ const validate = (): boolean => {
   return Object.keys(e).length === 0
 }
 
+const toast = useToast()
+const shakingFields = ref<(keyof GatewayFormData)[]>([])
+
 const handleSubmit = () => {
-  if (!validate()) return
+  if (!validate()) {
+    shakingFields.value = Object.keys(errors.value) as (keyof GatewayFormData)[]
+    setTimeout(() => { shakingFields.value = [] }, 600)
+    toast.add({
+      severity: 'warn',
+      summary: t.modal.validationToastTitle,
+      detail: t.modal.validationToastDetail,
+      life: 4000,
+    })
+    return
+  }
   window.open(buildPrefillUrl(), '_blank', 'noopener,noreferrer')
   step.value = 'opened'
 }
@@ -147,11 +149,12 @@ const closeDialog = () => {
     @update:visible="closeDialog"
     modal
     :closable="true"
-    :style="{ width: '95vw', maxWidth: '640px' }"
+    :style="{ width: '95vw', maxWidth: '640px', maxHeight: '90vh' }"
     :pt="{
-      root: { class: 'rounded-2xl overflow-hidden' },
-      header: { class: 'bg-rex-dark text-white p-5' },
-      content: { class: 'p-6 max-h-[80vh] overflow-y-auto bg-white' },
+      root: 'rounded-2xl overflow-hidden flex flex-col',
+      header: 'bg-rex-dark text-white p-5 shrink-0',
+      content: 'p-6 overflow-y-auto bg-white flex-1 min-h-0',
+      footer: 'px-6 py-4 bg-white border-t border-gray-200 shrink-0',
     }"
   >
     <template #header>
@@ -203,7 +206,7 @@ const closeDialog = () => {
         </legend>
         <div class="space-y-3">
           <!-- Name -->
-          <div>
+          <div :class="{ 'field-shake': shakingFields.includes('name') }">
             <label for="gw-name" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.name }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </label>
@@ -219,7 +222,7 @@ const closeDialog = () => {
             <small v-if="errors.name" class="text-red-500 text-xs mt-1 block">{{ errors.name }}</small>
           </div>
           <!-- Email -->
-          <div>
+          <div :class="{ 'field-shake': shakingFields.includes('email') }">
             <label for="gw-email" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.email }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </label>
@@ -236,7 +239,7 @@ const closeDialog = () => {
             <small v-if="errors.email" class="text-red-500 text-xs mt-1 block">{{ errors.email }}</small>
           </div>
           <!-- Phone -->
-          <div>
+          <div :class="{ 'field-shake': shakingFields.includes('phone') }">
             <label for="gw-phone" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.phone }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </label>
@@ -262,7 +265,7 @@ const closeDialog = () => {
         </legend>
         <div class="space-y-3">
           <!-- Machine Type -->
-          <div>
+          <div :class="{ 'field-shake': shakingFields.includes('machineType') }">
             <label for="gw-machine" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.machineType }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </label>
@@ -277,7 +280,7 @@ const closeDialog = () => {
             <small v-if="errors.machineType" class="text-red-500 text-xs mt-1 block">{{ errors.machineType }}</small>
           </div>
           <!-- Machine Age -->
-          <div>
+          <div :class="{ 'field-shake': shakingFields.includes('machineAge') }">
             <label for="gw-age" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.machineAge }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </label>
@@ -294,7 +297,7 @@ const closeDialog = () => {
             <small v-if="errors.machineAge" class="text-red-500 text-xs mt-1 block">{{ errors.machineAge }}</small>
           </div>
           <!-- Service Partner -->
-          <div>
+          <div :class="{ 'field-shake': shakingFields.includes('servicePartner') }">
             <span class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.servicePartner }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </span>
@@ -317,7 +320,7 @@ const closeDialog = () => {
             <small v-if="errors.servicePartner" class="text-red-500 text-xs mt-1 block">{{ errors.servicePartner }}</small>
           </div>
           <!-- Spare Parts -->
-          <div>
+          <div :class="{ 'field-shake': shakingFields.includes('spareParts') }">
             <span class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.spareParts }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </span>
@@ -340,7 +343,7 @@ const closeDialog = () => {
             <small v-if="errors.spareParts" class="text-red-500 text-xs mt-1 block">{{ errors.spareParts }}</small>
           </div>
           <!-- Recent Issues -->
-          <div>
+          <div :class="{ 'field-shake': shakingFields.includes('recentIssues') }">
             <span class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.recentIssues }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </span>
@@ -400,16 +403,30 @@ const closeDialog = () => {
         </div>
       </fieldset>
 
-      <!-- Submit -->
-      <div class="pt-2">
-        <Button
-          type="submit"
-          :disabled="!isFormValid"
-          :label="t.modal.submit"
-          class="w-full btn-primary py-4 text-base font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-        />
-        <p class="text-xs text-gray-500 text-center mt-3">{{ t.modal.privacyNote }}</p>
-      </div>
     </form>
+
+    <template v-if="step === 'input'" #footer>
+      <Button
+        type="button"
+        :label="t.modal.submit"
+        class="w-full btn-primary py-4 text-base font-bold"
+        @click="handleSubmit"
+      />
+      <p class="text-xs text-gray-500 text-center mt-3">{{ t.modal.privacyNote }}</p>
+    </template>
   </Dialog>
 </template>
+
+<style scoped>
+@keyframes field-shake {
+  0%, 100% { transform: translateX(0); }
+  15%       { transform: translateX(-5px); }
+  30%       { transform: translateX(4px); }
+  50%       { transform: translateX(-3px); }
+  70%       { transform: translateX(2px); }
+  85%       { transform: translateX(-1px); }
+}
+.field-shake {
+  animation: field-shake 0.5s ease-in-out;
+}
+</style>

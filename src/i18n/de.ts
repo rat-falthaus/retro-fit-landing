@@ -109,6 +109,9 @@ export const t = {
     openedFallback: 'Falls kein Tab geöffnet wurde:',
     openedFallbackLink: 'Retrofit-Check direkt öffnen →',
     openedClose: 'Schließen',
+
+    validationToastTitle: 'Bitte alle Pflichtfelder ausfüllen',
+    validationToastDetail: 'Einige erforderliche Felder sind noch nicht vollständig ausgefüllt.',
   },
 
   footer: {
