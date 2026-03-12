@@ -1,9 +1,9 @@
 {
   "version": "2",
-  "updatedAt": "2026-03-10T14:35:00.000Z",
+  "updatedAt": "2026-03-12T10:30:00.000Z",
   "counters": {
-    "nextTaskId": 4,
-    "nextPlanId": 2
+    "nextTaskId": 7,
+    "nextPlanId": 3
   },
   "activePlanId": null,
   "notes": "retro-fit-landing — Vue 3.5 / TypeScript / Vite 7 / Tailwind v4 / PrimeVue 4.5 SSG landing page. Goal: convert farmers to claim a free €2,000 compatibility check. Build: npm run build (client → server → prerender). Type-check: vue-tsc --noEmit. All strings in src/i18n/de.ts. Brand tokens: forest-green, industrial-amber, tech-slate.",
@@ -15,6 +15,14 @@
       "createdAt": "2026-03-10T14:10:00.000Z",
       "completedAt": "2026-03-10T14:35:00.000Z",
       "taskIds": ["TASK-1", "TASK-2", "TASK-3"]
+    },
+    "PLAN-002": {
+      "id": "PLAN-002",
+      "goal": "Integrate rex-at.de external form: gateway modal + URL-param bridge + new-tab redirect with Contao prefill",
+      "status": "completed",
+      "createdAt": "2026-03-12T10:00:00.000Z",
+      "completedAt": "2026-03-12T10:30:00.000Z",
+      "taskIds": ["TASK-4", "TASK-5", "TASK-6"]
     }
   },
   "tasks": {
@@ -44,6 +52,36 @@
       "status": "done",
       "dependencies": ["TASK-1", "TASK-2"],
       "completedAt": "2026-03-10T14:35:00.000Z"
+    },
+    "TASK-4": {
+      "id": "TASK-4",
+      "title": "Add gateway-modal i18n strings to de.ts",
+      "role": "i18n",
+      "planId": "PLAN-002",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-12T10:00:00.000Z",
+      "completedAt": "2026-03-12T10:15:00.000Z"
+    },
+    "TASK-5": {
+      "id": "TASK-5",
+      "title": "Rework ClaimCheckModal for gateway+redirect flow",
+      "role": "frontend",
+      "planId": "PLAN-002",
+      "status": "done",
+      "dependencies": ["TASK-4"],
+      "createdAt": "2026-03-12T10:00:00.000Z",
+      "completedAt": "2026-03-12T10:25:00.000Z"
+    },
+    "TASK-6": {
+      "id": "TASK-6",
+      "title": "Create rex-at.de Contao URL-prefill bridge script",
+      "role": "build",
+      "planId": "PLAN-002",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-12T10:00:00.000Z",
+      "completedAt": "2026-03-12T10:15:00.000Z"
     }
   }
 }
