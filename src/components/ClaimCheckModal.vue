@@ -198,7 +198,7 @@ const closeDialog = () => {
 
       <!-- Section: Contact -->
       <fieldset>
-        <legend class="text-base font-display font-bold text-rex-orange mb-3 border-b border-gray-200 pb-1">
+        <legend class="text-base font-display font-bold text-rex-orange mb-3 border-b border-gray-200 pb-1 pt-2">
           {{ t.modal.sectionContact }}
         </legend>
         <div class="space-y-3">

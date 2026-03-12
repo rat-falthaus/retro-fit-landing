@@ -41,16 +41,16 @@ const introVideoRef = ref<HTMLVideoElement | null>(null)
 
 // Opacity: fully visible until 5 % scroll, fully gone by 20 %
 const videoIntroOpacity = computed(() => {
-  if (scrollProgress.value <= 0.05) return 1
-  if (scrollProgress.value >= 0.20) return 0
-  return 1 - (scrollProgress.value - 0.05) / 0.15
+  if (scrollProgress.value <= 0.5) return 1
+  if (scrollProgress.value >= 0.9) return 0
+  return 1 - (scrollProgress.value - 0.5) / 0.4
 })
 
 // Gradual blur adds a dreamy crossfade feel (0 → 8 px)
 const videoIntroBlur = computed(() => {
-  if (scrollProgress.value <= 0.08) return 0
-  if (scrollProgress.value >= 0.22) return 8
-  return ((scrollProgress.value - 0.08) / 0.14) * 8
+  if (scrollProgress.value <= 0.5) return 0
+  if (scrollProgress.value >= 0.9) return 8
+  return ((scrollProgress.value - 0.5) / 0.4) * 8
 })
 
 // Pause video once fully faded to save resources
@@ -86,9 +86,9 @@ const scrollToContent = () => {
 
       <!-- ── STATIC BEFORE / AFTER IMAGES (always visible, slider-driven) ── -->
       <div
-        class="absolute inset-0"
+        class="absolute inset-0 z-0"
         :style="{
-          backgroundImage: `url('${baseUrl}images/machine-before-wide-2.jpg')`,
+          backgroundImage: `url('${baseUrl}images/machine-before.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'right center',
         }"
@@ -96,9 +96,9 @@ const scrollToContent = () => {
         :aria-label="t.hero.imageAltBefore"
       />
       <div
-        class="absolute inset-0  "
+        class="absolute inset-0 z-20"
         :style="{
-          backgroundImage: `url('${baseUrl}images/machine-after-wide-2.jpg')`,
+          backgroundImage: `url('${baseUrl}images/machine-after.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'right center',
           clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
@@ -110,13 +110,13 @@ const scrollToContent = () => {
       <!-- ── INTRO VIDEO: plays on load, crossfades to static JPG on scroll ── -->
       <video
         ref="introVideoRef"
-        class="absolute inset-0 z-5 w-full h-full object-cover object-right will-change-[opacity,filter]"
+        class="absolute inset-0 z-10 w-full h-full object-cover object-right will-change-[opacity,filter]"
         :style="{
           opacity: videoIntroOpacity,
           filter: `blur(${videoIntroBlur}px)`,
           transition: 'opacity 0.8s ease, filter 0.8s ease',
         }"
-        :src="`${baseUrl}images/brokenPopcornMachine_wide-2.mp4`"
+        :src="`${baseUrl}images/popcorn-machine.mp4`"
         autoplay
         loop
         muted
