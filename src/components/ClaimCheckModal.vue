@@ -32,6 +32,11 @@ type ModalStep = 'input' | 'opened'
 
 const step = ref<ModalStep>('input')
 
+const errors = ref<Partial<Record<keyof GatewayFormData, string>>>({})
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const PHONE_REGEX = /^[+]?[\d\s\-/().]{6,20}$/
+
 const formData = ref<GatewayFormData>({
   name: '',
   email: '',
@@ -50,8 +55,8 @@ const externalFormUrl = 'https://rex-at.de/landingpage-retrofit.html'
 const isFormValid = computed(
   () =>
     formData.value.name.trim() !== '' &&
-    formData.value.email.trim() !== '' &&
-    formData.value.phone.trim() !== '' &&
+    EMAIL_REGEX.test(formData.value.email.trim()) &&
+    PHONE_REGEX.test(formData.value.phone.trim()) &&
     formData.value.machineType.trim() !== '' &&
     formData.value.machineAge !== '' &&
     formData.value.servicePartner !== '' &&
@@ -80,8 +85,35 @@ const buildPrefillUrl = (): string => {
   return `${externalFormUrl}?${params.toString()}`
 }
 
+const validate = (): boolean => {
+  const e: Partial<Record<keyof GatewayFormData, string>> = {}
+
+  if (!formData.value.name.trim()) e.name = 'Pflichtfeld'
+
+  if (!formData.value.email.trim()) {
+    e.email = 'Pflichtfeld'
+  } else if (!EMAIL_REGEX.test(formData.value.email.trim())) {
+    e.email = 'Bitte gültige E-Mail-Adresse eingeben'
+  }
+
+  if (!formData.value.phone.trim()) {
+    e.phone = 'Pflichtfeld'
+  } else if (!PHONE_REGEX.test(formData.value.phone.trim())) {
+    e.phone = 'Bitte gültige Telefonnummer eingeben'
+  }
+
+  if (!formData.value.machineType.trim()) e.machineType = 'Pflichtfeld'
+  if (!formData.value.machineAge) e.machineAge = 'Pflichtfeld'
+  if (!formData.value.servicePartner) e.servicePartner = 'Pflichtfeld'
+  if (!formData.value.spareParts) e.spareParts = 'Pflichtfeld'
+  if (!formData.value.recentIssues) e.recentIssues = 'Pflichtfeld'
+
+  errors.value = e
+  return Object.keys(e).length === 0
+}
+
 const handleSubmit = () => {
-  if (!isFormValid.value) return
+  if (!validate()) return
   window.open(buildPrefillUrl(), '_blank', 'noopener,noreferrer')
   step.value = 'opened'
 }
@@ -104,6 +136,7 @@ const closeDialog = () => {
   setTimeout(() => {
     step.value = 'input'
     formData.value = { ...emptyForm }
+    errors.value = {}
   }, 300)
 }
 </script>
@@ -116,9 +149,9 @@ const closeDialog = () => {
     :closable="true"
     :style="{ width: '95vw', maxWidth: '640px' }"
     :pt="{
-      root: { class: 'rounded-2xl' },
-      header: { class: 'bg-forest-green text-white rounded-t-2xl' },
-      content: { class: 'p-6 max-h-[80vh] overflow-y-auto' },
+      root: { class: 'rounded-2xl overflow-hidden' },
+      header: { class: 'bg-rex-dark text-white p-5' },
+      content: { class: 'p-6 max-h-[80vh] overflow-y-auto bg-white' },
     }"
   >
     <template #header>
@@ -143,14 +176,14 @@ const closeDialog = () => {
         </svg>
       </div>
       <h3 class="text-2xl font-display font-bold text-forest-green">{{ t.modal.openedTitle }}</h3>
-      <p class="text-tech-slate/80 text-sm leading-relaxed max-w-sm mx-auto">{{ t.modal.openedText }}</p>
-      <p class="text-xs text-tech-slate/60">
+      <p class="text-gray-600 text-sm leading-relaxed max-w-sm mx-auto">{{ t.modal.openedText }}</p>
+      <p class="text-xs text-gray-500">
         {{ t.modal.openedFallback }}
         <a
           :href="externalFormUrl"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-industrial-amber font-semibold underline hover:text-amber-600 ml-1"
+          class="text-rex-orange font-semibold underline hover:text-rex-orange-dark ml-1"
         >{{ t.modal.openedFallbackLink }}</a>
       </p>
       <Button
@@ -165,13 +198,13 @@ const closeDialog = () => {
 
       <!-- Section: Contact -->
       <fieldset>
-        <legend class="text-base font-display font-bold text-forest-green mb-3 border-b border-gray-200 pb-1">
+        <legend class="text-base font-display font-bold text-rex-orange mb-3 border-b border-gray-200 pb-1">
           {{ t.modal.sectionContact }}
         </legend>
         <div class="space-y-3">
           <!-- Name -->
           <div>
-            <label for="gw-name" class="block text-sm font-semibold text-tech-slate mb-1">
+            <label for="gw-name" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.name }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </label>
             <InputText
@@ -180,12 +213,14 @@ const closeDialog = () => {
               autocomplete="name"
               class="w-full"
               :placeholder="t.modal.namePlaceholder"
+              :invalid="!!errors.name"
               required
             />
+            <small v-if="errors.name" class="text-red-500 text-xs mt-1 block">{{ errors.name }}</small>
           </div>
           <!-- Email -->
           <div>
-            <label for="gw-email" class="block text-sm font-semibold text-tech-slate mb-1">
+            <label for="gw-email" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.email }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </label>
             <InputText
@@ -195,12 +230,14 @@ const closeDialog = () => {
               autocomplete="email"
               class="w-full"
               :placeholder="t.modal.emailPlaceholder"
+              :invalid="!!errors.email"
               required
             />
+            <small v-if="errors.email" class="text-red-500 text-xs mt-1 block">{{ errors.email }}</small>
           </div>
           <!-- Phone -->
           <div>
-            <label for="gw-phone" class="block text-sm font-semibold text-tech-slate mb-1">
+            <label for="gw-phone" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.phone }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </label>
             <InputText
@@ -210,21 +247,23 @@ const closeDialog = () => {
               autocomplete="tel"
               class="w-full"
               :placeholder="t.modal.phonePlaceholder"
+              :invalid="!!errors.phone"
               required
             />
+            <small v-if="errors.phone" class="text-red-500 text-xs mt-1 block">{{ errors.phone }}</small>
           </div>
         </div>
       </fieldset>
 
       <!-- Section: Machine -->
       <fieldset>
-        <legend class="text-base font-display font-bold text-forest-green mb-3 border-b border-gray-200 pb-1">
+        <legend class="text-base font-display font-bold text-rex-orange mb-3 border-b border-gray-200 pb-1">
           {{ t.modal.sectionMachine }}
         </legend>
         <div class="space-y-3">
           <!-- Machine Type -->
           <div>
-            <label for="gw-machine" class="block text-sm font-semibold text-tech-slate mb-1">
+            <label for="gw-machine" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.machineType }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </label>
             <InputText
@@ -232,12 +271,14 @@ const closeDialog = () => {
               v-model="formData.machineType"
               class="w-full"
               :placeholder="t.modal.machineTypePlaceholder"
+              :invalid="!!errors.machineType"
               required
             />
+            <small v-if="errors.machineType" class="text-red-500 text-xs mt-1 block">{{ errors.machineType }}</small>
           </div>
           <!-- Machine Age -->
           <div>
-            <label for="gw-age" class="block text-sm font-semibold text-tech-slate mb-1">
+            <label for="gw-age" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.machineAge }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </label>
             <Select
@@ -247,87 +288,92 @@ const closeDialog = () => {
               optionLabel="label"
               optionValue="value"
               class="w-full"
+              :invalid="!!errors.machineAge"
               required
             />
+            <small v-if="errors.machineAge" class="text-red-500 text-xs mt-1 block">{{ errors.machineAge }}</small>
           </div>
           <!-- Service Partner -->
           <div>
-            <span class="block text-sm font-semibold text-tech-slate mb-1">
+            <span class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.servicePartner }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </span>
             <div class="flex gap-4">
               <label
                 v-for="opt in t.modal.servicePartnerOptions"
                 :key="opt.value"
-                class="flex items-center gap-2 cursor-pointer text-sm text-tech-slate"
+                class="flex items-center gap-2 cursor-pointer text-sm text-gray-800"
               >
                 <input
                   type="radio"
                   name="gw-service"
                   :value="opt.value"
                   v-model="formData.servicePartner"
-                  class="accent-forest-green"
+                  class="accent-rex-orange"
                 />
                 {{ opt.label }}
               </label>
             </div>
+            <small v-if="errors.servicePartner" class="text-red-500 text-xs mt-1 block">{{ errors.servicePartner }}</small>
           </div>
           <!-- Spare Parts -->
           <div>
-            <span class="block text-sm font-semibold text-tech-slate mb-1">
+            <span class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.spareParts }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </span>
             <div class="flex gap-4">
               <label
                 v-for="opt in t.modal.sparePartsOptions"
                 :key="opt.value"
-                class="flex items-center gap-2 cursor-pointer text-sm text-tech-slate"
+                class="flex items-center gap-2 cursor-pointer text-sm text-gray-800"
               >
                 <input
                   type="radio"
                   name="gw-parts"
                   :value="opt.value"
                   v-model="formData.spareParts"
-                  class="accent-forest-green"
+                  class="accent-rex-orange"
                 />
                 {{ opt.label }}
               </label>
             </div>
+            <small v-if="errors.spareParts" class="text-red-500 text-xs mt-1 block">{{ errors.spareParts }}</small>
           </div>
           <!-- Recent Issues -->
           <div>
-            <span class="block text-sm font-semibold text-tech-slate mb-1">
+            <span class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.recentIssues }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
             </span>
             <div class="flex gap-4">
               <label
                 v-for="opt in t.modal.recentIssuesOptions"
                 :key="opt.value"
-                class="flex items-center gap-2 cursor-pointer text-sm text-tech-slate"
+                class="flex items-center gap-2 cursor-pointer text-sm text-gray-800"
               >
                 <input
                   type="radio"
                   name="gw-issues"
                   :value="opt.value"
                   v-model="formData.recentIssues"
-                  class="accent-forest-green"
+                  class="accent-rex-orange"
                 />
                 {{ opt.label }}
               </label>
             </div>
+            <small v-if="errors.recentIssues" class="text-red-500 text-xs mt-1 block">{{ errors.recentIssues }}</small>
           </div>
         </div>
       </fieldset>
 
       <!-- Section: Optional -->
       <fieldset>
-        <legend class="text-base font-display font-bold text-tech-slate/70 mb-3 border-b border-gray-200 pb-1">
+        <legend class="text-base font-display font-bold text-gray-500 mb-3 border-b border-gray-200 pb-1">
           {{ t.modal.sectionOptional }}
         </legend>
         <div class="space-y-3">
           <!-- Company -->
           <div>
-            <label for="gw-company" class="block text-sm font-semibold text-tech-slate mb-1">
+            <label for="gw-company" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.companyName }}
             </label>
             <InputText
@@ -340,7 +386,7 @@ const closeDialog = () => {
           </div>
           <!-- Notes -->
           <div>
-            <label for="gw-notes" class="block text-sm font-semibold text-tech-slate mb-1">
+            <label for="gw-notes" class="block text-sm font-semibold text-gray-800 mb-1">
               {{ t.modal.notes }}
             </label>
             <Textarea
@@ -362,7 +408,7 @@ const closeDialog = () => {
           :label="t.modal.submit"
           class="w-full btn-primary py-4 text-base font-bold disabled:opacity-50 disabled:cursor-not-allowed"
         />
-        <p class="text-xs text-tech-slate/60 text-center mt-3">{{ t.modal.privacyNote }}</p>
+        <p class="text-xs text-gray-500 text-center mt-3">{{ t.modal.privacyNote }}</p>
       </div>
     </form>
   </Dialog>

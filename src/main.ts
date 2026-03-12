@@ -27,7 +27,7 @@ export const createApp = ViteSSG(
         preset: Aura,
         options: {
           prefix: 'p',
-          darkModeSelector: 'system',
+          darkModeSelector: false,
           cssLayer: false
         }
       },

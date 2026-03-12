@@ -88,19 +88,19 @@ const scrollToContent = () => {
       <div
         class="absolute inset-0"
         :style="{
-          backgroundImage: `url('${baseUrl}images/machine-before.jpg')`,
+          backgroundImage: `url('${baseUrl}images/machine-before-wide-2.jpg')`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center center',
+          backgroundPosition: 'right center',
         }"
         role="img"
         :aria-label="t.hero.imageAltBefore"
       />
       <div
-        class="absolute inset-0"
+        class="absolute inset-0  "
         :style="{
-          backgroundImage: `url('${baseUrl}images/machine-after.jpg')`,
+          backgroundImage: `url('${baseUrl}images/machine-after-wide-2.jpg')`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center center',
+          backgroundPosition: 'right center',
           clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
         }"
         role="img"
@@ -110,13 +110,13 @@ const scrollToContent = () => {
       <!-- ── INTRO VIDEO: plays on load, crossfades to static JPG on scroll ── -->
       <video
         ref="introVideoRef"
-        class="absolute inset-0 z-5 w-full h-full object-cover will-change-[opacity,filter]"
+        class="absolute inset-0 z-5 w-full h-full object-cover object-right will-change-[opacity,filter]"
         :style="{
           opacity: videoIntroOpacity,
           filter: `blur(${videoIntroBlur}px)`,
           transition: 'opacity 0.8s ease, filter 0.8s ease',
         }"
-        :src="`${baseUrl}images/brokenPopcornMachine.mp4`"
+        :src="`${baseUrl}images/brokenPopcornMachine_wide-2.mp4`"
         autoplay
         loop
         muted
