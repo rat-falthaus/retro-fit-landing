@@ -105,7 +105,7 @@ onUnmounted(() => {
       <HeroSection @open-claim-modal="openClaimModal" />
 
       <!-- Postcard / Bridge section -->
-      <PostcardBridge />
+      <PostcardBridge @open-claim-modal="openClaimModal" />
 
       <!-- Mobile social proof stats strip -->
       <SocialProofStrip />

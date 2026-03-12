@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { t } from '@/i18n/de'
+
+const emit = defineEmits<{ (e: 'openClaimModal'): void }>()
 </script>
 
 <template>
@@ -66,15 +68,14 @@ import { t } from '@/i18n/de'
             </p>
             <p class="text-xs sm:text-sm mt-1" style="color: #c8baad">{{ t.footer.voucherExpiry }}</p>
           </div>
-          <a
-            :href="t.footer.surveyUrl"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             class="btn-primary text-sm w-full sm:w-auto text-center group"
+            @click="emit('openClaimModal')"
           >
             {{ t.footer.voucherCta }}
             <span class="inline-block ml-1 transition-transform group-hover:translate-x-1">→</span>
-          </a>
+          </button>
         </div>
       </div>
     </div>
