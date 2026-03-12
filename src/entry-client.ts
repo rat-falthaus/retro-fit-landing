@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createHead } from '@vueuse/head'
 import PrimeVue from 'primevue/config'
+import ToastService from 'primevue/toastservice'
 import Aura from '@primeuix/themes/aura'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -26,6 +27,7 @@ app.use(PrimeVue, {
   },
   ripple: true
 })
+app.use(ToastService)
 
 app.mount('#app')
 

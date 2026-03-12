@@ -17,6 +17,18 @@ const onScroll = () => {
   const scrolled   = -sectionRef.value.getBoundingClientRect().top
   const scrollable = sectionRef.value.offsetHeight - window.innerHeight
   scrollProgress.value = Math.max(0, Math.min(1, scrolled / scrollable))
+
+  // First manual scroll triggers a cinematic glide to the full retrofit frame.
+  if (
+    scrollProgress.value > 0.015 &&
+    scrollProgress.value < 0.98 &&
+    !ctaFlowInFlight.value &&
+    !revealFlowInFlight.value &&
+    !manualRevealTriggered.value
+  ) {
+    manualRevealTriggered.value = true
+    void runRevealOnlyFlow()
+  }
 }
 
 onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
@@ -61,19 +73,71 @@ watch(videoIntroOpacity, (opacity) => {
   else if (opacity > 0 && video.paused) video.play().catch(() => {})
 })
 
-// CTA: scroll past hero, then open claim modal
-const handleCtaClick = () => {
-  scrollToContent()
-  setTimeout(() => emit('openClaimModal'), 600)
+// CTA/scroll choreography state
+const ctaFlowInFlight = ref(false)
+const revealFlowInFlight = ref(false)
+const manualRevealTriggered = ref(false)
+
+const sleep = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms))
+
+const getRevealTop = (): number => {
+  if (!sectionRef.value) return window.scrollY
+  const rawTarget = sectionRef.value.offsetTop + sectionRef.value.offsetHeight - window.innerHeight
+  const maxScrollable = document.documentElement.scrollHeight - window.innerHeight
+  return Math.max(0, Math.min(rawTarget, maxScrollable))
 }
 
-// Scroll past the entire hero section to the content below
-const scrollToContent = () => {
-  if (!sectionRef.value) return
-  window.scrollTo({
-    top: sectionRef.value.offsetTop + sectionRef.value.offsetHeight,
-    behavior: 'smooth',
+const getContentTop = (): number => {
+  if (!sectionRef.value) return window.scrollY
+  const rawTarget = sectionRef.value.offsetTop + sectionRef.value.offsetHeight
+  const maxScrollable = document.documentElement.scrollHeight - window.innerHeight
+  return Math.max(0, Math.min(rawTarget, maxScrollable))
+}
+
+const scrollToTarget = (targetTop: number, maxWaitMs = 2400): Promise<void> =>
+  new Promise((resolve) => {
+    window.scrollTo({ top: targetTop, behavior: 'smooth' })
+
+    const startedAt = performance.now()
+
+    const check = () => {
+      const closeEnough = Math.abs(window.scrollY - targetTop) < 24
+      const timedOut = performance.now() - startedAt >= maxWaitMs
+      if (closeEnough || timedOut) {
+        resolve()
+        return
+      }
+      requestAnimationFrame(check)
+    }
+
+    requestAnimationFrame(check)
   })
+
+const runRevealOnlyFlow = async () => {
+  if (revealFlowInFlight.value || ctaFlowInFlight.value) return
+  revealFlowInFlight.value = true
+  await scrollToTarget(getRevealTop())
+  revealFlowInFlight.value = false
+}
+
+const handleCtaClick = () => {
+  if (ctaFlowInFlight.value) return
+
+  void (async () => {
+    ctaFlowInFlight.value = true
+    manualRevealTriggered.value = true
+
+    // Step 1: bring the retrofit state fully into view and hold it briefly.
+    await scrollToTarget(getRevealTop())
+    await sleep(900)
+
+    // Step 2: continue below hero, then open the form dialog.
+    await scrollToTarget(getContentTop())
+    emit('openClaimModal')
+
+    ctaFlowInFlight.value = false
+  })()
 }
 </script>
 
