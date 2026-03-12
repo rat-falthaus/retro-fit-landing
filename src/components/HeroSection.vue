@@ -146,25 +146,19 @@ const handleCtaClick = () => {
   <section ref="sectionRef" class="relative select-none" style="height: 150vh">
 
     <!-- ── Sticky viewport: stays in view while scrolling through 300vh ── -->
-    <div class="sticky top-0 h-screen overflow-hidden">
+    <div class="sticky top-0 hero-viewport overflow-hidden">
 
       <!-- ── STATIC BEFORE / AFTER IMAGES (always visible, slider-driven) ── -->
       <div
-        class="absolute inset-0 z-0"
-        :style="{
-          backgroundImage: `url('${baseUrl}images/machine-before.jpg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'right center',
-        }"
+        class="absolute inset-0 z-0 bg-cover bg-center sm:bg-right"
+        :style="{ backgroundImage: `url('${baseUrl}images/machine-before.jpg')` }"
         role="img"
         :aria-label="t.hero.imageAltBefore"
       />
       <div
-        class="absolute inset-0 z-20"
+        class="absolute inset-0 z-20 bg-cover bg-center sm:bg-right"
         :style="{
           backgroundImage: `url('${baseUrl}images/machine-after.jpg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'right center',
           clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`,
         }"
         role="img"
@@ -174,7 +168,7 @@ const handleCtaClick = () => {
       <!-- ── INTRO VIDEO: plays on load, crossfades to static JPG on scroll ── -->
       <video
         ref="introVideoRef"
-        class="absolute inset-0 z-10 w-full h-full object-cover object-right will-change-[opacity,filter]"
+        class="absolute inset-0 z-10 w-full h-full object-cover object-center sm:object-right will-change-[opacity,filter]"
         :style="{
           opacity: videoIntroOpacity,
           filter: `blur(${videoIntroBlur}px)`,
@@ -214,14 +208,14 @@ const handleCtaClick = () => {
 
       <!-- Corner labels — fade in after scroll starts -->
       <span
-        class="absolute z-20 bg-black/40 text-white/80 text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm pointer-events-none transition-opacity duration-500"
+        class="hidden sm:block absolute z-20 bg-black/40 text-white/80 text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm pointer-events-none transition-opacity duration-500"
         style="bottom: 18%; left: 1.5rem"
         :style="{ opacity: scrollProgress > 0.02 ? 1 : 0 }"
       >
         {{ t.hero.sliderBefore }}
       </span>
       <span
-        class="absolute z-20 bg-black/40 text-white/80 text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm pointer-events-none transition-opacity duration-500"
+        class="hidden sm:block absolute z-20 bg-black/40 text-white/80 text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm pointer-events-none transition-opacity duration-500"
         style="bottom: 18%; right: 1.5rem"
         :style="{ opacity: scrollProgress > 0.02 ? 1 : 0 }"
       >
@@ -230,8 +224,7 @@ const handleCtaClick = () => {
 
       <!-- Gradient overlay – Rex-AT dark charcoal from left, transparent right -->
       <div
-        class="absolute inset-0 z-10 pointer-events-none"
-        style="background: linear-gradient(to right, rgba(49,49,49,0.88) 0%, rgba(49,49,49,0.65) 35%, rgba(49,49,49,0.15) 65%, rgba(49,49,49,0) 100%)"
+        class="absolute inset-0 z-10 pointer-events-none hero-gradient-overlay"
       />
 
       <!-- Text content — fades out as user scrolls into the reveal zone -->
@@ -243,7 +236,7 @@ const handleCtaClick = () => {
           <div class="max-w-2xl">
 
             <h1
-              class="text-5xl md:text-6xl xl:text-7xl font-display font-bold text-white mb-6 leading-tight"
+              class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-white mb-4 sm:mb-6 leading-tight"
               data-aos="fade-up"
             >
               {{ t.hero.headline }}<br />
@@ -282,7 +275,7 @@ const handleCtaClick = () => {
 
             <!-- Trust badges -->
             <ul
-              class="mt-10 flex flex-col sm:flex-row flex-wrap gap-4 text-white/85"
+              class="mt-6 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 text-white/85"
               data-aos="fade-up"
               data-aos-delay="300"
             >
@@ -351,3 +344,28 @@ const handleCtaClick = () => {
     <slot></slot>
   </section>
 </template>
+
+<style scoped>
+/* Desktop: left-to-right gradient (text on left, machine revealed on right) */
+.hero-gradient-overlay {
+  background: linear-gradient(
+    to right,
+    rgba(49,49,49,0.88) 0%,
+    rgba(49,49,49,0.65) 35%,
+    rgba(49,49,49,0.15) 65%,
+    rgba(49,49,49,0) 100%
+  );
+}
+
+/* Mobile: top-to-bottom gradient, lighter overall so center-cropped machine is still visible */
+@media (max-width: 639px) {
+  .hero-gradient-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(49,49,49,0.82) 0%,
+      rgba(49,49,49,0.55) 55%,
+      rgba(49,49,49,0.20) 100%
+    );
+  }
+}
+</style>

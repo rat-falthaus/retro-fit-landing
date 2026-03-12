@@ -44,18 +44,18 @@
 }
 
 @layer components {
-  /* Primary CTA – Rex orange */
+  /* Primary CTA – Rex orange (mobile-first responsive sizing) */
   .btn-primary {
-    @apply font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 inline-block text-white;
+    @apply font-semibold px-5 py-3 text-sm rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 inline-block text-white sm:px-8 sm:py-4 sm:text-base;
     background-color: #EB6734;
   }
   .btn-primary:hover {
     background-color: #C64A32;
   }
 
-  /* Secondary – Rex dark charcoal */
+  /* Secondary – Rex dark charcoal (mobile-first responsive sizing) */
   .btn-secondary {
-    @apply font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 inline-block text-white;
+    @apply font-semibold px-5 py-3 text-sm rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 inline-block text-white sm:px-8 sm:py-4 sm:text-base;
     background-color: #313131;
   }
   .btn-secondary:hover {
@@ -64,5 +64,25 @@
 
   .section-container {
     @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* 100dvh for mobile Safari (dynamic viewport height — address bar aware) */
+  .hero-viewport {
+    height: 100dvh;
+  }
+  @supports not (height: 100dvh) {
+    .hero-viewport {
+      height: 100vh;
+    }
+  }
+
+  /* Minimum 48px touch targets (WCAG 2.5.5) */
+  .touch-target {
+    @apply min-h-12 min-w-12 flex items-center justify-center;
+  }
+
+  /* Safe-area padding for notched devices */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }

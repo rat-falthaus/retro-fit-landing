@@ -114,6 +114,13 @@ export const t = {
     validationToastDetail: 'Einige erforderliche Felder sind noch nicht vollständig ausgefüllt.',
   },
 
+  inlineForm: {
+    title: 'Jetzt Retrofit-Check starten',
+    subtitle: 'Füllen Sie das Formular aus – unsere Experten melden sich bei Ihnen.',
+    successTitle: 'Formular wird übermittelt!',
+    successText: 'Ihre Daten werden direkt an Rex-AT übertragen. Wir melden uns schnellstmöglich. Vielen Dank!',
+  },
+
   footer: {
     brandName: 'Retrofit Thüringen',
     description:
@@ -166,6 +173,11 @@ export const t = {
   },
   nav: {
     homeUrl: 'https://rex-at.de/willkommen.html',
+    menuToggle: 'Menü öffnen',
+    menuClose: 'Menü schließen',
+    retrofitCheck: 'Retrofit-Check starten',
+    about: 'Über uns',
+    contact: 'Kontakt',
   },
 } as const
 

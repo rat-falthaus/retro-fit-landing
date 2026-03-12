@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useHead } from '@vueuse/head';
 import { t } from '@/i18n/de';
 import Toast from 'primevue/toast';
 import HeroSection from './components/HeroSection.vue';
 import PostcardBridge from './components/PostcardBridge.vue';
 import ClaimCheckModal from './components/ClaimCheckModal.vue';
+import InlineClaimSection from './components/InlineClaimSection.vue';
 import FooterSection from './components/FooterSection.vue';
 import NavigationHeader from './components/NavigationHeader.vue';
 
@@ -68,20 +69,35 @@ useHead({
 });
 
 const isModalVisible = ref(false);
+const isMobile = ref(false);
 
 const openClaimModal = () => {
-  isModalVisible.value = true;
+  if (isMobile.value) {
+    document.getElementById('inline-claim')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    isModalVisible.value = true;
+  }
+};
+
+const updateMobile = () => {
+  isMobile.value = window.innerWidth < 768;
 };
 
 onMounted(() => {
   // Smooth scroll behavior
   document.documentElement.style.scrollBehavior = 'smooth';
+  updateMobile();
+  window.addEventListener('resize', updateMobile, { passive: true });
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateMobile);
 });
 </script>
 
 <template>
   <div class="app">
-    <NavigationHeader />
+    <NavigationHeader @open-claim-modal="openClaimModal" />
     <!-- Main Content -->
     <main>
       <!-- Hero Section (300vh sticky scroll reveal) -->
@@ -89,6 +105,9 @@ onMounted(() => {
 
       <!-- Postcard / Bridge section -->
       <PostcardBridge />
+
+      <!-- Mobile inline form (md:hidden — desktop uses ClaimCheckModal Dialog) -->
+      <InlineClaimSection />
 
       <!-- Footer -->
       <FooterSection />

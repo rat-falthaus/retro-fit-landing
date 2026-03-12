@@ -4,11 +4,11 @@ const currentYear = new Date().getFullYear()
 </script>
 
 <template>
-  <footer class="pt-16 pb-8" style="background-color: #313131; color: #f0ece8">
+  <footer class="pt-10 sm:pt-16 pb-8" style="background-color: #313131; color: #f0ece8">
     <div class="section-container">
 
       <!-- Brand + Contact -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10 mb-10 sm:mb-12">
         <!-- Brand -->
         <div class="md:col-span-1">
           <div class="flex items-center gap-3 mb-4">
@@ -21,12 +21,12 @@ const currentYear = new Date().getFullYear()
             <p>{{ t.footer.contact.street }}</p>
             <p>{{ t.footer.contact.city }}</p>
             <p>
-              <a :href="`tel:${t.footer.contact.phone}`" class="transition-colors hover:text-white" style="color: #EB6734">
+              <a :href="`tel:${t.footer.contact.phone}`" class="block py-2 transition-colors hover:text-white" style="color: #EB6734">
                 Tel: {{ t.footer.contact.phone }}
               </a>
             </p>
             <p>
-              <a :href="`mailto:${t.footer.contact.email}`" class="transition-colors hover:text-white" style="color: #EB6734">
+              <a :href="`mailto:${t.footer.contact.email}`" class="block py-2 transition-colors hover:text-white" style="color: #EB6734">
                 {{ t.footer.contact.email }}
               </a>
             </p>
@@ -38,7 +38,7 @@ const currentYear = new Date().getFullYear()
           <h3 class="font-display font-bold text-base mb-4 uppercase tracking-wider" style="color: #EB6734">{{ t.footer.sections.legal }}</h3>
           <ul class="space-y-2">
             <li v-for="link in t.footer.links.legal" :key="link.label">
-              <a :href="link.href" class="text-sm transition-colors hover:text-white" style="color: #c8baad">
+              <a :href="link.href" class="block py-2 text-sm transition-colors hover:text-white" style="color: #c8baad">
                 {{ link.label }}
               </a>
             </li>
@@ -55,7 +55,7 @@ const currentYear = new Date().getFullYear()
               class="flex items-center gap-2 text-sm"
               style="color: #c8baad"
             >
-              <span class="w-1.5 h-1.5 rounded-full inline-block flex-shrink-0" style="background-color: #EB6734" />
+              <span class="w-1.5 h-1.5 rounded-full inline-block shrink-0" style="background-color: #EB6734" />
               {{ cert }}
             </li>
           </ul>
@@ -64,13 +64,13 @@ const currentYear = new Date().getFullYear()
 
       <!-- Disclaimer -->
       <div class="border-t pt-6 mb-6" style="border-color: rgba(200,186,173,0.2)">
-        <p class="text-xs text-center leading-relaxed" style="color: #586569">{{ t.footer.disclaimer }}</p>
+        <p class="text-xs sm:text-sm text-center leading-relaxed" style="color: #586569">{{ t.footer.disclaimer }}</p>
       </div>
 
       <!-- Bottom bar -->
       <div class="border-t pt-6 flex flex-col md:flex-row justify-between items-center gap-3" style="border-color: rgba(200,186,173,0.2)">
-        <p class="text-xs" style="color: #586569">{{ t.footer.copyright(currentYear) }}</p>
-        <p class="text-xs" style="color: #586569">{{ t.footer.madeWith }}</p>
+        <p class="text-xs sm:text-sm" style="color: #586569">{{ t.footer.copyright(currentYear) }}</p>
+        <p class="text-xs sm:text-sm" style="color: #586569">{{ t.footer.madeWith }}</p>
       </div>
 
     </div>

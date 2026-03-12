@@ -2,10 +2,10 @@
   "version": "2",
   "updatedAt": "2026-03-12T10:30:00.000Z",
   "counters": {
-    "nextTaskId": 7,
-    "nextPlanId": 3
+    "nextTaskId": 17,
+    "nextPlanId": 4
   },
-  "activePlanId": null,
+  "activePlanId": "PLAN-003",
   "notes": "retro-fit-landing — Vue 3.5 / TypeScript / Vite 7 / Tailwind v4 / PrimeVue 4.5 SSG landing page. Goal: convert farmers to claim a free €2,000 compatibility check. Build: npm run build (client → server → prerender). Type-check: vue-tsc --noEmit. All strings in src/i18n/de.ts. Brand tokens: forest-green, industrial-amber, tech-slate.",
   "plans": {
     "PLAN-001": {
@@ -23,6 +23,13 @@
       "createdAt": "2026-03-12T10:00:00.000Z",
       "completedAt": "2026-03-12T10:30:00.000Z",
       "taskIds": ["TASK-4", "TASK-5", "TASK-6"]
+    },
+    "PLAN-003": {
+      "id": "PLAN-003",
+      "goal": "100% mobile-perfect UI: inline form on mobile, responsive hero, mobile nav, touch-friendly components, safe viewport handling",
+      "status": "active",
+      "createdAt": "2026-03-12T18:00:00.000Z",
+      "taskIds": ["TASK-7", "TASK-8", "TASK-9", "TASK-10", "TASK-11", "TASK-12", "TASK-13", "TASK-14", "TASK-15", "TASK-16"]
     }
   },
   "tasks": {
@@ -82,6 +89,86 @@
       "dependencies": [],
       "createdAt": "2026-03-12T10:00:00.000Z",
       "completedAt": "2026-03-12T10:15:00.000Z"
+    },
+    "TASK-7": {
+      "id": "TASK-7",
+      "title": "Global mobile foundations: style.css + index.html + Tailwind config",
+      "role": "styling",
+      "planId": "PLAN-003",
+      "status": "todo",
+      "dependencies": []
+    },
+    "TASK-8": {
+      "id": "TASK-8",
+      "title": "HeroSection mobile: dvh, responsive typography, gradient, reduced scroll height",
+      "role": "frontend",
+      "planId": "PLAN-003",
+      "status": "todo",
+      "dependencies": ["TASK-7"]
+    },
+    "TASK-9": {
+      "id": "TASK-9",
+      "title": "NavigationHeader mobile: hamburger menu + responsive sizing",
+      "role": "frontend",
+      "planId": "PLAN-003",
+      "status": "todo",
+      "dependencies": ["TASK-7"]
+    },
+    "TASK-10": {
+      "id": "TASK-10",
+      "title": "Extract ClaimCheckForm.vue reusable form component",
+      "role": "frontend",
+      "planId": "PLAN-003",
+      "status": "todo",
+      "dependencies": ["TASK-7"]
+    },
+    "TASK-11": {
+      "id": "TASK-11",
+      "title": "ClaimCheckModal desktop-only + new InlineClaimSection for mobile",
+      "role": "frontend",
+      "planId": "PLAN-003",
+      "status": "todo",
+      "dependencies": ["TASK-10"]
+    },
+    "TASK-12": {
+      "id": "TASK-12",
+      "title": "App.vue responsive modal routing: dialog on md+, inline on mobile",
+      "role": "frontend",
+      "planId": "PLAN-003",
+      "status": "todo",
+      "dependencies": ["TASK-11"]
+    },
+    "TASK-13": {
+      "id": "TASK-13",
+      "title": "PostcardBridge mobile: responsive padding, text, button sizing",
+      "role": "frontend",
+      "planId": "PLAN-003",
+      "status": "todo",
+      "dependencies": ["TASK-7"]
+    },
+    "TASK-14": {
+      "id": "TASK-14",
+      "title": "FooterSection mobile: stacking, touch targets, text readability",
+      "role": "frontend",
+      "planId": "PLAN-003",
+      "status": "todo",
+      "dependencies": ["TASK-7"]
+    },
+    "TASK-15": {
+      "id": "TASK-15",
+      "title": "i18n: add mobile nav and inline form section strings",
+      "role": "i18n",
+      "planId": "PLAN-003",
+      "status": "todo",
+      "dependencies": []
+    },
+    "TASK-16": {
+      "id": "TASK-16",
+      "title": "QA: full mobile build + type-check + visual audit",
+      "role": "qa",
+      "planId": "PLAN-003",
+      "status": "todo",
+      "dependencies": ["TASK-8", "TASK-9", "TASK-11", "TASK-12", "TASK-13", "TASK-14", "TASK-15"]
     }
   }
 }

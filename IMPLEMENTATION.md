@@ -158,6 +158,76 @@ npm run preview     # Preview production build
 - ✅ Responsive design: Mobile-first approach
 - ✅ Browser compatibility: Modern browsers
 - ✅ Performance: Bundle size optimized
+
+---
+
+## PLAN-002 — Form Integration: Gateway Modal → rex-at.de
+
+### Problem
+`rex-at.de/landingpage-retrofit.html` has two blocking constraints:
+- `X-Frame-Options: SAMEORIGIN` → iframe embedding is blocked from the GitHub Pages domain
+- Contao CMS POST form with CSRF token → URL GET params don't prefill natively without a bridge script
+
+### Solution: URL-Param Bridge with Auto-Submit
+
+**Flow:**
+1. User clicks CTA → `ClaimCheckModal` opens (full gateway form: ALL required Contao fields)
+2. User fills all required fields + optional ones → clicks "Retrofit-Check absenden →"
+3. Landing page builds URL with short param keys: `?name=...&email=...&tel=...&machine=...&age=...&service=...&parts=...&issues=...`
+4. `window.open(url, '_blank', 'noopener,noreferrer')` opens rex-at.de in a new tab
+5. Modal transitions to "opened" confirmation state with a manual fallback link
+6. On rex-at.de: **`scripts/rex-at-form-bridge.js`** runs, reads params, fills ALL Contao fields
+7. **If all required fields are present**: shows a green banner and **auto-submits the form after 1.5s**
+
+### Contao Field Mapping (Complete)
+
+| URL param (short) | Contao input `name`        | Type     | Required |
+|--------------------|---------------------------|----------|----------|
+| `name`             | `Name_Ansprechpartner`    | text     | ✅       |
+| `email`            | `Email`                   | email    | ✅       |
+| `tel`              | `Telefon`                 | tel      | ✅       |
+| `machine`          | `Anlagename_Anlage_Typ`   | text     | ✅       |
+| `age`              | `Alter_Anlage`            | select   | ✅       |
+| `service`          | `Service_Support_Partner`  | radio    | ✅       |
+| `parts`            | `Ersatzteile`             | radio    | ✅       |
+| `issues`           | `Stoerungen_letzte_2_Jahre`| radio    | ✅       |
+| `company`          | `Name_Firma`              | text     | ❌       |
+| `notes`            | `Zusatzinformationen`     | textarea | ❌       |
+
+### Select / Radio Value Options
+
+**`age` (Alter_Anlage):** `juenger als 10` | `10-20` | `aelter als 20`
+**`service` (Service_Support_Partner):** `ja` | `nein`
+**`parts` (Ersatzteile):** `ja` | `nein` | `unbekannt`
+**`issues` (Stoerungen_letzte_2_Jahre):** `ja` | `nein`
+
+### Auto-Submit Behavior
+
+When the bridge script detects all 8 required params are present and successfully prefilled:
+1. Green banner appears above the form: *"Ihre Daten aus dem Retrofit-Gutschein wurden übertragen – Formular wird automatisch abgesendet …"*
+2. After 1.5s delay, the form's submit button is clicked programmatically
+3. If the submit button isn't found, `form.submit()` is called as fallback
+
+If any required field is missing, the form is prefilled but NOT auto-submitted — the user completes it manually.
+
+### Installing the Bridge Script on rex-at.de
+
+1. Copy the contents of `scripts/rex-at-form-bridge.js`
+2. In the **Contao backend**: open *Layouts* → select the layout used by `landingpage-retrofit.html`
+3. Paste the script into the **"Custom JavaScript"** / `<head>` section wrapped in `<script defer>...</script>`
+4. Alternatively: upload `rex-at-form-bridge.js` to `files/` and reference it with `<script src="..." defer></script>`
+5. Test with all required fields:
+   `https://rex-at.de/landingpage-retrofit.html?name=Test+User&email=test%40test.de&tel=01234567890&machine=Testanlage&age=10-20&service=ja&parts=nein&issues=ja`
+   → All fields prefilled, banner shown, auto-submit after 1.5s
+
+### Files Changed (PLAN-002)
+
+| File | Change |
+|---|---|
+| `src/i18n/de.ts` | `t.modal` keys: full Contao survey fields (3 sections: contact, machine, optional) |
+| `src/components/ClaimCheckModal.vue` | Fully rewritten: multi-section form + new-tab redirect + opened state |
+| `scripts/rex-at-form-bridge.js` | All field types (text/select/radio/textarea) + auto-submit |
+| `IMPLEMENTATION.md` | This section updated |
 - ✅ Accessibility: Semantic HTML + ARIA
 
 ## 📦 Dependencies
