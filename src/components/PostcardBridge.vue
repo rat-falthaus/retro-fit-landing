@@ -3,7 +3,9 @@ import { t } from '@/i18n/de'
 </script>
 
 <template>
-  <section class="py-8 sm:py-20" style="background-color: #f0ece8">
+  <!-- Mobile scroll-dwell wrapper: extra height keeps section sticky so user reads it -->
+  <div class="postcard-dwell">
+    <section class="sticky top-14 sm:static sm:top-auto py-8 sm:py-20" style="background-color: #f0ece8">
     <div class="section-container">
       <div
         class="max-w-4xl mx-auto text-center"
@@ -77,4 +79,17 @@ import { t } from '@/i18n/de'
       </div>
     </div>
   </section>
+  </div>
 </template>
+
+<style scoped>
+/* Mobile: tall wrapper creates scroll-through dwell zone */
+.postcard-dwell {
+  background-color: #f0ece8;
+}
+@media (max-width: 639px) {
+  .postcard-dwell {
+    min-height: 150vh;
+  }
+}
+</style>
