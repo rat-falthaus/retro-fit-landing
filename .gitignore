@@ -4,3 +4,6 @@ dist
 node_modules
 
 
+planning
+*.psd
+.DS_Store

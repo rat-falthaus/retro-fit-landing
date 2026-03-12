@@ -53,7 +53,7 @@ all background images and videos to 404 in production.
 
 5. Fix the **after-video** `<video src>` (currently line ~126) — same change:
    ```html
-   :src="`${baseUrl}images/Video_Edit_Remove_Animals_Update_Machine.mp4`"
+   :src="`${baseUrl}images/brokenPopcornMachine.mp4`"
    ```
 
 ## Acceptance Criteria

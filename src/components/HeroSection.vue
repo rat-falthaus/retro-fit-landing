@@ -36,35 +36,36 @@ const stampProgress = computed(() =>
   Math.max(0, Math.min(1, (scrollProgress.value - 0.80) / 0.15))
 )
 
-// ── Video layer ──────────────────────────────────────────────────────────
-const beforeVideoRef = ref<HTMLVideoElement | null>(null)
-const afterVideoRef  = ref<HTMLVideoElement | null>(null)
-const videosReady    = ref(false) // true once any video fires canplay
+// ── Intro video crossfade: brokenPopcornMachine fades into static JPG ──
+const introVideoRef = ref<HTMLVideoElement | null>(null)
 
-// FOR VIDEO SET TO TRUE IN NEXT LINE TO SHOW VIDEO INSTEAD OF IMAGE BACKGROUND
-// videosReady.value = true
-const onVideoCanPlay = () => { videosReady.value = true }
-
-// Control playback: loop while scrolling, pause + seek-to-last-frame at end
-watch(scrollProgress, (val) => {
-  const before = beforeVideoRef.value
-  const after  = afterVideoRef.value
-
-  if (val >= 0.99) {
-    if (after) {
-      after.pause()
-      // Seek to very last frame so the finished state is visible
-      if (isFinite(after.duration) && after.duration > 0) {
-        after.currentTime = after.duration - 0.001
-      }
-    }
-    if (before) before.pause()
-  } else {
-    // Resume looping while user is scrolling
-    if (before && before.paused) before.play().catch(() => {})
-    if (after  && after.paused)  after.play().catch(() => {})
-  }
+// Opacity: fully visible until 5 % scroll, fully gone by 20 %
+const videoIntroOpacity = computed(() => {
+  if (scrollProgress.value <= 0.05) return 1
+  if (scrollProgress.value >= 0.20) return 0
+  return 1 - (scrollProgress.value - 0.05) / 0.15
 })
+
+// Gradual blur adds a dreamy crossfade feel (0 → 8 px)
+const videoIntroBlur = computed(() => {
+  if (scrollProgress.value <= 0.08) return 0
+  if (scrollProgress.value >= 0.22) return 8
+  return ((scrollProgress.value - 0.08) / 0.14) * 8
+})
+
+// Pause video once fully faded to save resources
+watch(videoIntroOpacity, (opacity) => {
+  const video = introVideoRef.value
+  if (!video) return
+  if (opacity <= 0 && !video.paused) video.pause()
+  else if (opacity > 0 && video.paused) video.play().catch(() => {})
+})
+
+// CTA: scroll past hero, then open claim modal
+const handleCtaClick = () => {
+  scrollToContent()
+  setTimeout(() => emit('openClaimModal'), 600)
+}
 
 // Scroll past the entire hero section to the content below
 const scrollToContent = () => {
@@ -83,10 +84,9 @@ const scrollToContent = () => {
     <!-- ── Sticky viewport: stays in view while scrolling through 300vh ── -->
     <div class="sticky top-0 h-screen overflow-hidden">
 
-      <!-- ── IMAGE FALLBACK (visible until video canplay fires) ─────────── -->
+      <!-- ── STATIC BEFORE / AFTER IMAGES (always visible, slider-driven) ── -->
       <div
-        class="absolute inset-0 transition-opacity duration-700"
-        :class="videosReady ? 'opacity-0' : 'opacity-100'"
+        class="absolute inset-0"
         :style="{
           backgroundImage: `url('${baseUrl}images/machine-before.jpg')`,
           backgroundSize: 'cover',
@@ -96,8 +96,7 @@ const scrollToContent = () => {
         :aria-label="t.hero.imageAltBefore"
       />
       <div
-        class="absolute inset-0 transition-opacity duration-700"
-        :class="videosReady ? 'opacity-0' : 'opacity-100'"
+        class="absolute inset-0"
         :style="{
           backgroundImage: `url('${baseUrl}images/machine-after.jpg')`,
           backgroundSize: 'cover',
@@ -108,35 +107,22 @@ const scrollToContent = () => {
         :aria-label="t.hero.imageAltAfter"
       />
 
-      <!-- ── VIDEO LAYER ────────────────────────────────────────────────── -->
-      <!-- BEFORE video: loops in the background while scrolling -->
+      <!-- ── INTRO VIDEO: plays on load, crossfades to static JPG on scroll ── -->
       <video
-        ref="beforeVideoRef"
-        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
-        :class="videosReady ? 'opacity-100' : 'opacity-0'"
-        :src="`${baseUrl}images/Video_Generation_With_Natural_Animations.mp4`"
+        ref="introVideoRef"
+        class="absolute inset-0 z-5 w-full h-full object-cover will-change-[opacity,filter]"
+        :style="{
+          opacity: videoIntroOpacity,
+          filter: `blur(${videoIntroBlur}px)`,
+          transition: 'opacity 0.8s ease, filter 0.8s ease',
+        }"
+        :src="`${baseUrl}images/brokenPopcornMachine.mp4`"
         autoplay
         loop
         muted
         playsinline
         preload="auto"
         :aria-label="t.hero.imageAltBefore"
-        @canplay="onVideoCanPlay"
-      />
-
-      <!-- AFTER video: clip-path reveals left→right; paused at last frame at scroll end -->
-      <video
-        ref="afterVideoRef"
-        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
-        :class="videosReady ? 'opacity-100' : 'opacity-0'"
-        :src="`${baseUrl}images/Video_Edit_Remove_Animals_Update_Machine.mp4`"
-        autoplay
-        loop
-        muted
-        playsinline
-        preload="auto"
-        :aria-label="t.hero.imageAltAfter"
-        :style="{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }"
       />
 
       <!-- Subtle divider: 1 px, low opacity, no shadow -->
@@ -215,7 +201,7 @@ const scrollToContent = () => {
               data-aos-delay="200"
             >
               <button
-                @click="emit('openClaimModal')"
+                @click="handleCtaClick"
                 class="btn-primary text-base text-center"
               >
                 {{ t.hero.ctaPrimary }}
@@ -224,7 +210,7 @@ const scrollToContent = () => {
                 :href="t.hero.referenceUrl"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn-secondary text-base text-center"
+                class="btn-primary text-base text-center"
               >
                 {{ t.hero.ctaSecondary }}
               </a>

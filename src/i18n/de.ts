@@ -5,17 +5,17 @@
  */
 export const t = {
   seo: {
-    title: 'Retrofit Thüringen – Maschine modernisieren. Bewährte Technik erhalten.',
+    title: 'Retrofit Thüringen | Maschinenmodernisierung vom Experten – Rex-AT',
     description:
-      'Häufige Maschinenausfälle? Ständige Reparaturen? Mit einem Retrofit von Rex-AT modernisieren wir Ihre Produktionsmaschinen – nachhaltig, ohne Neukauf. Jetzt 2.000 € Retrofit-Gutschein sichern.',
+      'Rex AutomatierungsTechnik GmbH modernisiert Ihre Produktionsmaschinen in Thüringen – nachhaltig, zuverlässig und ohne Neukauf. Jetzt kostenlosen 2.000 € Retrofit-Check sichern!',
     keywords:
-      'Retrofit, Retro-Fit, Maschinenmodernisierung, Thüringen, Rex-AT, Produktionsmaschinen, Nachhaltigkeit, Maschinenreparatur, Automatisierung, Elektrotechnik',
-    ogTitle: 'Retrofit Thüringen – Rex AutomatierungsTechnik GmbH',
+      'Retrofit, Retro-Fit, Maschinenmodernisierung, Thüringen, Erfurt, Rex-AT, Rex AutomatierungsTechnik, Produktionsmaschinen, Automatisierung, Elektrotechnik, Maschinenreparatur, Nachhaltigkeit, Industrieautomation, SPS-Programmierung, Schaltschrankbau, Anlagenmodernisierung',
+    ogTitle: 'Retrofit Thüringen | Maschine modernisieren – Rex AutomatierungsTechnik',
     ogDescription:
-      'Maschine modernisieren, bewährte Technik erhalten. Jetzt kostenlosen 2.000 € Retrofit-Check sichern.',
-    twitterTitle: 'Retrofit Thüringen – Jetzt 2.000 € Gutschein sichern',
+      'Häufige Maschinenausfälle? Mit einem Retrofit von Rex-AT modernisieren wir Ihre Anlagen – effizient, nachhaltig und ohne Neukauf. 2.000 € Gutschein sichern!',
+    twitterTitle: 'Retrofit Thüringen – Maschinenmodernisierung | Rex-AT',
     twitterDescription:
-      'Rex-AT modernisiert Ihre Produktionsmaschinen – nachhaltig & ohne Neukauf.',
+      'Produktionsmaschinen modernisieren statt ersetzen. Rex-AT in Erfurt: über 35 Jahre Erfahrung in Automatisierung & Elektrotechnik. Jetzt 2.000 € Gutschein sichern.',
     canonical: 'https://rex-at.de/landingpage-retrofit.html',
   },
 
