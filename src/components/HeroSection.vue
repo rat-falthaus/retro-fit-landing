@@ -98,9 +98,31 @@ watch(videoIntroOpacity, (opacity) => {
 const ctaFlowInFlight = ref(false)
 const revealFlowInFlight = ref(false)
 const manualRevealTriggered = ref(false)
+const userInterrupted = ref(false)
 
-const sleep = (ms: number): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms))
+// Attach listeners for user-initiated scroll gestures; returns a cleanup fn.
+// touchmove = mobile swipe, wheel = desktop scroll — both are unambiguously human.
+const startInterruptListening = (): (() => void) => {
+  userInterrupted.value = false
+  const handler = () => { userInterrupted.value = true }
+  window.addEventListener('touchmove', handler, { passive: true })
+  window.addEventListener('wheel', handler, { passive: true })
+  return () => {
+    window.removeEventListener('touchmove', handler)
+    window.removeEventListener('wheel', handler)
+  }
+}
+
+// Sleep that resolves at `ms` OR as soon as the user scrolls — whichever first.
+const sleepOrInterrupt = (ms: number): Promise<void> =>
+  new Promise((resolve) => {
+    const end = performance.now() + ms
+    const tick = () => {
+      if (userInterrupted.value || performance.now() >= end) resolve()
+      else requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  })
 
 const getRevealTop = (): number => {
   if (!sectionRef.value) return window.scrollY
@@ -125,7 +147,7 @@ const scrollToTarget = (targetTop: number, maxWaitMs = 2400): Promise<void> =>
     const check = () => {
       const closeEnough = Math.abs(window.scrollY - targetTop) < 24
       const timedOut = performance.now() - startedAt >= maxWaitMs
-      if (closeEnough || timedOut) {
+      if (closeEnough || timedOut || userInterrupted.value) {
         resolve()
         return
       }
@@ -148,16 +170,32 @@ const handleCtaClick = () => {
   void (async () => {
     ctaFlowInFlight.value = true
     manualRevealTriggered.value = true
+    const stopListening = startInterruptListening()
 
-    // Step 1: bring the retrofit state fully into view and hold it briefly.
-    await scrollToTarget(getRevealTop())
-    await sleep(900)
+    try {
+      // Step 1: Cinematic reveal of the retrofitted machine.
+      await scrollToTarget(getRevealTop())
+      if (userInterrupted.value) return
+      await sleepOrInterrupt(700)
+      if (userInterrupted.value) return
 
-    // Step 2: continue below hero, then open the form dialog.
-    await scrollToTarget(getContentTop())
-    emit('openClaimModal')
+      // Step 2: Glide down to the postcard bridge section.
+      await scrollToTarget(getContentTop())
+      if (userInterrupted.value) return
 
-    ctaFlowInFlight.value = false
+      // Step 3: Dwell on the postcard so mobile users can read it (~3.5 s).
+      // Desktop skips — the modal opens immediately after scroll lands.
+      if (isMobileHero.value) {
+        await sleepOrInterrupt(3400)
+        if (userInterrupted.value) return
+      }
+
+      // Step 4: Open the claim form.
+      emit('openClaimModal')
+    } finally {
+      stopListening()
+      ctaFlowInFlight.value = false
+    }
   })()
 }
 </script>
