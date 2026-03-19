@@ -17,6 +17,89 @@
     <!--head-tags-->
   </head>
   <body>
+    <!-- DEV MOCK: In production Contao renders the real form here via {{insert_content::ID}}.
+         Remove this block for standalone (non-Contao) builds. -->
+    <div id="contao-form-source" style="display:none;" aria-hidden="true">
+      <div class="ce_form block">
+        <form method="post" enctype="application/x-www-form-urlencoded" id="retrofit-survey">
+          <div class="formbody">
+            <input type="hidden" name="FORM_SUBMIT" value="auto_form_5">
+            <input type="hidden" name="REQUEST_TOKEN" value="MOCK_CSRF_TOKEN">
+            <div class="widget widget-text mandatory">
+              <label for="ctrl_30" class="mandatory"><span class="invisible">Pflichtfeld </span>Anlagenname / Anlagentyp<span class="mandatory">*</span></label>
+              <input type="text" name="Anlagename_Anlage_Typ" id="ctrl_30" class="text mandatory" value="" required="">
+            </div>
+            <div class="widget widget-select select mandatory">
+              <label for="ctrl_31" class="select mandatory"><span class="invisible">Pflichtfeld </span>Alter der Anlage<span class="mandatory">*</span></label>
+              <select name="Alter_Anlage" id="ctrl_31" class="select mandatory" required="">
+                <option value="juenger als 10">jünger als 10 Jahre</option>
+                <option value="10-20">10 - 20 Jahre</option>
+                <option value="aelter als 20">älter als 20 Jahre</option>
+              </select>
+            </div>
+            <div class="widget widget-checkbox bgless">
+              <fieldset id="ctrl_32" class="checkbox_container bgless">
+                <legend>verfügbare Dokumentationen</legend>
+                <input type="hidden" name="Dokumentationen" value="">
+                <span><input type="checkbox" name="Dokumentationen[]" id="opt_32_0" class="checkbox" value="Betriebsanleitung"> <label id="lbl_32_0" for="opt_32_0">Betriebsanleitung</label></span>
+                <span><input type="checkbox" name="Dokumentationen[]" id="opt_32_1" class="checkbox" value="Schaltplan"> <label id="lbl_32_1" for="opt_32_1">Schaltplan</label></span>
+                <span><input type="checkbox" name="Dokumentationen[]" id="opt_32_2" class="checkbox" value="Softwarebeschreibung"> <label id="lbl_32_2" for="opt_32_2">Softwarebeschreibung</label></span>
+                <span><input type="checkbox" name="Dokumentationen[]" id="opt_32_3" class="checkbox" value="Softwarequellen"> <label id="lbl_32_3" for="opt_32_3">Softwarequellen</label></span>
+              </fieldset>
+            </div>
+            <div class="widget widget-radio mandatory">
+              <fieldset id="ctrl_33" class="radio_container mandatory">
+                <legend><span class="invisible">Pflichtfeld </span>Gibt es Service- oder Supportpartner?<span class="mandatory">*</span></legend>
+                <span><input type="radio" name="Service_Support_Partner" id="opt_33_0" class="radio" value="ja" required=""> <label id="lbl_33_0" for="opt_33_0">ja</label></span>
+                <span><input type="radio" name="Service_Support_Partner" id="opt_33_1" class="radio" value="nein" required=""> <label id="lbl_33_1" for="opt_33_1">nein</label></span>
+              </fieldset>
+            </div>
+            <div class="widget widget-radio mandatory">
+              <fieldset id="ctrl_34" class="radio_container mandatory">
+                <legend><span class="invisible">Pflichtfeld </span>Gibt es Ersatzteile?<span class="mandatory">*</span></legend>
+                <span><input type="radio" name="Ersatzteile" id="opt_34_0" class="radio" value="ja" required=""> <label id="lbl_34_0" for="opt_34_0">ja</label></span>
+                <span><input type="radio" name="Ersatzteile" id="opt_34_1" class="radio" value="nein" required=""> <label id="lbl_34_1" for="opt_34_1">nein</label></span>
+                <span><input type="radio" name="Ersatzteile" id="opt_34_2" class="radio" value="unbekannt" required=""> <label id="lbl_34_2" for="opt_34_2">unbekannt</label></span>
+              </fieldset>
+            </div>
+            <div class="widget widget-radio mandatory">
+              <fieldset id="ctrl_35" class="radio_container mandatory">
+                <legend><span class="invisible">Pflichtfeld </span>Gab es Störungen in den letzten 2 Jahren?<span class="mandatory">*</span></legend>
+                <span><input type="radio" name="Stoerungen_letzte_2_Jahre" id="opt_35_0" class="radio" value="ja" required=""> <label id="lbl_35_0" for="opt_35_0">ja</label></span>
+                <span><input type="radio" name="Stoerungen_letzte_2_Jahre" id="opt_35_1" class="radio" value="nein" required=""> <label id="lbl_35_1" for="opt_35_1">nein</label></span>
+              </fieldset>
+            </div>
+            <div class="widget widget-textarea">
+              <label for="ctrl_36">Weitere Angaben / Kommentare</label>
+              <textarea name="Zusatzinformationen" id="ctrl_36" class="textarea" rows="4" cols="40"></textarea>
+            </div>
+            <div class="widget widget-text mandatory">
+              <label for="ctrl_37" class="mandatory"><span class="invisible">Pflichtfeld </span>Name Ansprechpartner<span class="mandatory">*</span></label>
+              <input type="text" name="Name_Ansprechpartner" id="ctrl_37" class="text mandatory" value="" required="">
+            </div>
+            <div class="widget widget-text">
+              <label for="ctrl_38">Name der Firma</label>
+              <input type="text" name="Name_Firma" id="ctrl_38" class="text" value="">
+            </div>
+            <div class="widget widget-textarea">
+              <label for="ctrl_39">Anschrift der Firma</label>
+              <textarea name="Anschrift_der_Firma" id="ctrl_39" class="textarea" rows="4" cols="40"></textarea>
+            </div>
+            <div class="widget widget-text mandatory">
+              <label for="ctrl_40" class="mandatory"><span class="invisible">Pflichtfeld </span>E-Mail<span class="mandatory">*</span></label>
+              <input type="email" name="Email" id="ctrl_40" class="text mandatory" value="" required="">
+            </div>
+            <div class="widget widget-text mandatory">
+              <label for="ctrl_41" class="mandatory"><span class="invisible">Pflichtfeld </span>Telefon<span class="mandatory">*</span></label>
+              <input type="tel" name="Telefon" id="ctrl_41" class="text mandatory" value="" required="">
+            </div>
+            <div class="widget widget-submit">
+              <button type="submit" id="ctrl_42" class="submit">Absenden</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
     <div id="app"><!--app-html--></div>
     <script type="module" src="/src/entry-client.ts"></script>
   </body>
