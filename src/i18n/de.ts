@@ -203,6 +203,7 @@ export const t = {
     voucherCta: 'Retrofit-Check',
     voucherAmount: '2.000 €',
     voucherExpiry: 'Einlösbar bis zum 30.04.2026',
+    voucherName: 'Retrofit-Gutschein',
   },
   nav: {
     homeUrl: 'https://rex-at.de/willkommen.html',

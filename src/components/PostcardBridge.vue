@@ -64,7 +64,7 @@ const emit = defineEmits<{ (e: 'openClaimModal'): void }>()
               {{ t.footer.voucherAmount }}
             </p>
             <p class="hidden sm:inline font-display font-bold text-2xl" style="color: #EB6734">
-              Reto-Fit-Gutschein
+              {{ t.footer.voucherName }}
             </p>
             <p class="text-xs sm:text-sm mt-1" style="color: #c8baad">{{ t.footer.voucherExpiry }}</p>
           </div>
