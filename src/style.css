@@ -86,3 +86,242 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }
+
+/* ── Contao Form Portal Styles ─────────────────────────────────────────────────
+   Targets raw Contao form generator HTML portaled into .contao-form-portal.
+   Designed to match PrimeVue Aura + Rex brand (rex-orange CTAs, rex-dark text).
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.contao-form-portal .formbody {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contao-form-portal .widget {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+/* Field labels (direct child of .widget — excludes radio/checkbox nested labels) */
+.contao-form-portal .widget > label,
+.contao-form-portal fieldset > legend {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #313131;
+  line-height: 1.25;
+}
+
+/* Hide Contao "Pflichtfeld " screen-reader prefix */
+.contao-form-portal .invisible {
+  display: none;
+}
+
+/* Mandatory asterisk in Rex orange */
+.contao-form-portal label > .mandatory,
+.contao-form-portal legend > .mandatory {
+  color: #EB6734;
+  margin-left: 1px;
+}
+
+/* Text / email / tel inputs */
+.contao-form-portal input[type="text"],
+.contao-form-portal input[type="email"],
+.contao-form-portal input[type="tel"] {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #313131;
+  background-color: #ffffff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-family: var(--font-sans);
+  appearance: none;
+}
+
+.contao-form-portal input[type="text"]:focus,
+.contao-form-portal input[type="email"]:focus,
+.contao-form-portal input[type="tel"]:focus {
+  border-color: #EB6734;
+  box-shadow: 0 0 0 3px rgba(235, 103, 52, 0.18);
+}
+
+/* Select */
+.contao-form-portal select {
+  width: 100%;
+  padding: 0.625rem 2.25rem 0.625rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #313131;
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23313131'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-family: var(--font-sans);
+  appearance: none;
+}
+
+.contao-form-portal select:focus {
+  border-color: #EB6734;
+  box-shadow: 0 0 0 3px rgba(235, 103, 52, 0.18);
+}
+
+/* Textarea */
+.contao-form-portal textarea {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #313131;
+  background-color: #ffffff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-family: var(--font-sans);
+  resize: vertical;
+  min-height: 5rem;
+}
+
+.contao-form-portal textarea:focus {
+  border-color: #EB6734;
+  box-shadow: 0 0 0 3px rgba(235, 103, 52, 0.18);
+}
+
+/* Fieldset reset */
+.contao-form-portal fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Radio buttons — pill-button style matching PrimeVue SelectButton */
+.contao-form-portal .radio_container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.contao-form-portal .radio_container > span {
+  display: inline-flex;
+}
+
+/* Visually hide the native radio circle but keep it accessible */
+.contao-form-portal .radio_container input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.contao-form-portal .radio_container label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  user-select: none;
+}
+
+.contao-form-portal .radio_container input[type="radio"]:checked + label {
+  background-color: #EB6734;
+  border-color: #EB6734;
+  color: #ffffff;
+}
+
+.contao-form-portal .radio_container label:hover {
+  border-color: #EB6734;
+  color: #EB6734;
+}
+
+.contao-form-portal .radio_container input[type="radio"]:checked + label:hover {
+  background-color: #C64A32;
+  border-color: #C64A32;
+  color: #ffffff;
+}
+
+/* Checkboxes */
+.contao-form-portal .checkbox_container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contao-form-portal .checkbox_container > span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contao-form-portal .checkbox_container input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #EB6734;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.contao-form-portal .checkbox_container label {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #374151;
+  cursor: pointer;
+}
+
+/* Submit button — matches .btn-primary */
+.contao-form-portal .widget-submit {
+  margin-top: 0.25rem;
+}
+
+.contao-form-portal .widget-submit button {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background-color: #EB6734;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 14px rgba(235, 103, 52, 0.35);
+}
+
+.contao-form-portal .widget-submit button:hover {
+  background-color: #C64A32;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(235, 103, 52, 0.4);
+}
+
+/* Contao success confirmation message */
+.contao-form-portal .confirmation {
+  padding: 1.25rem 1.5rem;
+  background-color: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 0.75rem;
+  color: #15803d;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}

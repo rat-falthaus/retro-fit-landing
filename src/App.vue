@@ -111,7 +111,7 @@ onUnmounted(() => {
       <SocialProofStrip />
 
       <!-- Mobile inline form (md:hidden — desktop uses ClaimCheckModal Dialog) -->
-      <InlineClaimSection />
+      <InlineClaimSection v-if="isMobile" />
 
       <!-- Footer -->
       <FooterSection />

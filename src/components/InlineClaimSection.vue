@@ -2,11 +2,13 @@
 import { ref } from 'vue'
 import { t } from '@/i18n/de'
 import ClaimCheckForm from './ClaimCheckForm.vue'
+import ContaoFormPortal from './ContaoFormPortal.vue'
 
 type InlineStep = 'input' | 'opened'
 
 const step = ref<InlineStep>('input')
 const formRef = ref<InstanceType<typeof ClaimCheckForm> | null>(null)
+const isContaoMode = ref(false)
 
 const externalFormUrl = 'https://rex-at.de/landingpage-retrofit.html'
 </script>
@@ -57,19 +59,20 @@ const externalFormUrl = 'https://rex-at.de/landingpage-retrofit.html'
         <!-- Input form — no card wrapper, fields flow in page -->
         <template v-else>
           <div data-aos="fade-up" data-aos-delay="100">
-            <ClaimCheckForm
-              ref="formRef"
-              form-id="inline"
+            <ContaoFormPortal
+              placeholder-id="inline-contao-form"
+              @contao-mode-detected="isContaoMode = true"
               @success="step = 'opened'"
-            />
-            <button
-              type="button"
-              class="w-full btn-primary py-4 text-base font-bold text-center mt-8"
-              @click="formRef?.submitForm()"
             >
-              {{ t.modal.submit }}
-            </button>
-            <p class="text-xs text-gray-500 text-center mt-3">{{ t.modal.privacyNote }}</p>
+              <template #fallback>
+                <ClaimCheckForm ref="formRef" form-id="inline" @success="step = 'opened'" />
+                <button type="button" class="w-full btn-primary py-4 text-base font-bold text-center mt-8"
+                        @click="formRef?.submitForm()">
+                  {{ t.modal.submit }}
+                </button>
+                <p class="text-xs text-gray-500 text-center mt-3">{{ t.modal.privacyNote }}</p>
+              </template>
+            </ContaoFormPortal>
           </div>
         </template>
 

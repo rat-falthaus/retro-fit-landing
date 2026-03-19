@@ -4,6 +4,7 @@ import Dialog from 'primevue/dialog'
 import Button from 'primevue/button'
 import { t } from '@/i18n/de'
 import ClaimCheckForm from './ClaimCheckForm.vue'
+import ContaoFormPortal from './ContaoFormPortal.vue'
 
 const props = defineProps<{
   visible: boolean
@@ -18,6 +19,7 @@ type ModalStep = 'input' | 'opened'
 const step = ref<ModalStep>('input')
 const dialogStep = ref<1 | 2>(1)
 const formRef = ref<InstanceType<typeof ClaimCheckForm> | null>(null)
+const isContaoMode = ref(false)
 
 const externalFormUrl = 'https://rex-at.de/landingpage-retrofit.html'
 
@@ -66,7 +68,7 @@ const closeDialog = () => {
         </div>
       </div>
       <!-- Step indicator -->
-      <div v-if="step === 'input'" class="flex items-center gap-3 mt-4 ml-1">
+      <div v-if="step === 'input' && !isContaoMode" class="flex items-center gap-3 mt-4 ml-1">
         <template v-for="n in [1, 2]" :key="n">
           <div class="flex items-center gap-2">
             <div
@@ -108,16 +110,19 @@ const closeDialog = () => {
       />
     </div>
 
-    <!-- Step: input — shared ClaimCheckForm component -->
-    <ClaimCheckForm
+    <!-- Input step — Contao portal (Contao mode) or internal gateway form (standalone) -->
+    <ContaoFormPortal
       v-else
-      ref="formRef"
-      form-id="modal"
-      :form-step="dialogStep"
+      placeholder-id="modal-contao-form"
+      @contao-mode-detected="isContaoMode = true"
       @success="step = 'opened'"
-    />
+    >
+      <template #fallback>
+        <ClaimCheckForm ref="formRef" form-id="modal" :form-step="dialogStep" @success="step = 'opened'" />
+      </template>
+    </ContaoFormPortal>
 
-    <template v-if="step === 'input'" #footer>
+    <template v-if="step === 'input' && !isContaoMode" #footer>
       <!-- Step 1: Next only -->
       <template v-if="dialogStep === 1">
         <Button
