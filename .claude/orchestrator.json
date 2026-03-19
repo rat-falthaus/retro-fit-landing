@@ -1,9 +1,9 @@
 {
   "version": "2",
-  "updatedAt": "2026-03-12T21:00:00.000Z",
+  "updatedAt": "2026-03-19T11:45:00.000Z",
   "counters": {
-    "nextTaskId": 27,
-    "nextPlanId": 6
+    "nextTaskId": 34,
+    "nextPlanId": 8
   },
   "activePlanId": null,
   "notes": "retro-fit-landing — Vue 3.5 / TypeScript / Vite 7 / Tailwind v4 / PrimeVue 4.5 SSG landing page. Goal: convert farmers to claim a free €2,000 compatibility check. Build: npm run build (client → server → prerender). Type-check: vue-tsc --noEmit. All strings in src/i18n/de.ts. Brand tokens: forest-green, industrial-amber, tech-slate.",
@@ -39,6 +39,14 @@
       "createdAt": "2026-03-12T21:00:00.000Z",
       "completedAt": "2026-03-12T21:10:00.000Z",
       "taskIds": ["TASK-25", "TASK-26"]
+    },
+    "PLAN-007": {
+      "id": "PLAN-007",
+      "goal": "Dialog 2-step wizard (machine first, contact second) + machineDocs vertical layout",
+      "status": "completed",
+      "createdAt": "2026-03-19T11:00:00.000Z",
+      "completedAt": "2026-03-19T11:45:00.000Z",
+      "taskIds": ["TASK-30", "TASK-31", "TASK-32", "TASK-33"]
     }
   },
   "tasks": {
@@ -199,6 +207,76 @@
       "dependencies": ["TASK-25"],
       "createdAt": "2026-03-12T21:00:00.000Z",
       "completedAt": "2026-03-12T21:10:00.000Z"
+    },
+    "TASK-27": {
+      "id": "TASK-27",
+      "title": "i18n: add machineDocs label + options to de.ts",
+      "role": "i18n",
+      "planId": "PLAN-006",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-19T10:00:00.000Z",
+      "completedAt": "2026-03-19T10:15:00.000Z"
+    },
+    "TASK-28": {
+      "id": "TASK-28",
+      "title": "ClaimCheckForm: SelectButton radios + Checkbox machineDocs + buildPrefillUrl fixes",
+      "role": "implementation",
+      "planId": "PLAN-006",
+      "status": "done",
+      "dependencies": ["TASK-27"],
+      "createdAt": "2026-03-19T10:00:00.000Z",
+      "completedAt": "2026-03-19T10:20:00.000Z"
+    },
+    "TASK-29": {
+      "id": "TASK-29",
+      "title": "QA: vue-tsc + full build verification",
+      "role": "qa",
+      "planId": "PLAN-006",
+      "status": "done",
+      "dependencies": ["TASK-28"],
+      "createdAt": "2026-03-19T10:00:00.000Z",
+      "completedAt": "2026-03-19T10:30:00.000Z"
+    },
+    "TASK-30": {
+      "id": "TASK-30",
+      "title": "i18n: add dialog wizard step labels + navigation strings",
+      "role": "i18n",
+      "planId": "PLAN-007",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-19T11:00:00.000Z",
+      "completedAt": "2026-03-19T11:15:00.000Z"
+    },
+    "TASK-31": {
+      "id": "TASK-31",
+      "title": "ClaimCheckForm: formStep prop + validateStep1() + machineDocs vertical",
+      "role": "implementation",
+      "planId": "PLAN-007",
+      "status": "done",
+      "dependencies": ["TASK-30"],
+      "createdAt": "2026-03-19T11:00:00.000Z",
+      "completedAt": "2026-03-19T11:30:00.000Z"
+    },
+    "TASK-32": {
+      "id": "TASK-32",
+      "title": "ClaimCheckModal: 2-step wizard UI",
+      "role": "implementation",
+      "planId": "PLAN-007",
+      "status": "done",
+      "dependencies": ["TASK-31"],
+      "createdAt": "2026-03-19T11:00:00.000Z",
+      "completedAt": "2026-03-19T11:35:00.000Z"
+    },
+    "TASK-33": {
+      "id": "TASK-33",
+      "title": "QA: vue-tsc + full build after dialog wizard",
+      "role": "qa",
+      "planId": "PLAN-007",
+      "status": "done",
+      "dependencies": ["TASK-32"],
+      "createdAt": "2026-03-19T11:00:00.000Z",
+      "completedAt": "2026-03-19T11:45:00.000Z"
     }
   }
 }

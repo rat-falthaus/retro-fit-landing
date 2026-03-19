@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Select from 'primevue/select'
+import SelectButton from 'primevue/selectbutton'
+import Checkbox from 'primevue/checkbox'
 import { useToast } from 'primevue/usetoast'
 import { t } from '@/i18n/de'
 
@@ -18,8 +20,10 @@ import { t } from '@/i18n/de'
  */
 const props = withDefaults(defineProps<{
   formId?: string
+  formStep?: 1 | 2 | 'all'
 }>(), {
   formId: 'gw',
+  formStep: 'all',
 })
 
 const emit = defineEmits<{
@@ -35,7 +39,9 @@ interface GatewayFormData {
   servicePartner: string
   spareParts: string
   recentIssues: string
+  machineDocs?: string[]
   companyName: string
+  companyAddress?: string
   notes: string
 }
 
@@ -52,7 +58,9 @@ const emptyForm: GatewayFormData = {
   spareParts: '',
   recentIssues: '',
   companyName: '',
+  companyAddress: '',
   notes: '',
+  machineDocs: [],
 }
 
 const formData = ref<GatewayFormData>({ ...emptyForm })
@@ -74,6 +82,8 @@ const buildPrefillUrl = (): string => {
     issues: formData.value.recentIssues,
   }
   if (formData.value.companyName.trim()) entries.company = formData.value.companyName.trim()
+  if (formData.value.companyAddress?.trim()) entries.address = formData.value.companyAddress.trim()
+  if (formData.value.machineDocs?.length) entries.docs = formData.value.machineDocs.join(',')
   if (formData.value.notes.trim()) entries.notes = formData.value.notes.trim()
   return `${externalFormUrl}?${new URLSearchParams(entries).toString()}`
 }
@@ -105,6 +115,28 @@ const validate = (): boolean => {
   return Object.keys(e).length === 0
 }
 
+const validateStep1 = (): boolean => {
+  const e: Partial<Record<keyof GatewayFormData, string>> = {}
+  if (!formData.value.machineType.trim()) e.machineType = 'Pflichtfeld'
+  if (!formData.value.machineAge) e.machineAge = 'Pflichtfeld'
+  if (!formData.value.servicePartner) e.servicePartner = 'Pflichtfeld'
+  if (!formData.value.spareParts) e.spareParts = 'Pflichtfeld'
+  if (!formData.value.recentIssues) e.recentIssues = 'Pflichtfeld'
+  errors.value = { ...errors.value, ...e }
+  if (Object.keys(e).length > 0) {
+    shakingFields.value = Object.keys(e) as (keyof GatewayFormData)[]
+    setTimeout(() => { shakingFields.value = [] }, 600)
+    toast.add({
+      severity: 'warn',
+      summary: t.modal.validationToastTitle,
+      detail: t.modal.validationToastDetail,
+      life: 4000,
+    })
+    return false
+  }
+  return true
+}
+
 const submitForm = () => {
   if (!validate()) {
     shakingFields.value = Object.keys(errors.value) as (keyof GatewayFormData)[]
@@ -127,14 +159,123 @@ const reset = () => {
   shakingFields.value = []
 }
 
-defineExpose({ submitForm, reset })
+defineExpose({ submitForm, reset, validateStep1 })
 </script>
 
 <template>
   <form @submit.prevent="submitForm" class="space-y-5" novalidate>
 
+    <!-- Section: Machine -->
+    <fieldset :id="`machine-fields-${formId}`" v-show="props.formStep === 'all' || props.formStep === 1">
+      <legend class="text-base font-display font-bold text-rex-orange mb-3 border-b border-gray-200 pb-1 pt-2">
+        {{ t.modal.sectionMachine }}
+      </legend>
+      <div class="space-y-3">
+        <!-- Machine Type -->
+        <div :class="{ 'field-shake': shakingFields.includes('machineType') }">
+          <label :for="`${formId}-machine`" class="block text-sm font-semibold text-gray-800 mb-1">
+            {{ t.modal.machineType }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
+          </label>
+          <InputText
+            :id="`${formId}-machine`"
+            v-model="formData.machineType"
+            class="w-full"
+            :placeholder="t.modal.machineTypePlaceholder"
+            :invalid="!!errors.machineType"
+            required
+          />
+          <small v-if="errors.machineType" class="text-red-500 text-xs mt-1 block">{{ errors.machineType }}</small>
+        </div>
+        <!-- Machine Age -->
+        <div :class="{ 'field-shake': shakingFields.includes('machineAge') }">
+          <label :for="`${formId}-age`" class="block text-sm font-semibold text-gray-800 mb-1">
+            {{ t.modal.machineAge }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
+          </label>
+          <Select
+            :id="`${formId}-age`"
+            v-model="formData.machineAge"
+            :options="[...t.modal.machineAgeOptions]"
+            optionLabel="label"
+            optionValue="value"
+            class="w-full"
+            :invalid="!!errors.machineAge"
+            required
+          />
+          <small v-if="errors.machineAge" class="text-red-500 text-xs mt-1 block">{{ errors.machineAge }}</small>
+        </div>
+        <!-- Service Partner -->
+        <div :class="{ 'field-shake': shakingFields.includes('servicePartner') }">
+          <span class="block text-sm font-semibold text-gray-800 mb-1">
+            {{ t.modal.servicePartner }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
+          </span>
+          <SelectButton
+            v-model="formData.servicePartner"
+            :options="[...t.modal.servicePartnerOptions]"
+            optionLabel="label"
+            optionValue="value"
+            :invalid="!!errors.servicePartner"
+            :allowEmpty="false"
+          />
+          <small v-if="errors.servicePartner" class="text-red-500 text-xs mt-1 block">{{ errors.servicePartner }}</small>
+        </div>
+        <!-- Spare Parts -->
+        <div :class="{ 'field-shake': shakingFields.includes('spareParts') }">
+          <span class="block text-sm font-semibold text-gray-800 mb-1">
+            {{ t.modal.spareParts }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
+          </span>
+          <SelectButton
+            v-model="formData.spareParts"
+            :options="[...t.modal.sparePartsOptions]"
+            optionLabel="label"
+            optionValue="value"
+            :invalid="!!errors.spareParts"
+            :allowEmpty="false"
+          />
+          <small v-if="errors.spareParts" class="text-red-500 text-xs mt-1 block">{{ errors.spareParts }}</small>
+        </div>
+        <!-- Recent Issues -->
+        <div :class="{ 'field-shake': shakingFields.includes('recentIssues') }">
+          <span class="block text-sm font-semibold text-gray-800 mb-1">
+            {{ t.modal.recentIssues }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
+          </span>
+          <SelectButton
+            v-model="formData.recentIssues"
+            :options="[...t.modal.recentIssuesOptions]"
+            optionLabel="label"
+            optionValue="value"
+            :invalid="!!errors.recentIssues"
+            :allowEmpty="false"
+          />
+          <small v-if="errors.recentIssues" class="text-red-500 text-xs mt-1 block">{{ errors.recentIssues }}</small>
+        </div>
+        <!-- Machine Docs -->
+        <div>
+          <span class="block text-sm font-semibold text-gray-800 mb-2">
+            {{ t.modal.machineDocs }}
+          </span>
+          <div class="flex flex-col gap-2">
+            <div
+              v-for="opt in t.modal.machineDocsOptions"
+              :key="opt.value"
+              class="flex items-center gap-2"
+            >
+              <Checkbox
+                :inputId="`${formId}-docs-${opt.value}`"
+                v-model="formData.machineDocs"
+                :value="opt.value"
+              />
+              <label
+                :for="`${formId}-docs-${opt.value}`"
+                class="text-sm text-gray-800 cursor-pointer select-none"
+              >{{ opt.label }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
     <!-- Section: Contact -->
-    <fieldset :id="`contact-fields-${formId}`">
+    <fieldset :id="`contact-fields-${formId}`" v-show="props.formStep === 'all' || props.formStep === 2">
       <legend class="text-base font-display font-bold text-rex-orange mb-3 border-b border-gray-200 pb-1 pt-2">
         {{ t.modal.sectionContact }}
       </legend>
@@ -191,119 +332,8 @@ defineExpose({ submitForm, reset })
         </div>
       </div>
     </fieldset>
-
-    <!-- Section: Machine -->
-    <fieldset :id="`machine-fields-${formId}`">
-      <legend class="text-base font-display font-bold text-rex-orange mb-3 border-b border-gray-200 pb-1">
-        {{ t.modal.sectionMachine }}
-      </legend>
-      <div class="space-y-3">
-        <!-- Machine Type -->
-        <div :class="{ 'field-shake': shakingFields.includes('machineType') }">
-          <label :for="`${formId}-machine`" class="block text-sm font-semibold text-gray-800 mb-1">
-            {{ t.modal.machineType }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
-          </label>
-          <InputText
-            :id="`${formId}-machine`"
-            v-model="formData.machineType"
-            class="w-full"
-            :placeholder="t.modal.machineTypePlaceholder"
-            :invalid="!!errors.machineType"
-            required
-          />
-          <small v-if="errors.machineType" class="text-red-500 text-xs mt-1 block">{{ errors.machineType }}</small>
-        </div>
-        <!-- Machine Age -->
-        <div :class="{ 'field-shake': shakingFields.includes('machineAge') }">
-          <label :for="`${formId}-age`" class="block text-sm font-semibold text-gray-800 mb-1">
-            {{ t.modal.machineAge }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
-          </label>
-          <Select
-            :id="`${formId}-age`"
-            v-model="formData.machineAge"
-            :options="[...t.modal.machineAgeOptions]"
-            optionLabel="label"
-            optionValue="value"
-            class="w-full"
-            :invalid="!!errors.machineAge"
-            required
-          />
-          <small v-if="errors.machineAge" class="text-red-500 text-xs mt-1 block">{{ errors.machineAge }}</small>
-        </div>
-        <!-- Service Partner -->
-        <div :class="{ 'field-shake': shakingFields.includes('servicePartner') }">
-          <span class="block text-sm font-semibold text-gray-800 mb-1">
-            {{ t.modal.servicePartner }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
-          </span>
-          <div class="flex gap-4">
-            <label
-              v-for="opt in t.modal.servicePartnerOptions"
-              :key="opt.value"
-              class="flex items-center gap-2 cursor-pointer text-sm text-gray-800"
-            >
-              <input
-                type="radio"
-                :name="`${formId}-service`"
-                :value="opt.value"
-                v-model="formData.servicePartner"
-                class="accent-rex-orange"
-              />
-              {{ opt.label }}
-            </label>
-          </div>
-          <small v-if="errors.servicePartner" class="text-red-500 text-xs mt-1 block">{{ errors.servicePartner }}</small>
-        </div>
-        <!-- Spare Parts -->
-        <div :class="{ 'field-shake': shakingFields.includes('spareParts') }">
-          <span class="block text-sm font-semibold text-gray-800 mb-1">
-            {{ t.modal.spareParts }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
-          </span>
-          <div class="flex gap-4">
-            <label
-              v-for="opt in t.modal.sparePartsOptions"
-              :key="opt.value"
-              class="flex items-center gap-2 cursor-pointer text-sm text-gray-800"
-            >
-              <input
-                type="radio"
-                :name="`${formId}-parts`"
-                :value="opt.value"
-                v-model="formData.spareParts"
-                class="accent-rex-orange"
-              />
-              {{ opt.label }}
-            </label>
-          </div>
-          <small v-if="errors.spareParts" class="text-red-500 text-xs mt-1 block">{{ errors.spareParts }}</small>
-        </div>
-        <!-- Recent Issues -->
-        <div :class="{ 'field-shake': shakingFields.includes('recentIssues') }">
-          <span class="block text-sm font-semibold text-gray-800 mb-1">
-            {{ t.modal.recentIssues }} <span class="text-red-500" aria-label="Pflichtfeld">*</span>
-          </span>
-          <div class="flex gap-4">
-            <label
-              v-for="opt in t.modal.recentIssuesOptions"
-              :key="opt.value"
-              class="flex items-center gap-2 cursor-pointer text-sm text-gray-800"
-            >
-              <input
-                type="radio"
-                :name="`${formId}-issues`"
-                :value="opt.value"
-                v-model="formData.recentIssues"
-                class="accent-rex-orange"
-              />
-              {{ opt.label }}
-            </label>
-          </div>
-          <small v-if="errors.recentIssues" class="text-red-500 text-xs mt-1 block">{{ errors.recentIssues }}</small>
-        </div>
-      </div>
-    </fieldset>
-
     <!-- Section: Optional -->
-    <fieldset :id="`details-fields-${formId}`">
+    <fieldset :id="`details-fields-${formId}`" v-show="props.formStep === 'all' || props.formStep === 2">
       <legend class="text-base font-display font-bold text-gray-500 mb-3 border-b border-gray-200 pb-1">
         {{ t.modal.sectionOptional }}
       </legend>
@@ -319,6 +349,19 @@ defineExpose({ submitForm, reset })
             autocomplete="organization"
             class="w-full"
             :placeholder="t.modal.companyNamePlaceholder"
+          />
+        </div>
+         <!-- Company -->
+        <div>
+          <label :for="`${formId}-company`" class="block text-sm font-semibold text-gray-800 mb-1">
+            {{ t.modal.companyAddress }}
+          </label>
+          <InputText
+            :id="`${formId}-company-address`"
+            v-model="formData.companyAddress"
+            autocomplete="organization"
+            class="w-full"
+            :placeholder="t.modal.companyAddressPlaceholder"
           />
         </div>
         <!-- Notes -->

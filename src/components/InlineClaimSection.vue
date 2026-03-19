@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import { t } from '@/i18n/de'
 import ClaimCheckForm from './ClaimCheckForm.vue'
 
@@ -7,36 +7,8 @@ type InlineStep = 'input' | 'opened'
 
 const step = ref<InlineStep>('input')
 const formRef = ref<InstanceType<typeof ClaimCheckForm> | null>(null)
-const activeFieldset = ref(0)
 
 const externalFormUrl = 'https://rex-at.de/landingpage-retrofit.html'
-
-let observer: IntersectionObserver | null = null
-
-onMounted(() => {
-  const ids = ['contact-fields-inline', 'machine-fields-inline', 'details-fields-inline']
-  const entries = new Map<string, boolean>()
-
-  observer = new IntersectionObserver(
-    (observed) => {
-      for (const entry of observed) {
-        entries.set(entry.target.id, entry.isIntersecting)
-      }
-      const idx = ids.findIndex((id) => entries.get(id))
-      if (idx !== -1) activeFieldset.value = idx
-    },
-    { threshold: 0.3 }
-  )
-
-  for (const id of ids) {
-    const el = document.getElementById(id)
-    if (el) observer.observe(el)
-  }
-})
-
-onUnmounted(() => {
-  observer?.disconnect()
-})
 </script>
 
 <template>
@@ -56,23 +28,6 @@ onUnmounted(() => {
           <p class="text-sm mt-2 leading-relaxed" style="color: #586569">
             {{ t.inlineForm.subtitle }}
           </p>
-        </div>
-
-        <!-- Progress dots -->
-        <div v-if="step === 'input'" class="flex items-center gap-1 max-w-xs mx-auto mb-8" data-aos="fade-up" data-aos-delay="50">
-          <template v-for="(label, i) in t.inlineForm.stepLabels" :key="i">
-            <div class="flex flex-col items-center gap-1">
-              <div
-                class="w-3 h-3 rounded-full transition-colors duration-300"
-                :class="i <= activeFieldset ? 'bg-rex-orange' : 'bg-gray-300'"
-              />
-              <span
-                class="text-[10px] font-medium transition-colors duration-300"
-                :class="i <= activeFieldset ? 'text-rex-orange' : 'text-gray-400'"
-              >{{ label }}</span>
-            </div>
-            <div v-if="i < t.inlineForm.stepLabels.length - 1" class="h-px flex-1 mt-[-12px] transition-colors duration-300" :class="i < activeFieldset ? 'bg-rex-orange' : 'bg-gray-300'" />
-          </template>
         </div>
 
         <!-- Success state -->

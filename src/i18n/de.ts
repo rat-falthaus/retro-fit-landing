@@ -5,17 +5,17 @@
  */
 export const t = {
   seo: {
-    title: 'Retrofit Thüringen | Maschinenmodernisierung vom Experten – Rex-AT',
+    title: 'Retrofit Thüringen | Maschinenmodernisierung vom Experten – Rex Automatisierungstechnik GmbH',
     description:
-      'Rex AutomatierungsTechnik GmbH modernisiert Ihre Produktionsmaschinen in Thüringen – nachhaltig, zuverlässig und ohne Neukauf. Jetzt kostenlosen 2.000 € Retrofit-Check sichern!',
+      'Rex Automatisierungstechnik GmbH modernisiert Ihre Produktionsmaschinen in Thüringen – nachhaltig, zuverlässig und ohne Neukauf. Jetzt kostenlosen 2.000 € Retrofit-Check sichern!',
     keywords:
-      'Retrofit, Retro-Fit, Maschinenmodernisierung, Thüringen, Erfurt, Rex-AT, Rex AutomatierungsTechnik, Produktionsmaschinen, Automatisierung, Elektrotechnik, Maschinenreparatur, Nachhaltigkeit, Industrieautomation, SPS-Programmierung, Schaltschrankbau, Anlagenmodernisierung',
-    ogTitle: 'Retrofit Thüringen | Maschine modernisieren – Rex AutomatierungsTechnik',
+      'Retrofit, Retro-Fit, Maschinenmodernisierung, Thüringen, Erfurt, Rex Automatisierungstechnik GmbH, Produktionsmaschinen, Automatisierung, Elektrotechnik, Maschinenreparatur, Nachhaltigkeit, Industrieautomation, SPS-Programmierung, Schaltschrankbau, Anlagenmodernisierung',
+    ogTitle: 'Retrofit Thüringen | Maschine modernisieren – Rex Automatisierungstechnik GmbH',
     ogDescription:
-      'Häufige Maschinenausfälle? Mit einem Retrofit von Rex-AT modernisieren wir Ihre Anlagen – effizient, nachhaltig und ohne Neukauf. 2.000 € Gutschein sichern!',
-    twitterTitle: 'Retrofit Thüringen – Maschinenmodernisierung | Rex-AT',
+      'Häufige Maschinenausfälle? Mit einem Retrofit von Rex Automatisierungstechnik GmbH modernisieren wir Ihre Anlagen – effizient, nachhaltig und ohne Neukauf. 2.000 € Gutschein sichern!',
+    twitterTitle: 'Retrofit Thüringen – Maschinenmodernisierung | Rex Automatisierungstechnik GmbH',
     twitterDescription:
-      'Produktionsmaschinen modernisieren statt ersetzen. Rex-AT in Erfurt: über 35 Jahre Erfahrung in Automatisierung & Elektrotechnik. Jetzt 2.000 € Gutschein sichern.',
+      'Produktionsmaschinen modernisieren statt ersetzen. Rex Automatisierungstechnik GmbH in Erfurt: über 35 Jahre Erfahrung in Automatisierung & Elektrotechnik. Jetzt 2.000 € Gutschein sichern.',
     canonical: 'https://rex-at.de/landingpage-retrofit.html',
   },
 
@@ -105,17 +105,26 @@ export const t = {
       { label: 'Ja', value: 'ja' },
       { label: 'Nein', value: 'nein' },
     ] as const,
+    machineDocs: 'Vorhandene Unterlagen (optional)',
+    machineDocsOptions: [
+      { label: 'Betriebsanleitung', value: 'manual' },
+      { label: 'Schaltplan', value: 'circuit' },
+      { label: 'Softwarebeschreibung', value: 'software_desc' },
+      { label: 'Softwarequellen', value: 'software_src' },
+    ] as const,
 
     // Section 3 — Optional
     sectionOptional: 'Weitere Angaben (optional)',
     companyName: 'Name der Firma',
     companyNamePlaceholder: 'Musterfirma GmbH',
+    companyAddress: 'Adresse der Firma',
+    companyAddressPlaceholder: 'Musterstraße 1, 12345 Musterstadt',
     notes: 'Weitere Angaben / Kommentare',
     notesPlaceholder: 'Erzählen Sie uns mehr zu Ihrer Anlage oder Ihren spezifischen Anforderungen …',
 
     submit: 'Retrofit-Check absenden →',
     privacyNote:
-      'Ihre Daten werden direkt an Rex-AT übermittelt. Keine Weitergabe an Dritte.',
+      'Ihre Daten werden direkt an REX Automatisierungstechnik GmbH übermittelt. Keine Weitergabe an Dritte.',
     required: 'Pflichtfeld',
 
     // Step 2 — Redirected state
@@ -128,20 +137,26 @@ export const t = {
 
     validationToastTitle: 'Bitte alle Pflichtfelder ausfüllen',
     validationToastDetail: 'Einige erforderliche Felder sind noch nicht vollständig ausgefüllt.',
+
+    // Wizard step labels (desktop dialog)
+    dialogStep1Label: 'Ihre Anlage',
+    dialogStep2Label: 'Kontakt & Details',
+    dialogStepNext: 'Weiter',
+    dialogStepBack: 'Zurück',
   },
 
   inlineForm: {
     title: 'Jetzt Retrofit-Check starten',
     subtitle: 'Füllen Sie das Formular aus – unsere Experten melden sich bei Ihnen.',
     successTitle: 'Formular wird übermittelt!',
-    successText: 'Ihre Daten werden direkt an Rex-AT übertragen. Wir melden uns schnellstmöglich. Vielen Dank!',
+    successText: 'Ihre Daten werden direkt an REX Automatisierungstechnik GmbH übertragen. Wir melden uns schnellstmöglich. Vielen Dank!',
     stepLabels: ['Kontakt', 'Maschine', 'Details'] as const,
   },
 
   footer: {
-    brandName: 'Retrofit Thüringen',
+    brandName: 'REX Automatisierungstechnik GmbH',
     description:
-      'Rex AutomatierungsTechnik GmbH – Wir bringen Ihre Produktionsmaschinen wieder auf Vordermann. Nachhaltig, ohne Neukauf.',
+      'Wir bringen Ihre Produktionsmaschinen wieder auf Vordermann. Nachhaltig, ohne Neukauf.',
     tagline: 'Maschine modernisieren. Bewährte Technik erhalten.',
     sections: {
       company: 'Unternehmen',
@@ -167,9 +182,9 @@ export const t = {
       ],
     },
     contact: {
-      company: 'Rex AutomatierungsTechnik GmbH',
-      street: 'Fichtenweg 26',
-      city: '99098 Erfurt Kerspleben',
+      company: 'REX Automatisierungstechnik GmbH',
+      street: 'Fichtenweg 36',
+      city: '99098 Erfurt',
       phone: '036208 666-0',
       email: 'info@rex-at.de',
     },
@@ -179,10 +194,10 @@ export const t = {
       'Nachhaltigkeitspartner',
       'Langjährige Erfahrung',
     ],
-    copyright: (year: number) => `© ${year} Rex AutomatierungsTechnik GmbH. Alle Rechte vorbehalten.`,
+    copyright: (year: number) => `© ${year} Rex Automatisierungstechnik GmbH. Alle Rechte vorbehalten.`,
     madeWith: 'Mit ❤️ für Betriebe, die auf Nachhaltigkeit setzen',
     disclaimer:
-      'Der Gutschein ist nicht übertragbar, nicht in bar auszahlbar und nur gültig für Retrofit-Dienstleistungen von Rex-AT. Nicht kombinierbar mit anderen Angeboten. Einlösbar bis zum 30.04.2026. Weitere Bedingungen auf Anfrage.',
+      'Der Gutschein ist nicht übertragbar, nicht in bar auszahlbar und nur gültig für Retrofit-Dienstleistungen von REX Automatisierungstechnik GmbH. Nicht kombinierbar mit anderen Angeboten. Einlösbar bis zum 30.04.2026. Weitere Bedingungen auf Anfrage.',
     disclaimerToggle: 'Rechtliche Hinweise ▸',
     surveyUrl: 'https://rex-at.de/landingpage-retrofit.html',
     voucherCta: 'Retrofit-Check',

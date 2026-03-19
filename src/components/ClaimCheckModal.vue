@@ -16,15 +16,24 @@ const emit = defineEmits<{
 type ModalStep = 'input' | 'opened'
 
 const step = ref<ModalStep>('input')
+const dialogStep = ref<1 | 2>(1)
 const formRef = ref<InstanceType<typeof ClaimCheckForm> | null>(null)
 
 const externalFormUrl = 'https://rex-at.de/landingpage-retrofit.html'
+
+const goNext = () => {
+  if (formRef.value?.validateStep1()) {
+    dialogStep.value = 2
+  }
+}
+const goBack = () => { dialogStep.value = 1 }
 
 const closeDialog = () => {
   emit('update:visible', false)
   setTimeout(() => {
     formRef.value?.reset()
     step.value = 'input'
+    dialogStep.value = 1
   }, 300)
 }
 </script>
@@ -54,6 +63,22 @@ const closeDialog = () => {
           <h2 class="text-2xl font-display font-bold">{{ t.modal.title }}</h2>
           <p class="text-white/90 text-sm">{{ t.modal.subtitle }}</p>
         </div>
+      </div>
+      <!-- Step indicator -->
+      <div v-if="step === 'input'" class="flex items-center gap-3 mt-4 ml-1">
+        <template v-for="n in [1, 2]" :key="n">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center transition-colors duration-200"
+              :class="dialogStep >= n ? 'bg-industrial-amber text-white' : 'bg-white/20 text-white/60'"
+            >{{ n }}</div>
+            <span
+              class="text-xs font-medium transition-colors duration-200"
+              :class="dialogStep >= n ? 'text-white' : 'text-white/50'"
+            >{{ n === 1 ? t.modal.dialogStep1Label : t.modal.dialogStep2Label }}</span>
+          </div>
+          <div v-if="n === 1" class="w-8 h-px" :class="dialogStep === 2 ? 'bg-industrial-amber' : 'bg-white/20'" />
+        </template>
       </div>
     </template>
 
@@ -87,16 +112,37 @@ const closeDialog = () => {
       v-else
       ref="formRef"
       form-id="modal"
+      :form-step="dialogStep"
       @success="step = 'opened'"
     />
 
     <template v-if="step === 'input'" #footer>
-      <Button
-        type="button"
-        :label="t.modal.submit"
-        class="w-full btn-primary py-4 text-base font-bold"
-        @click="formRef?.submitForm()"
-      />
+      <!-- Step 1: Next only -->
+      <template v-if="dialogStep === 1">
+        <Button
+          type="button"
+          :label="t.modal.dialogStepNext + ' →'"
+          class="w-full btn-primary py-4 text-base font-bold"
+          @click="goNext"
+        />
+      </template>
+      <!-- Step 2: Back + Submit -->
+      <template v-else>
+        <div class="flex gap-3">
+          <Button
+            type="button"
+            :label="'← ' + t.modal.dialogStepBack"
+            class="btn-secondary py-4 px-6 text-base font-semibold"
+            @click="goBack"
+          />
+          <Button
+            type="button"
+            :label="t.modal.submit"
+            class="flex-1 btn-primary py-4 text-base font-bold"
+            @click="formRef?.submitForm()"
+          />
+        </div>
+      </template>
       <p class="text-xs text-gray-500 text-center mt-3">{{ t.modal.privacyNote }}</p>
     </template>
   </Dialog>
