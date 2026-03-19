@@ -15,7 +15,7 @@ const emit = defineEmits<{ (e: 'openClaimModal'): void }>()
       >
         <!-- Postcard card -->
         <div class="inline-block mb-8 sm:mb-10 sm:-rotate-1 sm:hover:rotate-0 transition-transform duration-300">
-          <div class="bg-white p-5 sm:p-8 rounded-2xl sm:shadow-2xl" style="border: 3px solid #EB6734">
+          <div class="bg-white p-5 sm:p-8 rounded-2xl sm:shadow-2xl" style="border: 3px solid #EB6734" @click="emit('openClaimModal')">
 
             <!-- Mobile icon accent -->
             <div class="sm:hidden flex justify-center mb-3">
@@ -68,14 +68,14 @@ const emit = defineEmits<{ (e: 'openClaimModal'): void }>()
             </p>
             <p class="text-xs sm:text-sm mt-1" style="color: #c8baad">{{ t.footer.voucherExpiry }}</p>
           </div>
-          <button
+          <Button
             type="button"
             class="btn-primary text-sm w-full sm:w-auto text-center group"
             @click="emit('openClaimModal')"
           >
             {{ t.footer.voucherCta }}
             <span class="inline-block ml-1 transition-transform group-hover:translate-x-1">→</span>
-          </button>
+          </Button>
         </div>
       </div>
     </div>
