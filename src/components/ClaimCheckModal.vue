@@ -49,7 +49,8 @@ const closeDialog = () => {
       root: 'rounded-2xl overflow-hidden flex flex-col',
       header: 'bg-rex-dark text-white p-5 shrink-0',
       content: 'p-6 overflow-y-auto bg-white flex-1 min-h-0',
-      footer: 'px-6 py-4 bg-white border-t border-gray-200 shrink-0',
+      footer: {
+        class: 'px-6 !py-4 bg-white border-t border-gray-200 shrink-0 pt-4'},
     }"
   >
     <template #header>
@@ -122,7 +123,8 @@ const closeDialog = () => {
         <Button
           type="button"
           :label="t.modal.dialogStepNext + ' →'"
-          class="w-full btn-primary py-4 text-base font-bold"
+          size="small"
+          class="w-full btn-primary text-base font-bold"
           @click="goNext"
         />
       </template>
@@ -132,18 +134,18 @@ const closeDialog = () => {
           <Button
             type="button"
             :label="'← ' + t.modal.dialogStepBack"
-            class="btn-secondary py-4 px-6 text-base font-semibold"
+            class="btn-secondary px-6 text-base font-semibold"
             @click="goBack"
           />
           <Button
             type="button"
             :label="t.modal.submit"
-            class="flex-1 btn-primary py-4 text-base font-bold"
+            class="flex-1 btn-primary text-base font-bold"
             @click="formRef?.submitForm()"
           />
         </div>
       </template>
-      <p class="text-xs text-gray-500 text-center mt-3">{{ t.modal.privacyNote }}</p>
+      <p class="text-xs text-gray-500 text-center mt-3 w-50 mx-auto">{{ t.modal.privacyNote }}</p>
     </template>
   </Dialog>
 </template>
