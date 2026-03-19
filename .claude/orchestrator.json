@@ -2,8 +2,8 @@
   "version": "2",
   "updatedAt": "2026-03-19T12:30:00.000Z",
   "counters": {
-    "nextTaskId": 37,
-    "nextPlanId": 9
+    "nextTaskId": 48,
+    "nextPlanId": 11
   },
   "activePlanId": null,
   "notes": "retro-fit-landing \u2014 Vue 3.5 / TypeScript / Vite 7 / Tailwind v4 / PrimeVue 4.5 SSG landing page. Goal: convert farmers to claim a free \u20ac2,000 compatibility check. Build: npm run build (client \u2192 server \u2192 prerender). Type-check: vue-tsc --noEmit. All strings in src/i18n/de.ts. Brand tokens: forest-green, industrial-amber, tech-slate.",
@@ -84,6 +84,30 @@
         "TASK-35",
         "TASK-36"
       ]
+    },
+    "PLAN-009": {
+      "id": "PLAN-009",
+      "goal": "Contao Form Portal Bridge: port Contao-rendered form into SPA components via DOM portal; detect #contao-form-source; handle .confirmation success state; dev mock in index.html",
+      "status": "completed",
+      "createdAt": "2026-03-19T13:00:00.000Z",
+      "completedAt": "2026-03-19T13:20:00.000Z",
+      "taskIds": [
+        "TASK-37",
+        "TASK-38",
+        "TASK-39",
+        "TASK-40",
+        "TASK-41",
+        "TASK-42",
+        "TASK-43"
+      ]
+    },
+    "PLAN-010": {
+      "id": "PLAN-010",
+      "goal": "Fix GitHub Pages 405 error: add data-contao-live gate to useContaoFormBridge so standalone builds fall back to ClaimCheckForm gateway; Contao embed keeps portal mode",
+      "status": "completed",
+      "createdAt": "2026-03-19T14:00:00.000Z",
+      "completedAt": "2026-03-19T14:20:00.000Z",
+      "taskIds": ["TASK-44", "TASK-45", "TASK-46", "TASK-47"]
     }
   },
   "tasks": {
@@ -383,6 +407,116 @@
       ],
       "createdAt": "2026-03-19T12:00:00.000Z",
       "completedAt": "2026-03-19T12:30:00.000Z"
+    },
+    "TASK-37": {
+      "id": "TASK-37",
+      "title": "Create useContaoFormBridge composable",
+      "role": "frontend",
+      "planId": "PLAN-009",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-19T13:00:00.000Z",
+      "completedAt": "2026-03-19T13:10:00.000Z"
+    },
+    "TASK-38": {
+      "id": "TASK-38",
+      "title": "Create ContaoFormPortal.vue component",
+      "role": "frontend",
+      "planId": "PLAN-009",
+      "status": "done",
+      "dependencies": ["TASK-37"],
+      "createdAt": "2026-03-19T13:00:00.000Z",
+      "completedAt": "2026-03-19T13:12:00.000Z"
+    },
+    "TASK-39": {
+      "id": "TASK-39",
+      "title": "Integrate portal into ClaimCheckModal.vue",
+      "role": "frontend",
+      "planId": "PLAN-009",
+      "status": "done",
+      "dependencies": ["TASK-38"],
+      "createdAt": "2026-03-19T13:00:00.000Z",
+      "completedAt": "2026-03-19T13:15:00.000Z"
+    },
+    "TASK-40": {
+      "id": "TASK-40",
+      "title": "Integrate portal into InlineClaimSection.vue",
+      "role": "frontend",
+      "planId": "PLAN-009",
+      "status": "done",
+      "dependencies": ["TASK-38"],
+      "createdAt": "2026-03-19T13:00:00.000Z",
+      "completedAt": "2026-03-19T13:15:00.000Z"
+    },
+    "TASK-41": {
+      "id": "TASK-41",
+      "title": "Add dev-mock #contao-form-source to index.html",
+      "role": "build",
+      "planId": "PLAN-009",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-19T13:00:00.000Z",
+      "completedAt": "2026-03-19T13:15:00.000Z"
+    },
+    "TASK-42": {
+      "id": "TASK-42",
+      "title": "Create Contao HTML integration snippet doc",
+      "role": "build",
+      "planId": "PLAN-009",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-19T13:00:00.000Z",
+      "completedAt": "2026-03-19T13:15:00.000Z"
+    },
+    "TASK-43": {
+      "id": "TASK-43",
+      "title": "TypeScript validation (vue-tsc --noEmit)",
+      "role": "qa",
+      "planId": "PLAN-009",
+      "status": "done",
+      "dependencies": ["TASK-39", "TASK-40"],
+      "createdAt": "2026-03-19T13:00:00.000Z",
+      "completedAt": "2026-03-19T13:20:00.000Z"
+    },
+    "TASK-44": {
+      "id": "TASK-44",
+      "title": "Add data-contao-live gate to useContaoFormBridge",
+      "role": "frontend",
+      "planId": "PLAN-010",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-19T14:00:00.000Z",
+      "completedAt": "2026-03-19T14:10:00.000Z"
+    },
+    "TASK-45": {
+      "id": "TASK-45",
+      "title": "Update index.html mock comment",
+      "role": "build",
+      "planId": "PLAN-010",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-19T14:00:00.000Z",
+      "completedAt": "2026-03-19T14:10:00.000Z"
+    },
+    "TASK-46": {
+      "id": "TASK-46",
+      "title": "Update contao-integration-snippet.md",
+      "role": "build",
+      "planId": "PLAN-010",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-19T14:00:00.000Z",
+      "completedAt": "2026-03-19T14:10:00.000Z"
+    },
+    "TASK-47": {
+      "id": "TASK-47",
+      "title": "TypeScript + build validation",
+      "role": "qa",
+      "planId": "PLAN-010",
+      "status": "done",
+      "dependencies": ["TASK-44"],
+      "createdAt": "2026-03-19T14:00:00.000Z",
+      "completedAt": "2026-03-19T14:20:00.000Z"
     }
   }
 }

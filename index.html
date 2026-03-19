@@ -18,8 +18,11 @@
   </head>
   <body>
     <!-- DEV MOCK: In production Contao renders the real form here via {{insert_content::ID}}.
-         Remove this block for standalone (non-Contao) builds. -->
-    <div id="contao-form-source" style="display:none;" aria-hidden="true">
+         The `data-dev-mock` attribute is intentionally SET here so GitHub Pages
+         (standalone) treats this as no Contao source → falls back to the ClaimCheckForm
+         gateway that opens rex-at.de/landingpage-retrofit.html in a new tab.
+         To test Contao-portal mode locally, add  data-dev-mock="true"  to this div. -->
+    <div id="contao-form-source" data-dev-mock="true" style="display:none;" aria-hidden="true">
       <div class="ce_form block">
         <form method="post" enctype="application/x-www-form-urlencoded" id="retrofit-survey">
           <div class="formbody">

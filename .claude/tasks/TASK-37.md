@@ -1,10 +1,30 @@
-import { ref, onMounted, onUnmounted } from 'vue'
+# TASK-37 — Create `useContaoFormBridge` composable
 
-/**
- * Module-level lock: only one portal instance may hold the Contao form at a time.
- * Prevents the modal portal and inline portal from competing for #contao-form-source.
- */
-let _formOwner: string | null = null
+**Plan:** PLAN-009
+**Role:** frontend
+**Status:** done
+**Dependencies:** —
+
+---
+
+## Goal
+
+Create `src/composables/useContaoFormBridge.ts` — a pure Vue composable that:
+
+1. Detects `#contao-form-source` in the DOM (client-side only)
+2. Lazily moves the `<form>` (or `.confirmation`) into a caller-supplied target element ID
+3. Watches with `MutationObserver` for Contao's `.confirmation` success message
+4. Returns reactive `isContaoMode` and `isSuccess` refs
+5. Cleans up the observer on `onUnmounted`
+
+---
+
+## File to create
+
+`src/composables/useContaoFormBridge.ts`
+
+```typescript
+import { ref, onMounted, onUnmounted } from 'vue'
 
 /**
  * Detects a Contao-rendered form inside #contao-form-source and portals it
@@ -23,37 +43,26 @@ export function useContaoFormBridge(targetId: string) {
   let observer: MutationObserver | null = null
 
   onMounted(() => {
-    // Bail if another portal instance already holds the form
-    if (_formOwner !== null) return
-
     const source = document.getElementById('contao-form-source')
     const target = document.getElementById(targetId)
 
     if (!source || !target) return
 
-    // Guard: skip dev-mock divs (GitHub Pages / standalone builds).
-    // The mock in index.html carries data-dev-mock="true"; real Contao output never does.
-    if (source.dataset['devMock'] === 'true') return
-
-    // Check for usable content (form OR post-submit confirmation)
-    const alreadyConfirmed = source.querySelector<HTMLElement>('.confirmation')
-    const form = source.querySelector<HTMLFormElement>('form')
-
-    if (!alreadyConfirmed && !form) return
-
-    // Claim ownership for this portal instance
-    _formOwner = targetId
     isContaoMode.value = true
 
     // Post-reload state: Contao already replaced the form with .confirmation
+    const alreadyConfirmed = source.querySelector<HTMLElement>('.confirmation')
     if (alreadyConfirmed) {
       target.appendChild(alreadyConfirmed)
       isSuccess.value = true
       return
     }
 
+    const form = source.querySelector<HTMLFormElement>('form')
+    if (!form) return
+
     // Physically move the form DOM node (preserves CSRF hidden inputs)
-    target.appendChild(form!)
+    target.appendChild(form)
 
     // Watch both containers for Contao's deferred .confirmation injection
     observer = new MutationObserver(() => {
@@ -73,21 +82,21 @@ export function useContaoFormBridge(targetId: string) {
   onUnmounted(() => {
     observer?.disconnect()
     observer = null
-
-    // Release ownership and return nodes to source so the form can be re-claimed
-    // on re-mount (e.g., Dialog closes and reopens; or resize flips layout mode)
-    if (_formOwner === targetId) {
-      _formOwner = null
-      const source = document.getElementById('contao-form-source')
-      const target = document.getElementById(targetId)
-      if (source && target) {
-        const form = target.querySelector('form')
-        const conf = target.querySelector<HTMLElement>('.confirmation')
-        if (form) source.appendChild(form)
-        if (conf) source.appendChild(conf)
-      }
-    }
   })
 
   return { isContaoMode, isSuccess }
 }
+```
+
+---
+
+## Acceptance
+
+- File exists at `src/composables/useContaoFormBridge.ts`
+- Returns `{ isContaoMode: Ref<boolean>, isSuccess: Ref<boolean> }`
+- No `any` types; strict TypeScript
+- Observer is always disconnected on unmount
+
+## Result
+
+Created `src/composables/useContaoFormBridge.ts`. Returns `{ isContaoMode, isSuccess }`. MutationObserver disconnected on unmount. `vue-tsc --noEmit` passes.
