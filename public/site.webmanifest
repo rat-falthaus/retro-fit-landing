@@ -1,0 +1,24 @@
+{
+  "name": "Retrofit Thüringen – Rex Automatierungstechnik GmbH",
+  "short_name": "Rex-AT Retrofit",
+  "description": "Maschinenmodernisierung vom Experten – Rex Automatierungstechnik GmbH, Erfurt",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0ece8",
+  "theme_color": "#EB6734",
+  "lang": "de",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

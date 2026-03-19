@@ -1,12 +1,12 @@
 {
   "version": "2",
-  "updatedAt": "2026-03-19T11:45:00.000Z",
+  "updatedAt": "2026-03-19T12:30:00.000Z",
   "counters": {
-    "nextTaskId": 34,
-    "nextPlanId": 8
+    "nextTaskId": 37,
+    "nextPlanId": 9
   },
   "activePlanId": null,
-  "notes": "retro-fit-landing — Vue 3.5 / TypeScript / Vite 7 / Tailwind v4 / PrimeVue 4.5 SSG landing page. Goal: convert farmers to claim a free €2,000 compatibility check. Build: npm run build (client → server → prerender). Type-check: vue-tsc --noEmit. All strings in src/i18n/de.ts. Brand tokens: forest-green, industrial-amber, tech-slate.",
+  "notes": "retro-fit-landing \u2014 Vue 3.5 / TypeScript / Vite 7 / Tailwind v4 / PrimeVue 4.5 SSG landing page. Goal: convert farmers to claim a free \u20ac2,000 compatibility check. Build: npm run build (client \u2192 server \u2192 prerender). Type-check: vue-tsc --noEmit. All strings in src/i18n/de.ts. Brand tokens: forest-green, industrial-amber, tech-slate.",
   "plans": {
     "PLAN-001": {
       "id": "PLAN-001",
@@ -14,7 +14,11 @@
       "status": "completed",
       "createdAt": "2026-03-10T14:10:00.000Z",
       "completedAt": "2026-03-10T14:35:00.000Z",
-      "taskIds": ["TASK-1", "TASK-2", "TASK-3"]
+      "taskIds": [
+        "TASK-1",
+        "TASK-2",
+        "TASK-3"
+      ]
     },
     "PLAN-002": {
       "id": "PLAN-002",
@@ -22,7 +26,11 @@
       "status": "completed",
       "createdAt": "2026-03-12T10:00:00.000Z",
       "completedAt": "2026-03-12T10:30:00.000Z",
-      "taskIds": ["TASK-4", "TASK-5", "TASK-6"]
+      "taskIds": [
+        "TASK-4",
+        "TASK-5",
+        "TASK-6"
+      ]
     },
     "PLAN-004": {
       "id": "PLAN-004",
@@ -30,7 +38,16 @@
       "status": "completed",
       "createdAt": "2026-03-12T18:30:00.000Z",
       "completedAt": "2026-03-12T20:15:00.000Z",
-      "taskIds": ["TASK-17", "TASK-18", "TASK-19", "TASK-20", "TASK-21", "TASK-22", "TASK-23", "TASK-24"]
+      "taskIds": [
+        "TASK-17",
+        "TASK-18",
+        "TASK-19",
+        "TASK-20",
+        "TASK-21",
+        "TASK-22",
+        "TASK-23",
+        "TASK-24"
+      ]
     },
     "PLAN-005": {
       "id": "PLAN-005",
@@ -38,7 +55,10 @@
       "status": "completed",
       "createdAt": "2026-03-12T21:00:00.000Z",
       "completedAt": "2026-03-12T21:10:00.000Z",
-      "taskIds": ["TASK-25", "TASK-26"]
+      "taskIds": [
+        "TASK-25",
+        "TASK-26"
+      ]
     },
     "PLAN-007": {
       "id": "PLAN-007",
@@ -46,7 +66,24 @@
       "status": "completed",
       "createdAt": "2026-03-19T11:00:00.000Z",
       "completedAt": "2026-03-19T11:45:00.000Z",
-      "taskIds": ["TASK-30", "TASK-31", "TASK-32", "TASK-33"]
+      "taskIds": [
+        "TASK-30",
+        "TASK-31",
+        "TASK-32",
+        "TASK-33"
+      ]
+    },
+    "PLAN-008": {
+      "id": "PLAN-008",
+      "goal": "Replace RF text placeholders and external SVG favicon link with local rex-logo-sign.svg",
+      "status": "completed",
+      "createdAt": "2026-03-19T12:00:00.000Z",
+      "completedAt": "2026-03-19T12:30:00.000Z",
+      "taskIds": [
+        "TASK-34",
+        "TASK-35",
+        "TASK-36"
+      ]
     }
   },
   "tasks": {
@@ -74,7 +111,10 @@
       "role": "qa",
       "planId": "PLAN-001",
       "status": "done",
-      "dependencies": ["TASK-1", "TASK-2"],
+      "dependencies": [
+        "TASK-1",
+        "TASK-2"
+      ],
       "completedAt": "2026-03-10T14:35:00.000Z"
     },
     "TASK-4": {
@@ -93,7 +133,9 @@
       "role": "frontend",
       "planId": "PLAN-002",
       "status": "done",
-      "dependencies": ["TASK-4"],
+      "dependencies": [
+        "TASK-4"
+      ],
       "createdAt": "2026-03-12T10:00:00.000Z",
       "completedAt": "2026-03-12T10:25:00.000Z"
     },
@@ -123,7 +165,9 @@
       "role": "frontend",
       "planId": "PLAN-004",
       "status": "done",
-      "dependencies": ["TASK-17"],
+      "dependencies": [
+        "TASK-17"
+      ],
       "createdAt": "2026-03-12T18:30:00.000Z",
       "completedAt": "2026-03-12T19:15:00.000Z"
     },
@@ -133,7 +177,9 @@
       "role": "frontend",
       "planId": "PLAN-004",
       "status": "done",
-      "dependencies": ["TASK-18"],
+      "dependencies": [
+        "TASK-18"
+      ],
       "createdAt": "2026-03-12T18:30:00.000Z",
       "completedAt": "2026-03-12T19:30:00.000Z"
     },
@@ -143,7 +189,9 @@
       "role": "frontend",
       "planId": "PLAN-004",
       "status": "done",
-      "dependencies": ["TASK-17"],
+      "dependencies": [
+        "TASK-17"
+      ],
       "createdAt": "2026-03-12T18:30:00.000Z",
       "completedAt": "2026-03-12T19:45:00.000Z"
     },
@@ -153,7 +201,9 @@
       "role": "frontend",
       "planId": "PLAN-004",
       "status": "done",
-      "dependencies": ["TASK-17"],
+      "dependencies": [
+        "TASK-17"
+      ],
       "createdAt": "2026-03-12T18:30:00.000Z",
       "completedAt": "2026-03-12T19:45:00.000Z"
     },
@@ -163,7 +213,9 @@
       "role": "frontend",
       "planId": "PLAN-004",
       "status": "done",
-      "dependencies": ["TASK-17"],
+      "dependencies": [
+        "TASK-17"
+      ],
       "createdAt": "2026-03-12T18:30:00.000Z",
       "completedAt": "2026-03-12T20:00:00.000Z"
     },
@@ -173,7 +225,9 @@
       "role": "frontend",
       "planId": "PLAN-004",
       "status": "done",
-      "dependencies": ["TASK-17"],
+      "dependencies": [
+        "TASK-17"
+      ],
       "createdAt": "2026-03-12T18:30:00.000Z",
       "completedAt": "2026-03-12T20:00:00.000Z"
     },
@@ -183,7 +237,14 @@
       "role": "qa",
       "planId": "PLAN-004",
       "status": "done",
-      "dependencies": ["TASK-18", "TASK-19", "TASK-20", "TASK-21", "TASK-22", "TASK-23"],
+      "dependencies": [
+        "TASK-18",
+        "TASK-19",
+        "TASK-20",
+        "TASK-21",
+        "TASK-22",
+        "TASK-23"
+      ],
       "createdAt": "2026-03-12T18:30:00.000Z",
       "completedAt": "2026-03-12T20:15:00.000Z"
     },
@@ -204,7 +265,9 @@
       "role": "qa",
       "planId": "PLAN-005",
       "status": "done",
-      "dependencies": ["TASK-25"],
+      "dependencies": [
+        "TASK-25"
+      ],
       "createdAt": "2026-03-12T21:00:00.000Z",
       "completedAt": "2026-03-12T21:10:00.000Z"
     },
@@ -224,7 +287,9 @@
       "role": "implementation",
       "planId": "PLAN-006",
       "status": "done",
-      "dependencies": ["TASK-27"],
+      "dependencies": [
+        "TASK-27"
+      ],
       "createdAt": "2026-03-19T10:00:00.000Z",
       "completedAt": "2026-03-19T10:20:00.000Z"
     },
@@ -234,7 +299,9 @@
       "role": "qa",
       "planId": "PLAN-006",
       "status": "done",
-      "dependencies": ["TASK-28"],
+      "dependencies": [
+        "TASK-28"
+      ],
       "createdAt": "2026-03-19T10:00:00.000Z",
       "completedAt": "2026-03-19T10:30:00.000Z"
     },
@@ -254,7 +321,9 @@
       "role": "implementation",
       "planId": "PLAN-007",
       "status": "done",
-      "dependencies": ["TASK-30"],
+      "dependencies": [
+        "TASK-30"
+      ],
       "createdAt": "2026-03-19T11:00:00.000Z",
       "completedAt": "2026-03-19T11:30:00.000Z"
     },
@@ -264,7 +333,9 @@
       "role": "implementation",
       "planId": "PLAN-007",
       "status": "done",
-      "dependencies": ["TASK-31"],
+      "dependencies": [
+        "TASK-31"
+      ],
       "createdAt": "2026-03-19T11:00:00.000Z",
       "completedAt": "2026-03-19T11:35:00.000Z"
     },
@@ -274,9 +345,44 @@
       "role": "qa",
       "planId": "PLAN-007",
       "status": "done",
-      "dependencies": ["TASK-32"],
+      "dependencies": [
+        "TASK-32"
+      ],
       "createdAt": "2026-03-19T11:00:00.000Z",
       "completedAt": "2026-03-19T11:45:00.000Z"
+    },
+    "TASK-34": {
+      "id": "TASK-34",
+      "title": "index.html: fix SVG favicon to /rex-logo-sign.svg",
+      "role": "html",
+      "planId": "PLAN-008",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-19T12:00:00.000Z",
+      "completedAt": "2026-03-19T12:30:00.000Z"
+    },
+    "TASK-35": {
+      "id": "TASK-35",
+      "title": "FooterSection: replace 2x RF placeholder with rex-logo-sign img",
+      "role": "implementation",
+      "planId": "PLAN-008",
+      "status": "done",
+      "dependencies": [],
+      "createdAt": "2026-03-19T12:00:00.000Z",
+      "completedAt": "2026-03-19T12:30:00.000Z"
+    },
+    "TASK-36": {
+      "id": "TASK-36",
+      "title": "QA: vue-tsc + full build after logo swap",
+      "role": "qa",
+      "planId": "PLAN-008",
+      "status": "done",
+      "dependencies": [
+        "TASK-34",
+        "TASK-35"
+      ],
+      "createdAt": "2026-03-19T12:00:00.000Z",
+      "completedAt": "2026-03-19T12:30:00.000Z"
     }
   }
 }

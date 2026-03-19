@@ -12,7 +12,9 @@ const currentYear = new Date().getFullYear()
 
         <!-- Brand row -->
         <div class="flex items-center justify-center gap-2">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white text-sm" style="background-color: #EB6734">RF</div>
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" >
+            <img src="/rex-logo-sign.svg" class="w-full h-full object-contain" alt="Rex-AT" aria-hidden="true" />
+          </div>
           <span class="font-display text-lg font-bold text-white">{{ t.footer.brandName }}</span>
         </div>
 
@@ -71,7 +73,9 @@ const currentYear = new Date().getFullYear()
           <!-- Brand -->
           <div class="md:col-span-1">
             <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white text-lg" style="background-color: #EB6734">RF</div>
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" >
+                <img src="/rex-logo-sign.svg" class="w-full h-full object-contain" alt="Rex-AT" aria-hidden="true" />
+              </div>
               <span class="font-display text-xl font-bold text-white">{{ t.footer.brandName }}</span>
             </div>
             <p class="text-sm leading-relaxed mb-6" style="color: #c8baad">{{ t.footer.description }}</p>
@@ -114,7 +118,7 @@ const currentYear = new Date().getFullYear()
                 class="flex items-center gap-2 text-sm"
                 style="color: #c8baad"
               >
-                <span class="w-1.5 h-1.5 rounded-full inline-block shrink-0" style="background-color: #EB6734" />
+                <span class="w-1.5 h-1.5 rounded-full inline-block shrink-0"  />
                 {{ cert }}
               </li>
             </ul>
