@@ -95,13 +95,14 @@
 .contao-form-portal .formbody {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  /* gap: 1rem; */
 }
 
 .contao-form-portal .widget {
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
+  padding: 0px 0px 0.5em 0px
 }
 
 /* Field labels (direct child of .widget — excludes radio/checkbox nested labels) */
@@ -112,6 +113,7 @@
   font-weight: 500;
   color: #313131;
   line-height: 1.25;
+  padding: 0px 0px 0.5em 0px;
 }
 
 /* Hide Contao "Pflichtfeld " screen-reader prefix */
