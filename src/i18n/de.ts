@@ -77,7 +77,7 @@ export const t = {
     email: 'E-Mail-Adresse',
     emailPlaceholder: 'max@beispiel.de',
     phone: 'Telefonnummer',
-    phonePlaceholder: '+49 36203 9591-0',
+    phonePlaceholder: '+49 3620 39591-0',
 
     // Section 2 — Machine
     sectionMachine: 'Angaben zur Anlage',
@@ -171,7 +171,7 @@ export const t = {
         { label: 'Karriere', href: 'https://www.rex-at.de' },
       ],
       support: [
-        { label: 'Kontakt', href: 'mailto:info@rex-at.de' },
+        { label: 'Kontakt', href: 'mailto:vertrieb@rex-at.de' },
         { label: 'FAQ', href: 'https://www.rex-at.de' },
         { label: 'Technischer Support', href: 'https://www.rex-at.de' },
       ],
@@ -185,8 +185,8 @@ export const t = {
       company: 'REX Automatisierungstechnik GmbH',
       street: 'Fichtenweg 36',
       city: '99098 Erfurt',
-      phone: '036208 666-0',
-      email: 'info@rex-at.de',
+      phone: '+49 3620 39591-0',
+      email: 'vertrieb@rex-at.de',
     },
     certifiedTitle: 'Zertifiziert & Konform',
     certifications: [
@@ -197,12 +197,12 @@ export const t = {
     copyright: (year: number) => `© ${year} Rex Automatisierungstechnik GmbH. Alle Rechte vorbehalten.`,
     madeWith: 'Mit ❤️ für Betriebe, die auf Nachhaltigkeit setzen',
     disclaimer:
-      'Der Gutschein ist nicht übertragbar, nicht in bar auszahlbar und nur gültig für Retrofit-Dienstleistungen von REX Automatisierungstechnik GmbH. Nicht kombinierbar mit anderen Angeboten. Einlösbar bis zum 30.04.2026. Weitere Bedingungen auf Anfrage.',
+      'Der Gutschein ist nicht übertragbar, nicht in bar auszahlbar und nur gültig für Retrofit-Dienstleistungen von REX Automatisierungstechnik GmbH. Nicht kombinierbar mit anderen Angeboten. Einlösbar bis zum 31.05.2026. Weitere Bedingungen auf Anfrage.',
     disclaimerToggle: 'Rechtliche Hinweise ▸',
     surveyUrl: 'https://rex-at.de/landingpage-retrofit.html',
     voucherCta: 'Retrofit-Check',
     voucherAmount: '2.000 €',
-    voucherExpiry: 'Einlösbar bis zum 30.04.2026',
+    voucherExpiry: 'Einlösbar bis zum 31.05.2026',
     voucherName: 'Retrofit-Gutschein',
   },
   nav: {
